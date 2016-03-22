@@ -5,6 +5,9 @@
 		<var name="key_producerName" value="${producerName}" />
 
 		<execute function="Copy" locator1="WSRPAdmin#PRODUCER_TABLE_URL" />
+
+		<take-screenshot />
+		
 		<execute function="AssertClick" locator1="NavTab#CONSUMERS" value1="Consumers" />
 
 		<execute function="AssertClick" locator1="Button#ADD_CONSUMER" value1="Add Consumer" />
