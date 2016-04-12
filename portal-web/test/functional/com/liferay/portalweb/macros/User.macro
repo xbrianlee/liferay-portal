@@ -1736,7 +1736,6 @@
 
 		<execute function="AssertTextEquals" locator1="Home#ERROR_MESSAGE_ALERT_ERROR" value1="Internal Server Error" />
 		<execute function="AssertTextEquals#assertPartialText" locator1="Message#URL_ERROR" value1="com_liferay_login_web_portlet_LoginPortlet" />
-		<execute function="AssertConsoleTextPresent" value1="com.liferay.portal.kernel.dao.orm.ORMException" />
 	</command>
 
 	<command name="loginUserInvalidPG">
