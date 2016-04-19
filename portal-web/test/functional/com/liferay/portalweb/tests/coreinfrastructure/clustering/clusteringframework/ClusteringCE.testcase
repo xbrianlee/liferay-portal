@@ -46,11 +46,8 @@
 		<execute macro="User#loginUserFailPG">
 			<var name="nodePort" value="9080" />
 			<var name="password" value="test" />
+			<var name="urlErrorMessage" value="com_liferay_login_web_portlet_LoginPortlet" />
 			<var name="userEmailAddress" value="test@liferay.com" />
-		</execute>
-
-		<execute macro="Page#assertNodePortPG">
-			<var name="nodePort" value="9080" />
 		</execute>
 	</command>
 </definition>

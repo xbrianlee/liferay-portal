@@ -1739,7 +1739,7 @@
 		<execute function="Click" locator1="Button#SIGN_IN" />
 
 		<execute function="AssertTextEquals" locator1="Home#ERROR_MESSAGE_ALERT_ERROR" value1="Internal Server Error" />
-		<execute function="AssertTextEquals#assertPartialText" locator1="Message#URL_ERROR" value1="com_liferay_login_web_portlet_LoginPortlet" />
+		<execute function="AssertTextEquals#assertPartialText" locator1="Message#URL_ERROR" value1="${urlErrorMessage}" />
 	</command>
 
 	<command name="loginUserInvalidPG">
