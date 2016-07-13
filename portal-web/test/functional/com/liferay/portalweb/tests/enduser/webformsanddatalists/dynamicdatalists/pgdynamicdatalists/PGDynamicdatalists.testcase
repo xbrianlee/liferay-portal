@@ -1937,6 +1937,9 @@
 	</command>
 
 	<command name="ViewListRecordWithUploadedFreeMarkerDisplayTemplate" priority="5">
+		<property name="portal.acceptance" value="test" />
+		<property name="remote.elasticsearch.enabled" value="true" />
+
 		<property name="custom.properties" value="freemarker.engine.restricted.variables=${line.separator}restricted.variables=" />
 		<property name="portal.acceptance" value="true" />
 

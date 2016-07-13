@@ -2458,7 +2458,8 @@
 	</command>
 
 	<command name="DeleteEventRegular"  priority="5">
-		<property name="portal.acceptance" value="true" />
+		<property name="portal.acceptance" value="test" />
+		<property name="remote.elasticsearch.enabled" value="true" />
 		<property name="test.name.skip.portal.instance" value="Calendar#DeleteEventRegular" />
 
 		<execute macro="TestCase#getSiteName">
@@ -2534,7 +2535,8 @@
 	</command>
 
 	<command name="DeleteEventRepeatingAllFollowing" priority="5">
-		<property name="portal.acceptance" value="true" />
+		<property name="portal.acceptance" value="test" />
+		<property name="remote.elasticsearch.enabled" value="true" />
 		<property name="test.name.skip.portal.instance" value="Calendar#DeleteEventRepeatingAllFollowing" />
 
 		<var name="eventTitle" value="Calendar Event Repeating Title" />
