@@ -2797,7 +2797,8 @@
 	</command>
 
 	<command name="DeleteListRecord" priority="5">
-		<property name="portal.acceptance" value="true" />
+		<property name="portal.acceptance" value="test" />
+		<property name="remote.elasticsearch.enabled" value="true" />
 
 		<var name="ddlDataDefinitionName" value="Data Definition" />
 		<var name="ddlListName" value="List Name" />
@@ -2872,7 +2873,8 @@
 	</command>
 
 	<command name="EditBooleanFieldFieldLabel" priority="5">
-		<property name="portal.acceptance" value="true" />
+		<property name="portal.acceptance" value="test" />
+		<property name="remote.elasticsearch.enabled" value="true" />
 
 		<var name="ddlDataDefinitionName" value="Data Definition" />
 		<var name="ddlListName" value="List Name" />
