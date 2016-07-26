@@ -154,44 +154,46 @@
 						src="${app.server.parent.dir}/${kibana.zip.name.windows}"
 					/>
 				</then>
-				<elseif>
-					<not>
-						<available file="${app.server.parent.dir}/${kibana.tar.name.mac}" />
-					</not>
-					<os family="mac" />
-					<then>
-						<mirrors-get
-							dest="${app.server.parent.dir}/${kibana.tar.name.mac}"
-							src="${kibana.tar.url.mac}"
-							verbose="true"
-						/>
+			</if>
+			
+			<if>
+				<not>
+					<available file="${app.server.parent.dir}/${kibana.tar.name.mac}" />
+				</not>
+				<os family="mac" />
+				<then>
+					<mirrors-get
+						dest="${app.server.parent.dir}/${kibana.tar.name.mac}"
+						src="${kibana.tar.url.mac}"
+						verbose="true"
+					/>
 
-						<untar
-							compression="gzip"
-							dest="${app.server.parent.dir}"
-							src="${app.server.parent.dir}/${kibana.tar.name.mac}"
-						/>
-					</then>
-				</elseif>
-				<elseif>
-					<not>
-						<available file="${app.server.parent.dir}/${kibana.tar.name.linux}" />
-					</not>
-					<os family="unix" />
-					<then>
-						<mirrors-get
-							dest="${app.server.parent.dir}/${kibana.tar.name.linux}"
-							src="${kibana.tar.url.linux}"
-							verbose="true"
-						/>
+					<untar
+						compression="gzip"
+						dest="${app.server.parent.dir}"
+						src="${app.server.parent.dir}/${kibana.tar.name.mac}"
+					/>
+				</then>
+			</if>
 
-						<untar
-							compression="gzip"
-							dest="${app.server.parent.dir}"
-							src="${app.server.parent.dir}/${kibana.tar.name.linux}"
-						/>
-					</then>
-				</elseif>
+			<if>
+				<not>
+					<available file="${app.server.parent.dir}/${kibana.tar.name.linux}" />
+				</not>
+				<os family="unix" />
+				<then>
+					<mirrors-get
+						dest="${app.server.parent.dir}/${kibana.tar.name.linux}"
+						src="${kibana.tar.url.linux}"
+						verbose="true"
+					/>
+
+					<untar
+						compression="gzip"
+						dest="${app.server.parent.dir}"
+						src="${app.server.parent.dir}/${kibana.tar.name.linux}"
+					/>
+				</then>
 			</if>
 
 			<delete dir="${kibana.dir}" />
