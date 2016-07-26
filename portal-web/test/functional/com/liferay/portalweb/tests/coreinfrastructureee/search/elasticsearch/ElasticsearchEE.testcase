@@ -272,9 +272,7 @@
 			<var name="pageName" value="Marvel Page" />
 		</execute>
 
-		<execute macro="Marvel#viewPG">
-			<var name="shieldEnabled" value="true" />
-		</execute>
+		<execute macro="Marvel#viewPG" />
 
 		<execute macro="User#logoutPG" />
 
