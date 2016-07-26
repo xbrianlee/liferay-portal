@@ -295,7 +295,7 @@ logExceptionsOnly=false</echo>
 			<then>
 				<exec dir="${kibana.dir}/bin" executable="/bin/bash">
 					<arg value="-c" />
-					<arg value="./kibana > kibana.log 2>&1 &" />
+					<arg value="./kibana > kibana.log 2>&amp;1 &amp;" />
 				</exec>
 
 				<exec dir="${kibana.dir}/bin" executable="/bin/bash">
