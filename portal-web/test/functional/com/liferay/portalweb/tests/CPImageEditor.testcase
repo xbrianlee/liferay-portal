@@ -1,0 +1,57 @@
+<definition component-name="portal-collaboration">
+	<property name="testray.main.component.name" value="Documents Management" />
+
+	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
+		<execute macro="User#firstLoginPG" />
+	</set-up>
+
+	<tear-down>
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
+
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="DMDocument#tearDownCP" />
+
+				<execute macro="DMFolder#tearDownCP" />
+
+				<execute macro="User#logoutPG" />
+			</else>
+		</if>
+	</tear-down>
+
+	<command name="AdjustContrast" priority="5">
+		<execute macro="User#firstLoginPG" />
+
+		<execute macro="ProductMenu#gotoSitesContent">
+			<var name="portlet" value="Documents and Media" />
+		</execute>
+
+		<execute macro="DMDocument#addCP">
+			<var name="dmDocumentDescription" value="DM Image Description" />
+			<var name="dmDocumentFile" value="Document_1.png" />
+			<var name="dmDocumentTitle" value="DM Image Title" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoSitesContent">
+			<var name="portlet" value="Documents and Media" />
+		</execute>
+
+		<execute macro="ImageEditor#gotoImageEditorViaDM">
+			<var name="dmDocumentTitle" value="DM Image Title" />
+		</execute>
+
+		<execute macro="ImageEditor#gotoEditContrast" />
+
+		<execute macro="ImageEditor#setSliderValue">
+			<var name="sliderValue" value="75" />
+		</execute>
+
+		<execute function="Pause" locator1="10000" />
+	</command>
+</definition>

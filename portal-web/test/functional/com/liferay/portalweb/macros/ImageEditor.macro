@@ -100,6 +100,15 @@
 		</if>
 	</command>
 
+	<command name="setSliderValue">
+		<var method="selenium#getElementWidth('//div[@class=\'rail\']')" name="width" />
+
+		<var method="MathUtil#product('${width}', '${sliderValue}')" name="position" />
+		<var method="MathUtil#quotient('${position}', '100')" name="position" />
+
+		<execute function="Click#clickAt" locator1="ImageEditor#SLIDER_RAIL" value1="${position}, 15" />
+	</command>
+
 	<command name="viewBaseControls">
 		<execute function="AssertElementPresent" locator1="Button#TRANSFORM" />
 		<execute function="AssertElementPresent" locator1="Button#FILTER_EFFECT" />
