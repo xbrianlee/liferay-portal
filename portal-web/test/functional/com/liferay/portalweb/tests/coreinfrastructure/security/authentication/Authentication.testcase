@@ -96,6 +96,7 @@
 	</command>
 
 	<command name="ViewInstanceSettingEnableLDAPAuthNotAffectSystemSetting" priority="5">
+		<property name="custom.properties" value="javascript.single.page.application.enabled = false" />
 		<property name="portal.acceptance" value="test" />
 
 		<execute macro="ProductMenu#gotoControlPanelConfiguration">
