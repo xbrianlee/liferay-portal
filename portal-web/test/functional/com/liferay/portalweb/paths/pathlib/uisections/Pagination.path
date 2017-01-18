@@ -29,6 +29,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>NEXT_LINK_DISABLED</td>
+	<td>//ul[contains(@class,'pagination')]/li[contains(@class,'disabled')]/a/span[contains(@class,'icon-caret-right')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>LAST_LINK</td>
 	<td>//ul[contains(@class,'pagination')]/li/a[contains(.,'3')]</td>
 	<td></td>
