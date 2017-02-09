@@ -10,7 +10,7 @@
 <tbody>
 <tr>
 	<td>SITES_TABLE_NAME</td>
-	<td>//div[contains(@id,'groupsSearchContainerSearchContainer')]//tr[contains(.,'${key_siteName}')]/td[1]</td>
+	<td>//div[contains(@id,'groupsSearchContainerSearchContainer')]//div[2]//span[contains(.,'${key_siteName}')]/span</td>
 	<td></td>
 </tr>
 <tr>
