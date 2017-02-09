@@ -449,9 +449,8 @@
 				<execute function="SelectFrame" locator1="IFrame#SELECT_SITES" />
 
 				<execute function="AssertTextEquals" locator1="APConfigurationSites#SITES_TABLE_NAME" value1="${siteName}" />
-				<execute function="AssertTextEquals" locator1="APConfigurationSites#SITES_TABLE_TYPE" value1="${siteScopeType}" />
 
-				<execute function="ClickNoError" locator1="SitesSelectSite#SITES_TABLE_CHOOSE_SITE_LINK" />
+				<execute function="ClickNoError" locator1="APConfigurationSites#SITES_TABLE_NAME" value1="${siteName}" />
 
 				<execute function="SelectFrame" value1="relative=top" />
 
@@ -899,8 +898,6 @@
 					</then>
 					<else>
 						<execute function="AssertTextEquals" locator1="APConfigurationSites#SITES_TABLE_NAME" value1="${liferaySiteName}" />
-						<execute function="AssertTextEquals" locator1="APConfigurationSites#SITES_TABLE_TYPE" value1="${liferaySiteType}" />
-						<execute function="AssertElementPresent" locator1="SitesSelectSite#SITES_TABLE_CHOOSE_SITE_LINK" />
 					</else>
 				</if>
 			</then>
