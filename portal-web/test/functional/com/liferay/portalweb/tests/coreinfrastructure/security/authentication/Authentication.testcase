@@ -95,7 +95,10 @@
 		<execute macro="PortalSettings#viewAuthenticationOpenSSOCP" />
 	</command>
 
-	<command name="ViewInstanceSettingEnableLDAPAuthNotAffectSystemSetting" priority="3">
+	<command name="ViewInstanceSettingEnableLDAPAuthNotAffectSystemSetting" priority="5">
+		<property name="custom.properties" value="javascript.single.page.application.enabled = false" />
+		<property name="portal.acceptance" value="test" />
+
 		<execute macro="ProductMenu#gotoControlPanelConfiguration">
 			<var name="portlet" value="System Settings" />
 		</execute>
@@ -113,10 +116,18 @@
 			<var name="portlet" value="Instance Settings" />
 		</execute>
 
+		<execute macro="Panel#expandPanel">
+			<var name="panelHeading" value="Authentication" />
+		</execute>
+
 		<execute macro="PortalSettingsNavigator#gotoLDAP" />
 
 		<execute macro="PortalSettings#enableLDAPSetting">
 			<var name="enableCheckboxKey" value="ENABLED" />
+		</execute>
+
+		<execute macro="Panel#expandPanel">
+			<var name="panelHeading" value="Authentication" />
 		</execute>
 
 		<execute macro="PortalSettingsNavigator#gotoLDAP" />

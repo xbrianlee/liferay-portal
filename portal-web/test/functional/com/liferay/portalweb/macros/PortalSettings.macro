@@ -440,9 +440,17 @@
 	</command>
 
 	<command name="enableLDAPSetting">
-		<execute function="Check" locator1="PortalSettingsAuthentication#AUTHENTICATION_LDAP_${enableCheckboxKey}_CHECKBOX" />
+		<execute function="Check#checkToggleSwitch" locator1="PortalSettingsAuthentication#AUTHENTICATION_LDAP_${enableCheckboxKey}_CHECKBOX" />
+
+		<execute macro="PortalSettings#viewEnabledLDAPSetting">
+			<var name="enableCheckboxKey" value="ENABLED" />
+		</execute>
 
 		<execute macro="PortletEntry#save" />
+
+		<execute macro="PortalSettings#viewEnabledLDAPSetting">
+			<var name="enableCheckboxKey" value="ENABLED" />
+		</execute>
 	</command>
 
 	<command name="enableOpenIDCP">
