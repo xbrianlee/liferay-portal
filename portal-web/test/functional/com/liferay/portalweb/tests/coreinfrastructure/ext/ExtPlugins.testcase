@@ -5,9 +5,9 @@
 	<property name="testray.main.component.name" value="Elastic Search Impl" />
 
 	<set-up>
-<!-- 		<execute macro="Portlet#shutdownServer" />
+		<execute macro="Portlet#shutdownServer" />
 
-		<execute macro="Portlet#startServer" /> -->
+		<execute macro="Portlet#startServer" />
 
 		<execute macro="TestCase#setUpPortalInstance" />
 
