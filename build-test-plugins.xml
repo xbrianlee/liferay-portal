@@ -276,6 +276,12 @@ app.server.tomcat.dir=${app.server.parent.dir}/tomcat-7.0.42</echo>
 									<gradle-execute dir="${plugin.path}" task="deploy" />
 								</then>
 							</elseif>
+							<elseif>
+								<isset property="direct.deploy.enabled" />
+								<then>
+									<ant dir="${plugin.path}" inheritAll="false" target="direct-deploy" />
+								</then>
+							</elseif>
 							<else>
 								<ant dir="${plugin.path}" inheritAll="false" target="clean" />
 
