@@ -1,0 +1,64 @@
+<definition component-name="portal-search">
+	<property name="portal.acceptance" value="test" />
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
+	<property name="testray.main.component.name" value="Elastic Search Impl" />
+
+	<set-up>
+<!-- 		<execute macro="Portlet#shutdownServer" />
+
+		<execute macro="Portlet#startServer" /> -->
+
+		<execute macro="TestCase#setUpPortalInstance" />
+
+		<execute macro="User#firstLoginPG" />
+	</set-up>
+
+	<tear-down>
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
+
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="MessageboardsThread#tearDownCP" />
+
+				<execute macro="DMDocument#tearDownCP" />
+
+				<execute macro="Page#tearDownPG" />
+			</else>
+		</if>
+	</tear-down>
+
+	<command name="OverridePortalImplClassAndAddEntryInWebXml" priority="5">
+		<property name="ext.plugins.includes" value="sample-ext" />
+
+		<!-- As a Liferay Developer, I would like to override a core class in PortalImpl -->
+		<execute function="AssertConsoleTextPresent" value1="EXT_ATOM_SERVLET_INSTALLED" />
+
+		<!-- As a Liferay Developer, I would like to add a new entry Liferay's web.xml -->
+		<execute function="AssertConsoleTextPresent" value1="EXT_WEB_SERVLET_INSTALLED" />
+	</command>
+
+	<command name="OverridePortalImplClassUsingSpringAndModifyEntryInWebXml" priority="5">
+		<property name="custom.properties" value="web.server.display.node=true" />
+		<property name="ext.plugins.includes" value="sample-ext" />
+
+		<!-- As a Liferay Developer, I would like to override a core class in PortalImpl using Spring -->
+		<execute function="AssertTextEquals#assertPartialText" locator1="Message#INFO" value1="ext_portalimpl_installed_" />
+
+		<!-- As a Liferay Developer, I would like to modify Liferay's web.xml -->
+		<execute function="AssertElementNotPresent" locator1="Home#ERROR_MESSAGE_EXPIRED_SESSION" />
+
+		<execute function="AssertElementNotPresent" locator1="UserBar#USER_SIGN_IN" />
+
+		<execute function="Pause" locator1="120000" />
+
+		<execute function="AssertTextEquals" locator1="Home#ERROR_MESSAGE_EXPIRED_SESSION" value1="DangerWarning! Due to inactivity, your session has expired. Please save any data you may have entered before refreshing the page." />
+		<execute function="Refresh" />
+
+		<execute function="AssertElementPresent" locator1="UserBar#USER_SIGN_IN" value1="Sign In" />
+	</command>
+</definition>
