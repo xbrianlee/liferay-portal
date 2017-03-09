@@ -5,6 +5,12 @@
 	<property name="testray.main.component.name" value="Elastic Search Impl" />
 
 	<set-up>
+		<execute macro="Portlet#shutdownServer" />
+
+		<execute macro="Portlet#startServer">
+			<var name="deleteLiferayHome" value="false" />
+		</execute>
+
 		<execute macro="TestCase#setUpPortalInstance" />
 
 		<execute macro="User#firstLoginPG" />
