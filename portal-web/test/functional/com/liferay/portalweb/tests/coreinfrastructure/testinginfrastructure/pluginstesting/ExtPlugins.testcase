@@ -1,4 +1,5 @@
 <definition component-name="portal-test-plugins">
+	<property name="portal.acceptance" value="test" />
 	<property name="custom.properties" value="web.server.display.node=true" />
 	<property name="ext.plugins.includes" value="sample-ext" />
 	<property name="portal.release.environment" value="true" />
