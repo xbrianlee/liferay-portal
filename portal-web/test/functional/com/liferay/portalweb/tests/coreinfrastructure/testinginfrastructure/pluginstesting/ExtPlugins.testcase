@@ -6,6 +6,7 @@
 	<property name="testray.main.component.name" value="Test Plugins" />
 
 	<set-up>
+		<execute macro="Portlet#assertServerStartup" />
 
 		<execute macro="Portlet#shutdownServer" />
 
