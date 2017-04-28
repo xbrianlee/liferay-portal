@@ -9,9 +9,15 @@
 	<set-up>
 		<execute function="Pause" locator1="60000" /> 
 
+		<echo>Shutdown server...</echo>
+
 		<execute macro="Portlet#shutdownServer" />
 
 		<execute macro="Portlet#assertServerShutdown" />
+
+		<execute function="Pause" locator1="60000" />
+
+		<echo>Start server...</echo>
 
 		<execute macro="Portlet#startServer">
 			<var name="deleteLiferayHome" value="false" />
