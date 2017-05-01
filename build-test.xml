@@ -3693,6 +3693,8 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 		<attribute default="0" name="app.server.bundle.index" />
 
 		<sequential>
+			<sleep seconds="120"/>
+
 			<wait-for-app-server-log />
 
 			<local name="app.server.waiting.url" />
