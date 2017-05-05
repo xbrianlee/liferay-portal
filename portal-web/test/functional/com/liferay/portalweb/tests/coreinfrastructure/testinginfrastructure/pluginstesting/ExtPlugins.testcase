@@ -6,17 +6,6 @@
 	<property name="testray.main.component.name" value="Test Plugins" />
 
 	<set-up>
-
-		<execute macro="Portlet#shutdownServer" />
-
-		<execute macro="Portlet#assertServerShutdown" />
-
-		<execute macro="Portlet#startServer">
-			<var name="deleteLiferayHome" value="false" />
-		</execute>
-
-		<execute macro="Portlet#assertServerStartup" />
-
 		<execute macro="TestCase#setUpPortalInstance" />
 
 		<execute macro="User#firstLoginPG" />
