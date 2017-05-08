@@ -6,54 +6,6 @@
 	<property name="testray.main.component.name" value="Test Plugins" />
 
 	<set-up>
-		<execute macro="Portlet#shutdownServer" />
-
-		<var name="shutdownPauseCount" value="0" />
-
-		<while>
-			<and>
-				<condition function="IsElementPresent" locator1="//body" />
-				<not>
-					<equals arg1="${shutdownPauseCount}" arg2="12" />
-				</not>
-			</and>
-			<then>
-				<execute function="Refresh" />
-
-				<execute function="Pause" locator1="10000" />
-
-				<var method="MathUtil#sum('${shutdownPauseCount}', '1')" name="shutdownPauseCount" />
-
-				<echo>Shutdown pause count: ${shutdownPauseCount}</echo>
-			</then>
-		</while>
-
-		<execute macro="Portlet#startServer">
-			<var name="deleteLiferayHome" value="false" />
-		</execute>
-
-		<var name="startupPauseCount" value="0" />
-
-		<while>
-			<and>
-				<not>
-					<condition function="IsElementPresent" locator1="UserBar#USER_SIGN_IN" />
-				</not>
-				<not>
-					<equals arg1="${startupPauseCount}" arg2="12" />
-				</not>
-			</and>
-			<then>
-				<execute function="Refresh" />
-
-				<execute function="Pause" locator1="10000" />
-
-				<var method="MathUtil#sum('${startupPauseCount}', '1')" name="startupPauseCount" />
-
-				<echo>Startup pause count: ${startupPauseCount}</echo>
-			</then>
-		</while>
-
 		<execute macro="TestCase#setUpPortalInstance" />
 
 		<execute macro="User#firstLoginPG" />
@@ -98,6 +50,7 @@
 
 	<command name="ViewSampleExtPluginValidationViaDirectDeploy" priority="5">
 		<property name="direct.deploy.enabled" value="true" />
+		<property name="portal.acceptance" value="test" />
 
 		<execute function="AssertConsoleTextPresent" value1="EXT_ATOM_SERVLET_INSTALLED" />
 
