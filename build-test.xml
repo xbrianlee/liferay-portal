@@ -3757,6 +3757,8 @@ war.path=${app.server.weblogic.portal.dir}/</echo>
 		<attribute default="0" name="app.server.bundle.index" />
 
 		<sequential>
+			<sleep seconds="120"/>
+
 			<wait-for-app-server-log />
 
 			<local name="app.server.waiting.url" />
