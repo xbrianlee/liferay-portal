@@ -3399,9 +3399,6 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 						</then>
 						<else>
 							<parallel>
-								<sequential>
-									<wait-for-app-server app.server.bin.dir="@{app.server.bin.dir}" app.server.bundle.index="@{app.server.bundle.index}" />
-								</sequential>
 								<daemons>
 									<exec dir="${test.app.server.bin.dir}" executable="${app.server.start.executable}" failonerror="true" resolveexecutable="true">
 										<arg line="${app.server.start.executable.arg.line}" />
