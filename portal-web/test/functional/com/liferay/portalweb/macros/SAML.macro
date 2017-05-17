@@ -61,6 +61,10 @@
 			<var name="samlKeyPassword" value="samlsp" />
 		</execute>
 
+		<execute macro="ProductMenu#gotoControlPanelConfiguration">
+			<var name="portlet" value="SAML Admin" />
+		</execute>
+
 		<execute macro="SAMLNavigation#gotoIdentityProviderConnection" />
 
 		<execute macro="SAMLPortlet#configureIdentityProviderConnection">
@@ -118,12 +122,16 @@
 		</execute>
 
 		<execute macro="SAMLRole#configure">
-			<var name="samlEntityID" value="samlsp" />
+			<var name="samlEntityID" value="samlsp2" />
 			<var name="samlRoleType" value="Service Provider" />
 		</execute>
 
 		<execute macro="SAMLRole#configureCertificateAndPrivateKey">
-			<var name="samlKeyPassword" value="samlsp" />
+			<var name="samlKeyPassword" value="samlsp2" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoControlPanelConfiguration">
+			<var name="portlet" value="SAML Admin" />
 		</execute>
 
 		<execute macro="SAMLNavigation#gotoIdentityProviderConnection" />
@@ -137,7 +145,7 @@
 		<execute macro="SAMLNavigation#gotoGeneral" />
 
 		<execute macro="SAMLRole#enable">
-			<var name="samlEntityID" value="samlsp" />
+			<var name="samlEntityID" value="samlsp2" />
 		</execute>
 
 		<execute macro="User#logoutPG">
@@ -147,6 +155,11 @@
 
 		<execute macro="Navigator#openURL" />
 
+		<execute macro="User#loginPG">
+			<var name="password" value="test" />
+			<var name="userEmailAddress" value="test@liferay.com" />
+		</execute>
+
 		<execute macro="ProductMenu#gotoControlPanelConfiguration">
 			<var name="portlet" value="SAML Admin" />
 		</execute>
@@ -154,9 +167,9 @@
 		<execute macro="SAMLNavigation#gotoServiceProviderConnection" />
 
 		<execute macro="SAMLPortlet#addServiceProviderConnection">
-			<var name="SPEntityID" value="samlsp" />
+			<var name="SPEntityID" value="samlsp2" />
 			<var name="SPMetadataURL" value="http://www.baker.com:10080/c/portal/saml/metadata" />
-			<var name="SPNameID" value="samlsp" />
+			<var name="SPNameID" value="samlsp2" />
 		</execute>
 	</command>
 
