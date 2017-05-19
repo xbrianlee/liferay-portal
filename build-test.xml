@@ -9437,7 +9437,7 @@ jdbc.default.password=${database.mysql.password}</echo>
 		<get-testcase-property property.name="remote.elasticsearch.enabled" />
 
 		<if>
-			<equals arg1="${remote.elasticsearch.enabled}" arg2="true" />
+			<equals arg1="true" arg2="true" />
 			<then>
 				<ant antfile="build-test-elasticsearch.xml" target="start-elasticsearch" />
 
