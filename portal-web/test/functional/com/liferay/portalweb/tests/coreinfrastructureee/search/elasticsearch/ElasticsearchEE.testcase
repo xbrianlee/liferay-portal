@@ -1,4 +1,5 @@
 <definition component-name="portal-search-ee">
+	<property name="portal.acceptance" value="true" />
 	<property name="portal.upstream" value="true" />
 	<property name="test.run.environment" value="EE" />
 	<property name="testray.main.component.name" value="Elastic Search Impl" />
