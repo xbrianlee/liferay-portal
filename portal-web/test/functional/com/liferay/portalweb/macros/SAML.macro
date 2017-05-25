@@ -61,6 +61,10 @@
 			<var name="samlKeyPassword" value="samlsp" />
 		</execute>
 
+		<execute macro="ProductMenu#gotoControlPanelConfiguration">
+			<var name="portlet" value="SAML Admin" />
+		</execute>
+
 		<execute macro="SAMLNavigation#gotoIdentityProviderConnection" />
 
 		<execute macro="SAMLPortlet#configureIdentityProviderConnection">
@@ -94,6 +98,78 @@
 			<var name="SPEntityID" value="samlsp" />
 			<var name="SPMetadataURL" value="http://www.able.com:9080/c/portal/saml/metadata" />
 			<var name="SPNameID" value="samlsp" />
+		</execute>
+	</command>
+
+	<command name="configureSecondLiferaySAMLasSP">
+		<execute macro="User#loginPG">
+			<var name="authenticationMethod" value="${authenticationMethod}" />
+			<var name="nodePort" value="${nodePort}" />
+			<var name="password" value="test" />
+			<var name="rememberMeChecked" value="false" />
+			<var name="specificURL" value="http://www.baker.com:10080" />
+			<var name="syntaxCheckingEnabled" value="${syntaxCheckingEnabled}" />
+			<var name="userEmailAddress" value="test@liferay.com" />
+			<var name="userScreenName" value="${userScreenName}" />
+		</execute>
+
+		<execute macro="Navigator#openSpecificURL">
+			<var name="url" value="http://www.baker.com:100080" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoControlPanelConfiguration">
+			<var name="portlet" value="SAML Admin" />
+		</execute>
+
+		<execute macro="SAMLRole#configure">
+			<var name="samlEntityID" value="samlsp2" />
+			<var name="samlRoleType" value="Service Provider" />
+		</execute>
+
+		<execute macro="SAMLRole#configureCertificateAndPrivateKey">
+			<var name="samlKeyPassword" value="samlsp2" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoControlPanelConfiguration">
+			<var name="portlet" value="SAML Admin" />
+		</execute>
+
+		<execute macro="SAMLNavigation#gotoIdentityProviderConnection" />
+
+		<execute macro="SAMLPortlet#configureIdentityProviderConnection">
+			<var name="IdpEntityID" value="samlidp" />
+			<var name="IdpMetadataURL" value="http://localhost:8080/c/portal/saml/metadata" />
+			<var name="IdpNameID" value="samlidp" />
+		</execute>
+
+		<execute macro="SAMLNavigation#gotoGeneral" />
+
+		<execute macro="SAMLRole#enable">
+			<var name="samlEntityID" value="samlsp2" />
+		</execute>
+
+		<execute macro="User#logoutPG">
+			<var name="nodePort" value="${nodePort}" />
+			<var name="specificURL" value="http://www.baker.com:10080" />
+		</execute>
+
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="User#loginPG">
+			<var name="password" value="test" />
+			<var name="userEmailAddress" value="test@liferay.com" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoControlPanelConfiguration">
+			<var name="portlet" value="SAML Admin" />
+		</execute>
+
+		<execute macro="SAMLNavigation#gotoServiceProviderConnection" />
+
+		<execute macro="SAMLPortlet#addServiceProviderConnection">
+			<var name="SPEntityID" value="samlsp2" />
+			<var name="SPMetadataURL" value="http://www.baker.com:10080/c/portal/saml/metadata" />
+			<var name="SPNameID" value="samlsp2" />
 		</execute>
 	</command>
 
