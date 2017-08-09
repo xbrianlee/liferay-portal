@@ -141,6 +141,21 @@
 		<execute function="AssertElementPresent" locator1="Portlet#LOADED" />
 	</command>
 
+	<command name="assertLongURL">
+		<var method="selenium#getLocation()" name="longURL" />
+
+		<var method="StringUtil#length('${longURL}')" name="longURLCount" />
+
+		<var method="MathUtil#isGreaterThan('${longURLCount}', '2000')" name="isLongURL" />
+
+		<if>
+			<equals arg1="${isLongURL}" arg2="false" />
+			<then>
+				<fail message="URL is not longer than 2000 characters." />
+			</then>
+		</if>
+	</command>
+
 	<command name="assertServerShutdown">
 		<var name="shutdownPauseCount" value="0" />
 
