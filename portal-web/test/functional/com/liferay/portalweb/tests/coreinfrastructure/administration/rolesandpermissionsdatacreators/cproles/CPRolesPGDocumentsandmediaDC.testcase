@@ -39,6 +39,7 @@
 	</tear-down>
 
 	<command name="AddDMDocumentRegRoleDefaultPermissions" priority="5">
+		<property name="data.creator.includes" value="site-demo-data-creator-api,site-demo-data-creator-impl,users-admin-demo,users-admin-demo-data-creator-api,users-admin-demo-data-creator-impl,roles-admin-demo-data-creator-api,roles-admin-demo-data-creator-impl" />
 		<property name="portal.acceptance" value="true" />
 
 		<execute macro="PermissionsDataCreators#setUpRegRolePG">

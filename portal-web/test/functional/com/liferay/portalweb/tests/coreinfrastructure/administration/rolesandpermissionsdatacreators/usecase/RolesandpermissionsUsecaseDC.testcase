@@ -164,7 +164,7 @@
 
 		<var name="key_teamName" value="Site Team Name" />
 
-		<execute function="AssertTextEquals" locator1="PermissionsDataCreators#CONFIGURATION_PERMISSIONS_TEAM_ROLE_NAME" value1="Site Team Name" />
+		<execute function="AssertTextEquals" locator1="Permissions#CONFIGURATION_PERMISSIONS_TEAM_ROLE_NAME" value1="Site Team Name" />
 
 		<execute macro="User#logoutPG" />
 
@@ -183,7 +183,7 @@
 
 		<var name="key_teamName" value="Site Team Name" />
 
-		<execute function="AssertTextEquals" locator1="PermissionsDataCreators#CONFIGURATION_PERMISSIONS_TEAM_ROLE_NAME" value1="Site Team Name" />
+		<execute function="AssertTextEquals" locator1="Permissions#CONFIGURATION_PERMISSIONS_TEAM_ROLE_NAME" value1="Site Team Name" />
 
 		<execute macro="Navigator#openURL" />
 
@@ -419,7 +419,7 @@
 
 		<var name="key_roleTitle" value="Guest" />
 
-		<execute function="AssertTextNotPresent" locator1="PermissionsDataCreators#CONTENT_PERMISSIONS_ROLE_NAME" value1="Guest" />
+		<execute function="AssertTextNotPresent" locator1="Permissions#CONTENT_PERMISSIONS_ROLE_NAME" value1="Guest" />
 
 		<execute macro="Navigator#openPrivateSitePageURL">
 			<var name="pageName" value="Private Blogs Page" />
@@ -436,7 +436,7 @@
 
 		<var name="key_roleTitle" value="Guest" />
 
-		<execute function="AssertTextNotPresent" locator1="PermissionsDataCreators#CONTENT_PERMISSIONS_ROLE_NAME" value1="Guest" />
+		<execute function="AssertTextNotPresent" locator1="Permissions#CONTENT_PERMISSIONS_ROLE_NAME" value1="Guest" />
 	</command>
 
 	<command name="RolesOrganizationSearch" priority="4">
