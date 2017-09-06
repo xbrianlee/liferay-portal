@@ -9715,6 +9715,8 @@ jdbc.default.password=${database.mysql.password}</echo>
 			</then>
 		</if>
 
+		<antcall target="deploy-data-creators" />
+
 		<antcall target="deploy-osgi-apps" />
 
 		<antcall target="deploy-osgi-modules" />
