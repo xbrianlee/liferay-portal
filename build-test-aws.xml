@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<project basedir="." name="portal-test-aws" xmlns:antelope="antlib:ise.antelope.tasks">
+	<import file="build-test.xml" />
+
+	<var name="bucketName" value="${arg0}" />
+
+	<target name="assert-empty-bucket">
+		<exec executable="aws" outputproperty="bucketContents">
+			<arg line="s3 ls s3://${bucketName}" />
+		</exec>
+
+		<if>
+			<equals arg1="${bucketContents}" arg2="" />
+			<then>
+				<echo message="The bucket named ${bucketName} is empty!" />
+			</then>
+			<else>
+				<echo message="The bucket named ${bucketName} contains the following: ${bucketContents}" />
+				<fail>The Test has failed because the bucket is NOT empty.</fail>
+			</else>
+		</if>
+	</target>
+
+	<target name="assert-non-empty-bucket">
+		<exec executable="aws" outputproperty="bucketContents">
+			<arg line="s3 ls s3://${bucketName}" />
+		</exec>
+
+		<if>
+			<equals arg1="${bucketContents}" arg2="" />
+			<then>
+				<echo message="The bucket named ${bucketName} is empty!" />
+				<fail>The Test has failed because the bucket is empty.</fail>
+			</then>
+			<else>
+				<echo message="The bucket named ${bucketName} contains the following: ${bucketContents}" />
+			</else>
+		</if>
+	</target>
+
+	<target name="empty-bucket">
+		<exec executable="aws" outputproperty="bucketContents">
+			<arg line="s3 rm s3://${bucketName} --recursive" />
+		</exec>
+
+		<echo message="The bucket named ${bucketName} has been cleaned!" />
+	</target>
+</project>

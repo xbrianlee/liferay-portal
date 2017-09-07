@@ -1,0 +1,79 @@
+<definition component-name="portal-document-management">
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
+	<property name="custom.properties" value="default.layout.template.id=1_column" />
+	<property name="testray.main.component.name" value="Documents Management" />
+	<var name="bucketName" value="liferays3bucket" />
+
+	<set-up>
+		<execute function="AntCommand" locator1="build-test-aws.xml" value1="assert-empty-bucket -Darg0=${bucketName}" />
+
+		<execute macro="TestCase#setUpPortalInstance" />
+
+		<execute macro="User#firstLoginPG" />
+	</set-up>
+
+	<tear-down>
+		<execute function="AntCommand" locator1="build-test-aws.xml" value1="empty-bucket -Darg0=${bucketName}" />
+
+		<execute function="AntCommand" locator1="build-test-aws.xml" value1="assert-empty-bucket -Darg0=${bucketName}" />
+
+		<var method="TestPropsUtil#get('test.portal.instance')" name="testPortalInstance" />
+
+		<if>
+			<equals arg1="${testPortalInstance}" arg2="true" />
+			<then>
+				<execute macro="PortalInstances#tearDownCP" />
+			</then>
+			<else>
+				<execute macro="User#firstLoginPG" />
+
+				<execute macro="DMDocument#tearDownCP" />
+
+				<execute macro="DMFolder#tearDownCP" />
+
+				<execute macro="DMDocumentType#tearDownCP" />
+
+				<execute macro="DMMetadataSet#tearDownCP" />
+
+				<execute macro="Page#tearDownPG" />
+
+				<execute macro="User#tearDownCP" />
+
+				<execute macro="Site#tearDownCP" />
+			</else>
+		</if>
+	</tear-down>
+
+	<command name="AWSSmoke" priority="3">
+		<property name="custom.properties" value="dl.store.impl=com.liferay.portal.store.s3.S3Store" />
+
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoSitesContent">
+			<var name="portlet" value="Documents and Media" />
+		</execute>
+
+		<execute macro="DMDocument#addCP">
+			<var name="dmDocumentDescription" value="DM Document Description" />
+			<var name="dmDocumentFile" value="Document_1.jpg" />
+			<var name="dmDocumentTitle" value="DM Document Title" />
+		</execute>
+
+		<execute function="AntCommand" locator1="build-test-aws.xml" value1="assert-non-empty-bucket -Darg0=${bucketName}" />
+
+		<execute macro="DMDocument#deleteCP">
+			<var name="dmDocumentTitle" value="DM Document Title" />
+		</execute>
+
+		<execute macro="Navigator#openURL" />
+
+		<execute macro="ProductMenu#gotoSitesContent">
+			<var name="portlet" value="Recycle Bin" />
+		</execute>
+
+		<execute macro="RecycleBin#emptyCP" />
+
+		<execute function="AntCommand" locator1="build-test-aws.xml" value1="assert-empty-bucket -Darg0=${bucketName}" />
+	</command>
+</definition>
