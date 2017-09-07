@@ -2128,7 +2128,7 @@
 
 	<command name="ViewPreferencesPanelPermissionSiteMemberRole" priority="4">
 		<property name="data.creator.includes" value="site-demo-data-creator-api,site-demo-data-creator-impl,users-admin-demo,users-admin-demo-data-creator-api,users-admin-demo-data-creator-impl,roles-admin-demo-data-creator-api,roles-admin-demo-data-creator-impl" />
-		
+
 		<property name="osgi.app.includes" value="currency-converter" />
 
 		<execute macro="TestCase#getSiteName">
