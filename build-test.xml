@@ -1689,6 +1689,8 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 						replace=""
 					/>
 
+					<echo>custom.properties: ${propertyName}</echo>
+
 					<if>
 						<resourcecontains resource="portal-impl/src/portal-ext.properties" substring="${propertyName}" />
 						<then>
@@ -1697,6 +1699,8 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 								replace="@{property}"
 								byline="true"
 							/>
+
+							<echo>Replaced ${propertyName} with @{property}</echo>
 						</then>
 						<else>
 							<echo append="true" file="portal-impl/src/portal-ext.properties">
