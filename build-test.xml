@@ -1691,6 +1691,10 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 
 					<echo>custom.properties: ${propertyName}</echo>
 
+					<print-file file.name="portal-impl/src/portal-ext.properties" />
+
+					<echo>=====END=====</echo>
+
 					<if>
 						<resourcecontains resource="portal-impl/src/portal-ext.properties" substring="${propertyName}" />
 						<then>
