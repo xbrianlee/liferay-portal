@@ -1693,11 +1693,18 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 
 					<print-file file.name="portal-impl/src/portal-ext.properties" />
 
-					<echo>=====END=====</echo>
+					<echo>=====END1=====</echo>
 
 					<if>
-						<resourcecontains resource="portal-impl/src/portal-ext.properties" substring="${propertyName}" />
+						<not>
+							<resourcecontains resource="portal-impl/src/portal-ext.properties" substring="${propertyName}" />
+						</not>
 						<then>
+							<echo append="true" file="portal-impl/src/portal-ext.properties">
+
+@{property}</echo>
+						</then>
+						<else>
 							<replaceregexp file="portal-impl/src/portal-ext.properties"
 								match="${propertyName}=.*"
 								replace="@{property}"
@@ -1705,13 +1712,12 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 							/>
 
 							<echo>Replaced ${propertyName} with @{property}</echo>
-						</then>
-						<else>
-							<echo append="true" file="portal-impl/src/portal-ext.properties">
-
-@{property}</echo>
 						</else>
 					</if>
+
+					<print-file file.name="portal-impl/src/portal-ext.properties" />
+
+					<echo>=====END2=====</echo>
 				</sequential>
 			</for>
 		</sequential>
