@@ -398,6 +398,7 @@
 	</command>
 
 	<command name="ViewReindexAllSearchIndexesLoggingInSolrAdmin" priority="4">
+		<property name="portal.acceptance" value="solr" />
 		<property name="index.on.startup" value="false" />
 		<property name="solr.logging.info.level" value="true" />
 		<property name="test.name.skip.portal.instance" value="SolrEE#ViewReindexAllSearchIndexesLoggingInSolrAdmin" />
