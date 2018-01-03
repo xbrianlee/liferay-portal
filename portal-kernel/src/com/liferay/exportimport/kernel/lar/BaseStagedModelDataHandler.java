@@ -531,7 +531,7 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 
 		List<AssetCategory> assetCategories =
 			AssetCategoryLocalServiceUtil.getCategories(
-				ExportImportClassedModelUtil.getClassName(stagedModel),
+				ExportImportClassedModelUtil.getClassNameId(stagedModel),
 				ExportImportClassedModelUtil.getClassPK(stagedModel));
 
 		for (AssetCategory assetCategory : assetCategories) {
@@ -546,7 +546,7 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 		throws PortletDataException {
 
 		List<AssetTag> assetTags = AssetTagLocalServiceUtil.getTags(
-			ExportImportClassedModelUtil.getClassName(stagedModel),
+			ExportImportClassedModelUtil.getClassNameId(stagedModel),
 			ExportImportClassedModelUtil.getClassPK(stagedModel));
 
 		for (AssetTag assetTag : assetTags) {
