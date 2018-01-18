@@ -966,9 +966,17 @@ app.server.type=@{app.server.type}]]></echo>
 							<antcall inheritAll="false" target="record-test-class-file-names">
 								<param name="test.class.groups.size" value="${test.batch.size}" />
 							</antcall>
+
+							<ant antfile="build-test-elasticsearch.xml" target="stop-elasticsearch" />
+
+							<ant antfile="build-test-solr.xml" target="start-solr" />
 						</then>
 						<else>
 							<prepare-test-build />
+
+							<ant antfile="build-test-elasticsearch.xml" target="stop-elasticsearch" />
+
+							<ant antfile="build-test-solr.xml" target="start-solr" />
 						</else>
 					</if>
 				</test-set-up>
@@ -1505,9 +1513,16 @@ app.server.type=@{app.server.type}]]></echo>
 						<isset property="env.DIST_PATH" />
 						<then>
 							<prepare-test-environment />
+							<ant antfile="build-test-elasticsearch.xml" target="stop-elasticsearch" />
+
+							<ant antfile="build-test-solr.xml" target="start-solr" />
 						</then>
 						<else>
 							<prepare-test-build />
+
+							<ant antfile="build-test-elasticsearch.xml" target="stop-elasticsearch" />
+
+							<ant antfile="build-test-solr.xml" target="start-solr" />
 						</else>
 					</if>
 

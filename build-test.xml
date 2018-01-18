@@ -10068,8 +10068,12 @@ module.framework.properties.blacklist.portal.profile.names=${blacklist.portal.pr
 		<get-testcase-property property.name="solr.enabled" />
 
 		<if>
-			<equals arg1="${solr.enabled}" arg2="true" />
+			<equals arg1="true" arg2="true" />
 			<then>
+				<echo>CALLING start-solr in start-app-server</echo>
+
+				<ant antfile="build-test-elasticsearch.xml" target="stop-elasticsearch" />
+
 				<ant antfile="build-test-solr.xml" target="start-solr" />
 			</then>
 		</if>
@@ -10403,8 +10407,10 @@ module.framework.properties.blacklist.portal.profile.names=${blacklist.portal.pr
 		<get-testcase-property property.name="solr.enabled" />
 
 		<if>
-			<equals arg1="${solr.enabled}" arg2="true" />
+			<equals arg1="true" arg2="true" />
 			<then>
+				<echo>CALLING stop solr core in stop app-server</echo>
+
 				<ant antfile="build-test-solr.xml" target="stop-solr-core" />
 			</then>
 		</if>
