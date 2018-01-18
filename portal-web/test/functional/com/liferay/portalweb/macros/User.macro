@@ -2129,6 +2129,16 @@
 			<then>
 				<execute function="Check#checkAll" locator1="Checkbox#SELECT_ALL" />
 
+				<execute macro="User#searchCP">
+					<var name="searchTerm" value="${userEmailAddress}" />
+				</execute>
+
+				<execute function="Uncheck" locator1="ContentRow#ENTRY_CONTENT_ROW_1_CHECKBOX" />
+
+				<execute macro="User#searchCP">
+					<var name="searchTerm" value="" />
+				</execute>
+
 				<execute function="AssertClickNoError" locator1="Button#DEACTIVATE" value1="Deactivate" />
 
 				<execute function="Confirm" value1="Are you sure you want to deactivate the selected users?" />
