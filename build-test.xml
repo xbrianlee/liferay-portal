@@ -10116,6 +10116,8 @@ module.framework.properties.blacklist.portal.profile.names=${blacklist.portal.pr
 			</then>
 		</if>
 
+		<antcall target="deploy-data-creators" />
+
 		<antcall target="deploy-osgi-apps" />
 
 		<antcall target="deploy-osgi-modules" />
