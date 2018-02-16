@@ -40,6 +40,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,6 +59,7 @@ import org.osgi.util.tracker.BundleTracker;
 /**
  * @author Matthew Tambara
  */
+@Ignore
 @RunWith(Arquillian.class)
 public class BundleBlacklistTest {
 
@@ -151,6 +153,7 @@ public class BundleBlacklistTest {
 		_updateConfiguration(_properties);
 	}
 
+	@Ignore
 	@Test
 	public void testAddToAndRemoveFromBlacklist() throws Exception {
 		Bundle bundle = _findBundle(_SYMBOLIC_NAME);
@@ -193,6 +196,7 @@ public class BundleBlacklistTest {
 			blacklistBundleSymbolicNames.contains(_SYMBOLIC_NAME));
 	}
 
+	@Ignore
 	@Test
 	public void testBundleBlacklist() throws Exception {
 		Bundle jarBundle = null;

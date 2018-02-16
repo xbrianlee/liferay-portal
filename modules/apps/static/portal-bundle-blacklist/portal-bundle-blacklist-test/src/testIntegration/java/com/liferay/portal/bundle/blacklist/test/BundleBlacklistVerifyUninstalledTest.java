@@ -17,6 +17,7 @@ package com.liferay.portal.bundle.blacklist.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -27,9 +28,11 @@ import org.osgi.framework.FrameworkUtil;
 /**
  * @author Matthew Tambara
  */
+@Ignore
 @RunWith(Arquillian.class)
 public class BundleBlacklistVerifyUninstalledTest {
 
+	@Ignore
 	@Test
 	public void testVerifyBundlesUninstalled() {
 		Bundle bundle = FrameworkUtil.getBundle(
