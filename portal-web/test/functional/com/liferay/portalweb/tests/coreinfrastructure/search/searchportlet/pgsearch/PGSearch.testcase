@@ -1,4 +1,5 @@
 <definition component-name="portal-search">
+	<property name="portal.acceptance" value="search" />
 	<property name="portal.release" value="true" />
 	<property name="portal.upstream" value="true" />
 	<property name="testray.main.component.name" value="Web Search" />
@@ -284,6 +285,8 @@
 	</command>
 
 	<command name="SearchBlogsEntryCategoryQuotes" priority="4">
+		<property name="portal.acceptance" value="false" />
+
 		<execute macro="Navigator#openURL" />
 
 		<execute macro="ProductMenu#gotoPortlet">
