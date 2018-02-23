@@ -1,4 +1,4 @@
-Liferay-Releng-App-Description: This app provides integration with Elasticsearch 6. (TBW)
+Liferay-Releng-App-Description: This app provides integration with Elasticsearch 6. (TBW) 
 Liferay-Releng-App-Title: ${liferay.releng.app.title.prefix} Elasticsearch 6 Search Engine
 Liferay-Releng-Bundle: true
 Liferay-Releng-Category: Utility
