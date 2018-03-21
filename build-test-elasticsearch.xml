@@ -515,7 +515,7 @@ elasticsearch.password: "kibanapassword"]]></replacevalue>
 		<configure-elastisearch-x-pack-security-osgi-bundle-properties elastic.xpack.elastic.user.password="${elastic.xpack.elastic.user.password}" />
 
 		<waitfor maxwait="30" maxwaitunit="second" timeoutproperty="elasticsearch.cluster.not.started">
-			<http url="http://localhost:9200/" />
+			<http url="https://localhost:9200/" />
 		</waitfor>
 
 		<fail if="elasticsearch.cluster.not.started" message="Elasticsearch cluster failed to start." />
