@@ -22,6 +22,17 @@ ViewUADEntitiesDisplay viewUADEntitiesDisplay = (ViewUADEntitiesDisplay)request.
 UADEntityDisplay uadEntityDisplay = viewUADEntitiesDisplay.getUADEntityDisplay();
 
 SearchContainer uadEntitySearchContainer = viewUADEntitiesDisplay.getSearchContainer();
+
+portletDisplay.setShowBackIcon(true);
+
+PortletURL backURL = renderResponse.createRenderURL();
+
+backURL.setParameter("mvcRenderCommandName", "/view_uad_applications_summary");
+backURL.setParameter("p_u_i_d", String.valueOf(selectedUser.getUserId()));
+
+portletDisplay.setURLBack(backURL.toString());
+
+renderResponse.setTitle(StringBundler.concat(selectedUser.getFullName(), " - ", LanguageUtil.get(request, "personal-data-erasure"), " - ", uadEntityDisplay.getUADEntityTypeName()));
 %>
 
 <clay:navigation-bar
@@ -74,19 +85,15 @@ SearchContainer uadEntitySearchContainer = viewUADEntitiesDisplay.getSearchConta
 					value="<%= uadEntityDisplay.getEditURL(uadEntity, liferayPortletRequest, liferayPortletResponse) %>"
 				/>
 
-				<liferay-ui:search-container-column-text
-					cssClass="table-cell-expand"
-					name="nonanonymizable-fields"
-					value="<%= uadEntityDisplay.getUADEntityNonanonymizableFieldValues(uadEntity) %>"
-				/>
-
 				<liferay-ui:search-container-column-jsp
 					cssClass="entry-action-column"
 					path="/uad_entity_action.jsp"
 				/>
 			</liferay-ui:search-container-row>
 
-			<liferay-ui:search-iterator markupView="lexicon" />
+			<liferay-ui:search-iterator
+				markupView="lexicon"
+			/>
 		</liferay-ui:search-container>
 	</div>
 </div>

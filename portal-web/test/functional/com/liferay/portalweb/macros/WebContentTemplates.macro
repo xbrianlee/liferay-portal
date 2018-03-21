@@ -77,7 +77,9 @@
 	</command>
 
 	<command name="addNullCP">
-		<execute macro="WebContentNavigator#gotoManageTemplates" />
+		<execute macro="Navigator#gotoNavItem">
+			<var name="navItem" value="Templates" />
+		</execute>
 
 		<execute macro="LexiconEntry#gotoAdd" />
 
@@ -144,7 +146,9 @@
 	</command>
 
 	<command name="advancedSearchCP">
-		<execute macro="WebContentNavigator#gotoManageTemplates" />
+		<execute macro="Navigator#gotoNavItem">
+			<var name="navItem" value="Templates" />
+		</execute>
 
 		<var name="key_ddlTemplateName" value="${templateName}" />
 
@@ -177,7 +181,9 @@
 	</command>
 
 	<command name="deleteCP">
-		<execute macro="WebContentNavigator#gotoManageTemplates" />
+		<execute macro="Navigator#gotoNavItem">
+			<var name="navItem" value="Templates" />
+		</execute>
 
 		<var name="key_ddlTemplateName" value="${templateName}" />
 
@@ -213,7 +219,9 @@
 			<var name="portlet" value="Web Content" />
 		</execute>
 
-		<execute macro="WebContentNavigator#gotoManageTemplates" />
+		<execute macro="Navigator#gotoNavItem">
+			<var name="navItem" value="Templates" />
+		</execute>
 
 		<execute function="AssertTextEquals" locator1="DDMSelectTemplate#TEMPLATE_TABLE_NAME" value1="${templateName}" />
 
@@ -225,7 +233,7 @@
 
 		<execute macro="PortletEntry#changeLocale">
 			<var name="fieldName" value="Name" />
-			<var name="localizationNameKey" value="${localization1NameKey}" />
+			<var name="locale" value="${localization1NameKey}" />
 		</execute>
 
 		<execute function="Type#clickAtType" locator1="TextInput#NAME" value1="${localization1Name}" />
@@ -235,7 +243,7 @@
 			<then>
 				<execute macro="PortletEntry#changeLocale">
 					<var name="fieldName" value="Name" />
-					<var name="localizationNameKey" value="${localization2NameKey}" />
+					<var name="locale" value="${localization2NameKey}" />
 				</execute>
 
 				<execute function="Type#clickAtType" locator1="TextInput#NAME" value1="${localization2Name}" />
@@ -252,7 +260,9 @@
 			<var name="portlet" value="Web Content" />
 		</execute>
 
-		<execute macro="WebContentNavigator#gotoManageTemplates" />
+		<execute macro="Navigator#gotoNavItem">
+			<var name="navItem" value="Templates" />
+		</execute>
 
 		<execute macro="Search#searchCP">
 			<var name="searchTerm" value="2" />
@@ -294,7 +304,9 @@
 	</command>
 
 	<command name="viewCP">
-		<execute macro="WebContentNavigator#gotoManageTemplates" />
+		<execute macro="Navigator#gotoNavItem">
+			<var name="navItem" value="Templates" />
+		</execute>
 
 		<var name="key_ddlTemplateName" value="${templateName}" />
 

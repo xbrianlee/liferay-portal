@@ -3,9 +3,96 @@
 <project basedir="." name="portal-test-elasticsearch" xmlns:antelope="antlib:ise.antelope.tasks">
 	<import file="build-test.xml" />
 
+	<macrodef name="configure-elasticsearch-properties">
+		<sequential>
+			<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">${line.separator}cluster.name: LiferayElasticsearchCluster</echo>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="configure-elastisearch-x-pack-security-osgi-bundle-properties">
+		<attribute name="elastic.xpack.elastic.user.password" />
+
+		<sequential>
+			<echo append="true" file="${liferay.home}/osgi/configs/com.liferay.portal.search.elasticsearch6.xpack.security.internal.configuration.XPackSecurityConfiguration.config">sslKeyPath="/path/to/instance.key"
+sslKeystorePath="${elasticsearch.dir}/config/certs/elastic-certificates.p12"
+sslCertificatePath="/path/to/theinstance.crt"
+sslTruststorePath="${elasticsearch.dir}/config/certs/elastic-certificates.p12"
+certificateFormat="PKCS#12"
+requiresAuthentication="true"
+username="elastic"
+sslKeystorePassword=""
+password="@{elastic.xpack.elastic.user.password}"
+sslCertificateAuthoritiesPaths="/path/to/ca.crt"
+transportSSLVerificationMode="certificate"
+transportSSLEnabled="true"
+sslTruststorePassword=""</echo>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="configure-elasticsearch-x-pack-security-properties">
+		<sequential>
+			<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">
+${line.separator}xpack.ssl.keystore.path: certs/elastic-certificates.p12
+xpack.ssl.truststore.path: certs/elastic-certificates.p12
+${line.separator}xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+${line.separator}xpack.security.http.ssl.enabled: true</echo>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="generate-elasticsearch-x-pack-security-certificates">
+		<sequential>
+			<if>
+				<os family="unix" />
+				<then>
+					<exec dir="${elasticsearch.dir}/bin/x-pack" executable="/bin/bash">
+						<arg value="-c" />
+						<arg value="./certutil ca --out elastic-stack-ca.p12 -pass liferay" />
+					</exec>
+				</then>
+				<elseif>
+					<os family="windows" />
+					<then>
+						<exec dir="${elasticsearch.dir}/bin/x-pack" executable="cmd">
+							<arg value="/c" />
+							<arg value="certutil ca --out elastic-stack-ca.p12 -pass liferay" />
+						</exec>
+					</then>
+				</elseif>
+			</if>
+
+			<if>
+				<os family="unix" />
+				<then>
+					<exec dir="${elasticsearch.dir}/bin/x-pack" executable="/bin/bash">
+						<arg value="-c" />
+						<arg value="./certutil cert --ca elastic-stack-ca.p12 --ca-pass liferay --out elastic-certificates.p12 --pass liferay" />
+					</exec>
+				</then>
+				<elseif>
+					<os family="windows" />
+					<then>
+						<exec dir="${elasticsearch.dir}/bin/x-pack" executable="cmd">
+							<arg value="/c" />
+							<arg value="certutil cert --ca elastic-stack-ca.p12 --ca-pass liferay --out elastic-certificates.p12 --pass liferay" />
+						</exec>
+					</then>
+				</elseif>
+			</if>
+
+			<move
+				file="${elasticsearch.dir}/bin/x-pack/elastic-certificates.p12"
+				todir="${elasticsearch.dir}/config/certs"
+			/>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="prepare-elasticsearch">
 		<sequential>
-			<chmod file="${elasticsearch.dir}/bin/**" perm="a+x" />
+			<chmod
+				file="${elasticsearch.dir}/bin/**"
+				perm="a+x"
+			/>
 
 			<if>
 				<not>
@@ -111,6 +198,15 @@
 						<arg value="./elasticsearch-plugin install file:///${elasticsearch.dir}/${elastic.x-pack.zip.name}" />
 					</exec>
 				</then>
+				<elseif>
+					<os family="windows" />
+					<then>
+						<exec dir="${elasticsearch.dir}/bin" executable="cmd">
+							<arg value="/c" />
+							<arg value="elasticsearch-plugin install file:///${elasticsearch.dir}/${elastic.x-pack.zip.name}" />
+						</exec>
+					</then>
+				</elseif>
 			</if>
 		</sequential>
 	</macrodef>
@@ -135,6 +231,45 @@
 					</then>
 				</elseif>
 			</if>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="set-elasticsearch-x-pack-user-passwords">
+		<sequential>
+			<if>
+				<os family="unix" />
+				<then>
+					<exec dir="${elasticsearch.dir}/bin/x-pack" executable="/bin/bash" outputproperty="elastic.xpack.user.passwords">
+						<arg value="-c" />
+						<arg value="./setup-passwords auto --batch" />
+					</exec>
+				</then>
+				<elseif>
+					<os family="windows" />
+					<then>
+						<exec dir="${elasticsearch.dir}/bin/x-pack" executable="cmd" outputproperty="elastic.xpack.users.passwords">
+							<arg value="/c" />
+							<arg value="setup-passwords auto --batch" />
+						</exec>
+					</then>
+				</elseif>
+			</if>
+
+			<propertyregex
+				input="${elastic.xpack.user.passwords}"
+				override="true"
+				property="elastic.xpack.kibana.user.password"
+				regexp="(PASSWORD kibana = )(\S*)"
+				select="\2"
+			/>
+
+			<propertyregex
+				input="${elastic.xpack.user.passwords}"
+				override="true"
+				property="elastic.xpack.elastic.user.password"
+				regexp="(PASSWORD elastic = )(\S*)"
+				select="\2"
+			/>
 		</sequential>
 	</macrodef>
 
@@ -237,18 +372,27 @@
 			<if>
 				<os family="mac" />
 				<then>
-					<move file="${app.server.parent.dir}/kibana-${elastic.kibana.version}-darwin-x86_64" tofile="${elastic.kibana.dir}" />
+					<move
+						file="${app.server.parent.dir}/kibana-${elastic.kibana.version}-darwin-x86_64"
+						tofile="${elastic.kibana.dir}"
+					/>
 				</then>
 				<elseif>
 					<os family="unix" />
 					<then>
-						<move file="${app.server.parent.dir}/kibana-${elastic.kibana.version}-linux-x86_64" tofile="${elastic.kibana.dir}" />
+						<move
+							file="${app.server.parent.dir}/kibana-${elastic.kibana.version}-linux-x86_64"
+							tofile="${elastic.kibana.dir}"
+						/>
 					</then>
 				</elseif>
 				<elseif>
 					<os family="windows" />
 					<then>
-						<move file="${app.server.parent.dir}/kibana-${elastic.kibana.version}-windows-x86" tofile="${elastic.kibana.dir}" />
+						<move
+							file="${app.server.parent.dir}/kibana-${elastic.kibana.version}-windows-x86"
+							tofile="${elastic.kibana.dir}"
+						/>
 					</then>
 				</elseif>
 			</if>
@@ -281,22 +425,17 @@ logExceptionsOnly=B&quot;false&quot;
 operationMode=&quot;REMOTE&quot;</echo>
 	</target>
 
-	<target name="configure-elasticsearch-properties">
-		<replace file="${elasticsearch.dir}/config/elasticsearch.yml">
-			<replacetoken><![CDATA[#cluster.name: my-application]]></replacetoken>
-			<replacevalue><![CDATA[cluster.name: LiferayElasticsearchCluster]]></replacevalue>
-		</replace>
-
-		<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">${line.separator}action.auto_create_index: .security,.monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*${line.separator}bootstrap.system_call_filter: false</echo>
-	</target>
-
 	<target name="configure-kibana-properties">
-		<replace file="${elastic.kibana.dir}/config/kibana.yml">
+		<replace
+			file="${elastic.kibana.dir}/config/kibana.yml"
+		>
 			<replacetoken><![CDATA[#pid.file: /var/run/kibana.pid]]></replacetoken>
 			<replacevalue><![CDATA[pid.file: ${elastic.kibana.dir}/bin/pid-kibana]]></replacevalue>
 		</replace>
 
-		<replace file="${elastic.kibana.dir}/config/kibana.yml">
+		<replace
+			file="${elastic.kibana.dir}/config/kibana.yml"
+		>
 			<replacetoken><![CDATA[#elasticsearc.username: "user"
 #elasticsearch.password: "pass"]]></replacetoken>
 			<replacevalue><![CDATA[elasticsearch.username: "kibana"
@@ -318,8 +457,12 @@ elasticsearch.password: "kibanapassword"]]></replacevalue>
 
 			<delete dir="${elasticsearch.dir}-${elasticsearch.node.number}" />
 
-			<copy todir="${elasticsearch.dir}-${elasticsearch.node.number}">
-				<fileset dir="${elasticsearch.dir}" />
+			<copy
+				todir="${elasticsearch.dir}-${elasticsearch.node.number}"
+			>
+				<fileset
+					dir="${elasticsearch.dir}"
+				/>
 			</copy>
 		</antelope:repeat>
 
@@ -340,7 +483,17 @@ elasticsearch.password: "kibanapassword"]]></replacevalue>
 			</then>
 		</if>
 
-		<antcall target="configure-elasticsearch-properties" />
+		<configure-elasticsearch-properties />
+
+		<get-testcase-property property.name="elastic.xpack.security.enabled" />
+
+		<if>
+			<equals arg1="${elastic.xpack.security.enabled}" arg2="true" />
+			<then>
+				<generate-elasticsearch-x-pack-security-certificates />
+				<configure-elasticsearch-x-pack-security-properties />
+			</then>
+		</if>
 
 		<antcall target="configure-elasticsearch-osgi-bundle-properties" />
 
@@ -361,8 +514,17 @@ elasticsearch.password: "kibanapassword"]]></replacevalue>
 
 		<antcall target="start-elasticsearch-node" />
 
+		<if>
+			<equals arg1="${elastic.xpack.enabled}" arg2="true" />
+			<then>
+				<set-elasticsearch-x-pack-user-passwords />
+			</then>
+		</if>
+
+		<configure-elastisearch-x-pack-security-osgi-bundle-properties elastic.xpack.elastic.user.password="${elastic.xpack.elastic.user.password}" />
+
 		<waitfor maxwait="30" maxwaitunit="second" timeoutproperty="elasticsearch.cluster.not.started">
-			<http url="http://localhost:9200/" />
+			<http url="https://localhost:9200/" />
 		</waitfor>
 
 		<fail if="elasticsearch.cluster.not.started" message="Elasticsearch cluster failed to start." />
@@ -383,8 +545,13 @@ elasticsearch.password: "kibanapassword"]]></replacevalue>
 					result="elasticsearch.node.number"
 				/>
 
-				<chmod perm="a+rwx" type="both">
-					<fileset dir="${elasticsearch.dir}-${elasticsearch.node.number}" />
+				<chmod
+					perm="a+rwx"
+					type="both"
+				>
+					<fileset
+						dir="${elasticsearch.dir}-${elasticsearch.node.number}"
+					/>
 				</chmod>
 
 				<if>
@@ -478,7 +645,10 @@ elasticsearch.password: "kibanapassword"]]></replacevalue>
 			<if>
 				<os family="unix" />
 				<then>
-					<loadfile property="pid-elasticsearch" srcFile="${elasticsearch.dir}-${elasticsearch.node.number}/bin/pid-elasticsearch">
+					<loadfile
+						property="pid-elasticsearch"
+						srcFile="${elasticsearch.dir}-${elasticsearch.node.number}/bin/pid-elasticsearch"
+					>
 						<filterchain>
 							<linecontainsregexp>
 								<regexp pattern="[0-9]*" />
@@ -512,7 +682,10 @@ elasticsearch.password: "kibanapassword"]]></replacevalue>
 		<if>
 			<os family="unix" />
 			<then>
-				<loadfile property="pid-kibana" srcFile="${elastic.kibana.dir}/bin/pid-kibana">
+				<loadfile
+					property="pid-kibana"
+					srcFile="${elastic.kibana.dir}/bin/pid-kibana"
+				>
 					<filterchain>
 						<linecontainsregexp>
 							<regexp pattern="[0-9]*" />
