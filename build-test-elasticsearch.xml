@@ -485,7 +485,17 @@ elasticsearch.password: "kibanapassword"]]></replacevalue>
 			</then>
 		</if>
 
-		<antcall target="configure-elasticsearch-properties" />
+		<configure-elasticsearch-properties />
+
+		<get-testcase-property property.name="elastic.xpack.security.enabled" />
+
+		<if>
+			<equals arg1="${elastic.xpack.security.enabled}" arg2="true" />
+			<then>
+				<generate-elasticsearch-x-pack-security-certificates />
+				<configure-elasticsearch-x-pack-security-properties />
+			</then>
+		</if>
 
 		<antcall target="configure-elasticsearch-osgi-bundle-properties" />
 
@@ -505,6 +515,15 @@ elasticsearch.password: "kibanapassword"]]></replacevalue>
 		<antcall target="prepare-additional-elasticsearch-dirs" />
 
 		<antcall target="start-elasticsearch-node" />
+
+		<if>
+			<equals arg1="${elastic.xpack.enabled}" arg2="true" />
+			<then>
+				<set-elasticsearch-x-pack-user-passwords />
+			</then>
+		</if>
+
+		<configure-elastisearch-x-pack-security-osgi-bundle-properties elastic.xpack.elastic.user.password="${elastic.xpack.elastic.user.password}" />
 
 		<waitfor maxwait="30" maxwaitunit="second" timeoutproperty="elasticsearch.cluster.not.started">
 			<http url="http://localhost:9200/" />
