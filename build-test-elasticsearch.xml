@@ -416,17 +416,6 @@ logExceptionsOnly=B&quot;false&quot;
 operationMode=&quot;REMOTE&quot;</echo>
 	</target>
 
-	<target name="configure-elasticsearch-properties">
-		<replace
-			file="${elasticsearch.dir}/config/elasticsearch.yml"
-		>
-			<replacetoken><![CDATA[#cluster.name: my-application]]></replacetoken>
-			<replacevalue><![CDATA[cluster.name: LiferayElasticsearchCluster]]></replacevalue>
-		</replace>
-
-		<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">${line.separator}action.auto_create_index: .security,.monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*${line.separator}bootstrap.system_call_filter: false</echo>
-	</target>
-
 	<target name="configure-kibana-properties">
 		<replace
 			file="${elastic.kibana.dir}/config/kibana.yml"
