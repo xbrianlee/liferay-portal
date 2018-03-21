@@ -3,6 +3,90 @@
 <project basedir="." name="portal-test-elasticsearch" xmlns:antelope="antlib:ise.antelope.tasks">
 	<import file="build-test.xml" />
 
+	<macrodef name="configure-elasticsearch-properties">
+		<sequential>
+			<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">${line.separator}cluster.name: LiferayElasticsearchCluster</echo>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="configure-elastisearch-x-pack-security-osgi-bundle-properties">
+		<attribute name="elastic.xpack.elastic.user.password" />
+
+		<sequential>
+			<echo append="true" file="${liferay.home}/osgi/configs/com.liferay.portal.search.elasticsearch6.xpack.security.internal.configuration.XPackSecurityConfiguration.config">sslKeyPath="/path/to/instance.key"
+sslKeystorePath="${elasticsearch.dir}/config/certs/elastic-certificates.p12"
+sslCertificatePath="/path/to/theinstance.crt"
+sslTruststorePath="${elasticsearch.dir}/config/certs/elastic-certificates.p12"
+certificateFormat="PKCS#12"
+requiresAuthentication="true"
+username="elastic"
+sslKeystorePassword=""
+password="@{elastic.xpack.elastic.user.password}"
+sslCertificateAuthoritiesPaths="/path/to/ca.crt"
+transportSSLVerificationMode="certificate"
+transportSSLEnabled="true"
+sslTruststorePassword=""</echo>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="configure-elasticsearch-x-pack-security-properties">
+		<sequential>
+			<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">
+${line.separator}xpack.ssl.keystore.path: certs/elastic-certificates.p12
+xpack.ssl.truststore.path: certs/elastic-certificates.p12
+${line.separator}xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+${line.separator}xpack.security.http.ssl.enabled: true</echo>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="generate-elasticsearch-x-pack-security-certificates">
+		<sequential>
+			<if>
+				<os family="unix" />
+				<then>
+					<exec dir="${elasticsearch.dir}/bin/x-pack" executable="/bin/bash">
+						<arg value="-c" />
+						<arg value="./certutil ca --out elastic-stack-ca.p12 -pass liferay" />
+					</exec>
+				</then>
+				<elseif>
+					<os family="windows" />
+					<then>
+						<exec dir="${elasticsearch.dir}/bin/x-pack" executable="cmd">
+							<arg value="/c" />
+							<arg value="certutil ca --out elastic-stack-ca.p12 -pass liferay" />
+						</exec>
+					</then>
+				</elseif>
+			</if>
+
+			<if>
+				<os family="unix" />
+				<then>
+					<exec dir="${elasticsearch.dir}/bin/x-pack" executable="/bin/bash">
+						<arg value="-c" />
+						<arg value="./certutil cert --ca elastic-stack-ca.p12 --ca-pass liferay --out elastic-certificates.p12 --pass liferay" />
+					</exec>
+				</then>
+				<elseif>
+					<os family="windows" />
+					<then>
+						<exec dir="${elasticsearch.dir}/bin/x-pack" executable="cmd">
+							<arg value="/c" />
+							<arg value="certutil cert --ca elastic-stack-ca.p12 --ca-pass liferay --out elastic-certificates.p12 --pass liferay" />
+						</exec>
+					</then>
+				</elseif>
+			</if>
+
+			<move
+				file="${elasticsearch.dir}/bin/x-pack/elastic-certificates.p12"
+				todir="${elasticsearch.dir}/config/certs"
+			/>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="prepare-elasticsearch">
 		<sequential>
 			<chmod
@@ -138,6 +222,45 @@
 					</then>
 				</elseif>
 			</if>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="set-elasticsearch-x-pack-user-passwords">
+		<sequential>
+			<if>
+				<os family="unix" />
+				<then>
+					<exec dir="${elasticsearch.dir}/bin/x-pack" executable="/bin/bash" outputproperty="elastic.xpack.user.passwords">
+						<arg value="-c" />
+						<arg value="./setup-passwords auto --batch" />
+					</exec>
+				</then>
+				<elseif>
+					<os family="windows" />
+					<then>
+						<exec dir="${elasticsearch.dir}/bin/x-pack" executable="cmd" outputproperty="elastic.xpack.users.passwords">
+							<arg value="/c" />
+							<arg value="setup-passwords auto --batch" />
+						</exec>
+					</then>
+				</elseif>
+			</if>
+
+			<propertyregex
+				input="${elastic.xpack.user.passwords}"
+				override="true"
+				property="elastic.xpack.kibana.user.password"
+				regexp="(PASSWORD kibana = )(\S*)"
+				select="\2"
+			/>
+
+			<propertyregex
+				input="${elastic.xpack.user.passwords}"
+				override="true"
+				property="elastic.xpack.elastic.user.password"
+				regexp="(PASSWORD elastic = )(\S*)"
+				select="\2"
+			/>
 		</sequential>
 	</macrodef>
 
