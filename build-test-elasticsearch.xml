@@ -198,6 +198,15 @@ ${line.separator}xpack.security.http.ssl.enabled: true</echo>
 						<arg value="./elasticsearch-plugin install file:///${elasticsearch.dir}/${elastic.x-pack.zip.name}" />
 					</exec>
 				</then>
+				<elseif>
+					<os family="windows" />
+					<then>
+						<exec dir="${elasticsearch.dir}/bin" executable="cmd">
+							<arg value="/c" />
+							<arg value="elasticsearch-plugin install file:///${elasticsearch.dir}/${elastic.x-pack.zip.name}" />
+						</exec>
+					</then>
+				</elseif>
 			</if>
 		</sequential>
 	</macrodef>
