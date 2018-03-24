@@ -58,6 +58,11 @@ public class BlogsEntryUADEntityDisplayTest extends BaseUADEntityDisplayTestCase
 	}
 
 	@Override
+	protected String getApplicationName() {
+		return BlogsUADConstants.UAD_ENTITY_SET_NAME;
+	}
+
+	@Override
 	protected UADEntityAggregator getUADEntityAggregator() {
 		return _uadEntityAggregator;
 	}

@@ -24,11 +24,11 @@
 	<header id="banner">
 		<div class="navbar navbar-top navigation-bar-secondary">
 			<div class="container user-personal-bar">
-				<#assign preferences = freeMarkerPortletPreferences.getPreferences("portletSetupPortletDecoratorId", "barebone") />
+				<#assign preferences = freeMarkerPortletPreferences.getPreferences({"portletSetupPortletDecoratorId": "barebone", "destination": "/search"}) />
 
 				<#if show_header_search>
 					<div class="ml-auto mr-4 navbar-form" role="search">
-						<@liferay.search default_preferences="${preferences}" />
+						<@liferay.search_bar default_preferences="${preferences}" />
 					</div>
 				</#if>
 
@@ -67,8 +67,8 @@
 		</#if>
 	</section>
 
-	<footer class="mt-3 navigation-bar-secondary" id="footer" role="contentinfo">
-		<div class="container py-5">
+	<footer id="footer" role="contentinfo">
+		<div class="container">
 			<div class="row">
 				<div class="col-md-6 text-center text-md-left">
 					<@liferay.language key="powered-by" />

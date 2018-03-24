@@ -47,35 +47,20 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 
 	@Override
 	public void onAfterCreate(Layout layout) throws ModelListenerException {
-		SiteNavigationMenu siteNavigationMenu =
-			_siteNavigationMenuLocalService.fetchAutoSiteNavigationMenu(
+		boolean addToAutoMenus = GetterUtil.getBoolean(
+			layout.getTypeSettingsProperty("addToAutoMenus"));
+
+		if (layout.isHidden() || !addToAutoMenus) {
+			return;
+		}
+
+		List<SiteNavigationMenu> siteNavigationMenus =
+			_siteNavigationMenuLocalService.getAutoSiteNavigationMenus(
 				layout.getGroupId());
 
-		if ((siteNavigationMenu == null) || layout.isHidden()) {
-			return;
+		for (SiteNavigationMenu siteNavigationMenu : siteNavigationMenus) {
+			_addSiteNavigationMenuItem(siteNavigationMenu, layout);
 		}
-
-		_addSiteNavigationMenuItem(siteNavigationMenu, layout);
-
-		boolean addToPrimaryMenu = GetterUtil.getBoolean(
-			layout.getTypeSettingsProperty("addToPrimaryMenu"));
-
-		if (!addToPrimaryMenu) {
-			return;
-		}
-
-		SiteNavigationMenu primarySiteNavigationMenu =
-			_siteNavigationMenuLocalService.fetchPrimarySiteNavigationMenu(
-				layout.getGroupId());
-
-		if ((primarySiteNavigationMenu == null) ||
-			(primarySiteNavigationMenu.getSiteNavigationMenuId() ==
-				siteNavigationMenu.getSiteNavigationMenuId())) {
-
-			return;
-		}
-
-		_addSiteNavigationMenuItem(primarySiteNavigationMenu, layout);
 	}
 
 	@Override

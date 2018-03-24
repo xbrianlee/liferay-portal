@@ -3039,6 +3039,60 @@ marker file.
 ### Changed
 - [LPS-77425]: Update the [Liferay Gradle Plugins] dependency to version 3.9.0.
 
+## 5.3.34 - 2018-03-17
+
+### Changed
+- [LPS-78772]: Update the [Liferay Gradle Plugins] dependency to version 3.9.1.
+
+## 5.3.35 - 2018-03-18
+
+### Changed
+- [LPS-78911]: Update the [Liferay Gradle Plugins] dependency to version 3.9.2.
+
+## 5.3.36 - 2018-03-19
+
+### Changed
+- [LPS-78772]: Update the [Liferay Gradle Plugins] dependency to version 3.9.3.
+
+## 5.3.37 - 2018-03-19
+
+### Changed
+- [LPS-78772]: Update the [Liferay Gradle Plugins] dependency to version 3.9.4.
+
+## 5.3.38 - 2018-03-20
+
+### Changed
+- [LPS-78772]: Update the [Liferay Gradle Plugins] dependency to version 3.9.5.
+
+## 5.3.39 - 2018-03-20
+
+### Changed
+- [LPS-74544]: Update the [Liferay Gradle Plugins] dependency to version 3.9.6.
+
+## 5.3.40 - 2018-03-20
+
+### Changed
+- [LPS-74544]: Update the [Liferay Gradle Plugins] dependency to version 3.9.7.
+
+## 5.3.41 - 2018-03-21
+
+### Changed
+- [LPS-78750]: Update the [Liferay Gradle Plugins] dependency to version 3.9.8.
+
+## 5.3.42 - 2018-03-21
+
+### Changed
+- [LPS-78772]: Update the [Liferay Gradle Plugins] dependency to version 3.9.9.
+
+## 5.3.43 - 2018-03-22
+
+### Changed
+- [LPS-78741]: Configure the `npmInstall` task to run `npm install` instead of
+`npm ci`.
+- [LPS-78741]: Update the [Liferay Gradle Plugins] dependency to version 3.9.8.
+- [LPS-78741]: Update the [Liferay Gradle Plugins JSDoc] dependency to version
+2.0.3.
+
 [Find Security Bugs]: https://github.com/liferay/liferay-portal/tree/master/modules/third-party/com-h3xstream-findsecbugs
 [Gradle License Report]: https://github.com/jk1/Gradle-License-Report
 [Liferay CDN]: https://cdn.lfrs.sl/repository.liferay.com/nexus/content/groups/public
@@ -3388,9 +3442,11 @@ marker file.
 [LPS-78571]: https://issues.liferay.com/browse/LPS-78571
 [LPS-78669]: https://issues.liferay.com/browse/LPS-78669
 [LPS-78741]: https://issues.liferay.com/browse/LPS-78741
+[LPS-78750]: https://issues.liferay.com/browse/LPS-78750
 [LPS-78767]: https://issues.liferay.com/browse/LPS-78767
 [LPS-78772]: https://issues.liferay.com/browse/LPS-78772
 [LPS-78845]: https://issues.liferay.com/browse/LPS-78845
+[LPS-78911]: https://issues.liferay.com/browse/LPS-78911
 [LRDOCS-2594]: https://issues.liferay.com/browse/LRDOCS-2594
 [LRDOCS-2841]: https://issues.liferay.com/browse/LRDOCS-2841
 [LRDOCS-2981]: https://issues.liferay.com/browse/LRDOCS-2981
