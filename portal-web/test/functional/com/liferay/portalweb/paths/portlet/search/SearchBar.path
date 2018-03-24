@@ -10,7 +10,7 @@
 <tbody>
 <tr>
 	<td>SEARCH_FIELD</td>
-	<td>//input[contains(@class,'search-bar-input')]</td>
+	<td>//input[contains(@class,'search-bar-keywords-input')]</td>
 	<td></td>
 </tr>
 </tbody>

@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.util.NaturalOrderStringComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.source.formatter.checks.TagAttributesCheck.Tag;
 import com.liferay.source.formatter.checks.util.SourceUtil;
 
 import java.util.Map;
@@ -33,12 +32,62 @@ import java.util.regex.Pattern;
  */
 public abstract class TagAttributesCheck extends BaseFileCheck {
 
-	protected Tag formatLineBreaks(Tag tag, boolean forceSingleLine) {
-		return tag;
+	protected abstract Tag doFormatLineBreaks(Tag tag, String absolutePath);
+
+	protected String formatIncorrectLineBreak(String fileName, String content) {
+		Matcher matcher = _incorrectLineBreakPattern.matcher(content);
+
+		while (matcher.find()) {
+			String s = stripQuotes(matcher.group(3));
+
+			if (s.contains(">")) {
+				continue;
+			}
+
+			if (getLevel(matcher.group(), "<", ">") != 0) {
+				addMessage(
+					fileName,
+					"There should be a line break after '" + matcher.group(2) +
+						"'",
+					getLineCount(content, matcher.start(2)));
+
+				continue;
+			}
+
+			return StringUtil.replaceFirst(
+				content, StringPool.SPACE, "\n\t" + matcher.group(1),
+				matcher.start());
+		}
+
+		return content;
+	}
+
+	protected Tag formatLineBreaks(
+		Tag tag, String absolutePath, boolean forceSingleLine) {
+
+		if (forceSingleLine) {
+			tag.setMultiLine(false);
+
+			return tag;
+		}
+
+		Map<String, String> attributesMap = tag.getAttributesMap();
+
+		for (Map.Entry<String, String> entry : attributesMap.entrySet()) {
+			String attributeValue = entry.getValue();
+
+			if (attributeValue.contains(StringPool.NEW_LINE)) {
+				tag.setMultiLine(true);
+
+				return tag;
+			}
+		}
+
+		return doFormatLineBreaks(tag, absolutePath);
 	}
 
 	protected String formatMultiLinesTagAttributes(
-			String content, boolean escapeQuotes)
+			String absolutePath, String content, boolean escapeQuotes)
 		throws Exception {
 
 		Matcher matcher = _multilineTagPattern.matcher(content);
@@ -75,7 +124,8 @@ public abstract class TagAttributesCheck extends BaseFileCheck {
 					matcher.start(3));
 			}
 
-			String newTag = formatTagAttributes(tag, escapeQuotes, false);
+			String newTag = formatTagAttributes(
+				absolutePath, tag, escapeQuotes, false);
 
 			if (!tag.equals(newTag)) {
 				return StringUtil.replace(content, tag, newTag);
@@ -86,7 +136,8 @@ public abstract class TagAttributesCheck extends BaseFileCheck {
 	}
 
 	protected String formatTagAttributes(
-			String s, boolean escapeQuotes, boolean forceSingleLine)
+			String absolutePath, String s, boolean escapeQuotes,
+			boolean forceSingleLine)
 		throws Exception {
 
 		Tag tag = _parseTag(s, escapeQuotes);
@@ -100,7 +151,7 @@ public abstract class TagAttributesCheck extends BaseFileCheck {
 		tag = sortHTMLTagAttributes(tag);
 
 		if (isPortalSource() || isSubrepository()) {
-			tag = formatLineBreaks(tag, forceSingleLine);
+			tag = formatLineBreaks(tag, absolutePath, forceSingleLine);
 		}
 
 		return tag.toString();
@@ -316,6 +367,8 @@ public abstract class TagAttributesCheck extends BaseFileCheck {
 
 	private static final Pattern _attributeNamePattern = Pattern.compile(
 		"[a-z]+[-_:a-zA-Z0-9]*");
+	private static final Pattern _incorrectLineBreakPattern = Pattern.compile(
+		"\n(\t*)(<\\w[-_:\\w]*) (.*)[\"']\n[\\s\\S]*?>\n");
 	private static final Pattern _multilineTagPattern = Pattern.compile(
 		"(([ \t]*)<[-\\w:]+\n.*?([^%])(/?>))(\n|$)", Pattern.DOTALL);
 

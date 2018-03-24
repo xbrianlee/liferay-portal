@@ -20,6 +20,17 @@
 ViewUADApplicationsSummaryDisplay viewUADApplicationsSummaryDisplay = (ViewUADApplicationsSummaryDisplay)request.getAttribute(UADWebKeys.VIEW_UAD_APPLICATIONS_SUMMARY_DISPLAY);
 
 int totalCount = viewUADApplicationsSummaryDisplay.getTotalCount();
+
+portletDisplay.setShowBackIcon(true);
+
+PortletURL backURL = renderResponse.createRenderURL();
+
+backURL.setParameter("mvcRenderCommandName", "/view_uad_summary");
+backURL.setParameter("p_u_i_d", String.valueOf(selectedUser.getUserId()));
+
+portletDisplay.setURLBack(backURL.toString());
+
+renderResponse.setTitle(StringBundler.concat(selectedUser.getFullName(), " - ", LanguageUtil.get(request, "personal-data-erasure")));
 %>
 
 <div class="container-fluid container-fluid-max-xl container-form-lg">
@@ -41,12 +52,7 @@ int totalCount = viewUADApplicationsSummaryDisplay.getTotalCount();
 				</div>
 
 				<div class="autofit-col">
-					<portlet:renderURL var="viewUADEntitiesURL">
-						<portlet:param name="mvcRenderCommandName" value="/view_uad_summary" />
-						<portlet:param name="p_u_i_d" value="<%= String.valueOf(selUserId) %>" />
-					</portlet:renderURL>
-
-					<aui:button cssClass="btn-sm" disabled="<%= totalCount > 0 %>" href="<%= viewUADEntitiesURL %>" primary="true" value="complete-step" />
+					<aui:button cssClass="btn-sm" disabled="<%= totalCount > 0 %>" href="<%= backURL.toString() %>" primary="true" value="complete-step" />
 				</div>
 			</div>
 		</div>
@@ -96,7 +102,9 @@ int totalCount = viewUADApplicationsSummaryDisplay.getTotalCount();
 					/>
 				</liferay-ui:search-container-row>
 
-				<liferay-ui:search-iterator markupView="lexicon" />
+				<liferay-ui:search-iterator
+					markupView="lexicon"
+				/>
 			</liferay-ui:search-container>
 		</div>
 	</div>
