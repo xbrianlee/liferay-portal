@@ -503,6 +503,19 @@
 	</command>
 
 	<command name="ReviewerApproveResubmitTaskByActionsUser" priority="3">
+		<execute macro="ProductMenu#gotoPortlet">
+			<var name="category" value="Users" />
+			<var name="panel" value="Control Panel" />
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<execute macro="User#addCP">
+			<var name="userEmailAddress" value="userea1@liferay.com" />
+			<var name="userFirstName" value="userfn1" />
+			<var name="userLastName" value="userln1" />
+			<var name="userScreenName" value="usersn1" />
+		</execute>
+
 		<execute macro="Permissions#setUpRegRoleLoginUserCP">
 			<var name="roleTitle" value="Regrole Name" />
 			<var name="userEmailAddress" value="userea1@liferay.com" />
