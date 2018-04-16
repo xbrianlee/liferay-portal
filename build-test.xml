@@ -1297,7 +1297,17 @@ war.path=${app.server.weblogic.portal.dir}/</echo>
 
 	<macrodef name="prepare-blacklist-configuration">
 		<sequential>
-			<echo file="${liferay.home}/osgi/configs/com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config">blacklistBundleSymbolicNames=[&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.api&quot;,&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise&quot;,&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise.test.data&quot;,&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees&quot;]</echo>
+			<get-testcase-property property.name="testray.main.component.name" />
+
+			<if>
+				<contains string="${testray.main.component.name}" substring="Upgrades" />
+				<then>
+					<echo file="${liferay.home}/osgi/configs/com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config">blacklistBundleSymbolicNames=[&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees&quot;,&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.api&quot;,&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise&quot;,&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise.test.data&quot;,&quot;com.liferay.roles.admin.demo.data.creator.api&quot;,&quot;com.liferay.roles.admin.demo.data.creator.impl&quot;,&quot;com.liferay.site.demo.data.creator.api&quot;,&quot;com.liferay.site.demo.data.creator.impl&quot;,&quot;com.liferay.users.admin.demo&quot;,&quot;com.liferay.users.admin.demo.data.creator.api&quot;,&quot;com.liferay.users.admin.demo.data.creator.impl&quot;]</echo>
+				</then>
+				<else>
+					<echo file="${liferay.home}/osgi/configs/com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config">blacklistBundleSymbolicNames=[&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.api&quot;,&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise&quot;,&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise.test.data&quot;,&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees&quot;]</echo>
+				</else>
+			</if>
 		</sequential>
 	</macrodef>
 
