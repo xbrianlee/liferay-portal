@@ -610,8 +610,8 @@
 
 		<execute macro="PortletEntry#publish" />
 
-		<execute macro="Portlet#changeDisplayStyle">
-			<var name="displayStyle" value="descriptive" />
+		<execute macro="LexiconEntry#changeDisplayStyle">
+			<var name="displayStyle" value="table" />
 		</execute>
 
 		<execute macro="WebContent#viewTitle">
