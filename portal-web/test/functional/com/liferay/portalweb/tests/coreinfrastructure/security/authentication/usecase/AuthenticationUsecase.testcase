@@ -30,6 +30,7 @@
 
 		<property name="apacheds.blank.user.password.enabled" value="true" />
 		<property name="apacheds.enabled" value="true" />
+		<property name="portal.acceptance" value="josh" />
 		<property name="test.name.skip.portal.instance" value="AuthenticationUsecase#ImportLDAPUserWithBlankPassword" />
 
 		<execute macro="ProductMenu#gotoPortlet">
@@ -196,6 +197,7 @@
 		<description message="This is a use case for LPS-30529 and LPS-77948." />
 
 		<property name="apacheds.enabled" value="true" />
+		<property name="portal.acceptance" value="josh" />
 		<property name="test.name.skip.portal.instance" value="AuthenticationUsecase#ResetFieldsValueForImportedLDAPUser" />
 
 		<execute macro="ProductMenu#gotoPortlet">
