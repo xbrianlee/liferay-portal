@@ -219,6 +219,7 @@
 	<command name="SolrWithSSLAuthenticationSmokeTest" priority="4">
 		<description message="This smoke test is to ensure that Liferay is successfully running on a remote Solr with SSL Authentication by asserting console logging for KeyStoreLoaderImpl and performing searches in portal. Note by default, an embedded Elasticsearch is deployed in portal." />
 
+		<property name="portal.acceptance" value="solr" />
 		<property name="solr.ssl.authentication.enabled" value="true" />
 		<property name="test.name.skip.portal.instance" value="Solr#SolrWithSSLAuthenticationSmokeTest" />
 
