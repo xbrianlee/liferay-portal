@@ -420,20 +420,19 @@ public class PortletPreferencesLocalServiceImpl
 		long companyId, long ownerId, int ownerType, long plid,
 		String portletId, String defaultPreferences) {
 
-		plid = _swapPlidForPreferences(plid);
+		PortletPreferences portletPreferences = null;
 
-		PortletPreferences portletPreferences =
-			portletPreferencesPersistence.fetchByO_O_P_P(
-				ownerId, ownerType, plid, portletId);
-
-		if (portletPreferences == null) {
-			Portlet portlet = portletLocalService.fetchPortletById(
-				companyId, portletId);
+		try {
+			plid = _swapPlidForPreferences(plid);
 
 			portletPreferences =
-				portletPreferencesLocalService.addPortletPreferences(
-					companyId, ownerId, ownerType, plid, portletId, portlet,
-					defaultPreferences);
+				portletPreferencesPersistence.fetchByO_O_P_P(
+					ownerId, ownerType, plid, portletId);
+		}
+		catch (SystemException se) {		
+			if (portletPreferences == null) {
+				throw se;
+			}
 		}
 
 		return PortletPreferencesFactoryUtil.fromXML(
