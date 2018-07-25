@@ -212,7 +212,7 @@
 
 	<command name="ViewHiddenSecurityCredential" priority="4">
 		<description message="This is a use case for LPS-73381." />
-
+		<property name="portal.acceptance" value="ldap" />
 		<property name="test.name.skip.portal.instance" value="LDAP#ViewHiddenSecurityCredential" />
 
 		<execute macro="ProductMenu#gotoPortlet">
