@@ -134,6 +134,7 @@
 		<description message="This smoke test is to ensure that Liferay is successfully running on a remote SolrCloud with 2 nodes by asserting console logging for ZooKeeper and performing searches in portal. Note by default, an embedded Elasticsearch is deployed in portal." />
 
 		<property name="dummy.socket.proxy.disabled" value="true" />
+		<property name="portal.acceptance" value="solr" />
 		<property name="solr.solrcloud.enabled" value="true" />
 		<property name="test.name.skip.portal.instance" value="Solr#SolrWithSolrCloudSmokeTest" />
 
