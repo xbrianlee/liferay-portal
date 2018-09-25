@@ -1,4 +1,5 @@
 <definition component-name="portal-search-ee">
+	<property name="portal.acceptance" value="es" />
 	<property name="portal.release" value="true" />
 	<property name="portal.suite.search.engine" value="elasticsearch6" />
 	<property name="portal.upstream" value="true" />
