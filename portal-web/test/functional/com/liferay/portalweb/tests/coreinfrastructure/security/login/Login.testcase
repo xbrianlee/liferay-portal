@@ -131,6 +131,7 @@
 	</command>
 
 	<command name="OpenIDConnectSmoke" priority="4">
+		<property name="portal.acceptance" value="brian" />
 		<property name="dummy.socket.proxy.disabled" value="true" />
 		<property name="test.name.skip.portal.instance" value="Login#OpenIDConnectSmoke" />
 
