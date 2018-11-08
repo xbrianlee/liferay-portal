@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.search.test.util.querystring;
+package com.liferay.portal.search.test.util.query.string;
 
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.search.test.util.indexing.BaseIndexingTestCase;
