@@ -612,6 +612,7 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 				/>
 
 				<chmod
+					maxparallel="10"
 					perm="a+rwx"
 					type="both"
 				>
@@ -655,6 +656,7 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 		<unzip-kibana />
 
 		<chmod
+			maxparallel="10"
 			perm="a+x"
 			type="both"
 		>
