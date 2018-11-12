@@ -98,9 +98,9 @@ transportSSLEnabled="true"</echo>
 			<if>
 				<os family="unix" />
 				<then>
-					<exec dir="${elasticsearch.dir}-1/bin/x-pack" executable="/bin/bash">
+					<exec dir="${elasticsearch.dir}-1/bin" executable="/bin/bash">
 						<arg value="-c" />
-						<arg value="./certutil cert --ca-cert ${elasticsearch.dir}-1/config/certs/ca/ca.crt --ca-key ${elasticsearch.dir}-1/config/certs/ca/ca.key --pass liferay --ip 127.0.0.1 --dns localhost --name localhost --out ${elasticsearch.dir}-1/config/certs/localhost.p12" />
+						<arg value="./elasticsearch-certutil cert --ca-cert ${elasticsearch.dir}-1/config/certs/ca/ca.crt --ca-key ${elasticsearch.dir}-1/config/certs/ca/ca.key --pass liferay --ip 127.0.0.1 --dns localhost --name localhost --out ${elasticsearch.dir}-1/config/certs/localhost.p12" />
 					</exec>
 
 					<exec dir="${elasticsearch.dir}-1/bin/x-pack" executable="/bin/bash">
@@ -147,17 +147,17 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 			<if>
 				<os family="unix" />
 				<then>
-					<exec dir="${elasticsearch.dir}/bin/x-pack" executable="/bin/bash">
+					<exec dir="${elasticsearch.dir}/bin" executable="/bin/bash">
 						<arg value="-c" />
-						<arg value="./certutil ca --pem --ca-dn CN=localhost --out elastic-stack-ca.zip" />
+						<arg value="./elasticsearch-certutil ca --pem --ca-dn CN=localhost --out ./x-pack/elastic-stack-ca.zip" />
 					</exec>
 				</then>
 				<elseif>
 					<os family="windows" />
 					<then>
-						<exec dir="${elasticsearch.dir}/bin/x-pack" executable="cmd">
+						<exec dir="${elasticsearch.dir}/bin" executable="cmd">
 							<arg value="/c" />
-							<arg value="certutil ca --pem --ca-dn CN=localhost --out elastic-stack-ca.zip" />
+							<arg value="elasticsearch-certutil ca --pem --ca-dn CN=localhost --out ./x-pack/elastic-stack-ca.zip" />
 						</exec>
 					</then>
 				</elseif>
@@ -171,17 +171,17 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 			<if>
 				<os family="unix" />
 				<then>
-					<exec dir="${elasticsearch.dir}/bin/x-pack" executable="/bin/bash">
+					<exec dir="${elasticsearch.dir}/bin" executable="/bin/bash">
 						<arg value="-c" />
-						<arg value="./certutil cert --ca-cert ca/ca.crt --ca-key ca/ca.key --pem --ip 127.0.0.1 --dns localhost --name localhost --out certificate-bundle.zip" />
+						<arg value="./elasticsearch-certutil cert --ca-cert ./x-pack/ca/ca.crt --ca-key ./x-pack/ca/ca.key --pem --ip 127.0.0.1 --dns localhost --name localhost --out ./x-pack/certificate-bundle.zip" />
 					</exec>
 				</then>
 				<elseif>
 					<os family="windows" />
 					<then>
-						<exec dir="${elasticsearch.dir}/bin/x-pack" executable="cmd">
+						<exec dir="${elasticsearch.dir}/bin" executable="cmd">
 							<arg value="/c" />
-							<arg value="certutil cert --ca-cert ca/ca.crt --ca-key ca/ca.key --pem --ip 127.0.0.1 --dns localhost --name localhost --out certificate-bundle.zip" />
+							<arg value="elasticsearch-certutil cert --ca-cert ./x-pack/ca/ca.crt --ca-key ./x-pack/ca/ca.key --pem --ip 127.0.0.1 --dns localhost --name localhost --out ./x-pack/certificate-bundle.zip" />
 						</exec>
 					</then>
 				</elseif>
@@ -300,17 +300,17 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 			<if>
 				<os family="unix" />
 				<then>
-					<exec dir="${elasticsearch.dir}-1/bin/x-pack" executable="/bin/bash" outputproperty="elastic.xpack.user.passwords">
+					<exec dir="${elasticsearch.dir}-1/bin" executable="/bin/bash" outputproperty="elastic.xpack.user.passwords">
 						<arg value="-c" />
-						<arg value="./setup-passwords auto --batch" />
+						<arg value="./elasticsearch-setup-passwords auto --batch" />
 					</exec>
 				</then>
 				<elseif>
 					<os family="windows" />
 					<then>
-						<exec dir="${elasticsearch.dir}-1/bin/x-pack" executable="cmd" outputproperty="elastic.xpack.user.passwords">
+						<exec dir="${elasticsearch.dir}-1/bin" executable="cmd" outputproperty="elastic.xpack.user.passwords">
 							<arg value="/c" />
-							<arg value="setup-passwords auto --batch" />
+							<arg value="./elasticsearch-setup-passwords auto --batch" />
 						</exec>
 					</then>
 				</elseif>
