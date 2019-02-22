@@ -63,6 +63,8 @@ definition {
 
 		User.firstLoginPG();
 
+		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+
 		ProductMenu.gotoPortlet(
 			category = "Configuration",
 			panel = "Control Panel",
@@ -79,6 +81,7 @@ definition {
 		User.logoutPG();
 
 		User.loginUserWithGoogleSSOEnabledPG(
+			siteName = "${siteName}",
 			userEmailAddress = "${userEmailAddress}",
 			userPassword = "${userPassword}"
 		);
