@@ -318,6 +318,8 @@ definition {
 
 	@priority = "3"
 	test ViewInstanceSettingsAuthentication {
+		property osgi.app.includes = "portal-settings-authentication-ntlm,portal-security-sso-ntlm";
+
 		User.firstLoginPG();
 
 		ProductMenu.gotoPortlet(
