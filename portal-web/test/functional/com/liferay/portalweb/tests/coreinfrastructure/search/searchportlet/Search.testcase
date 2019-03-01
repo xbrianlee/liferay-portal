@@ -577,6 +577,8 @@ definition {
 
 	@priority = "4"
 	test SearchBlogsEntryTagQuotes {
+		property test.name.skip.portal.instance = "Search#SearchBlogsEntryTagQuotes";
+
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
