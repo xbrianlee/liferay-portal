@@ -649,9 +649,7 @@ public class AssetHelperImpl implements AssetHelper {
 
 			sortType = Sort.DOUBLE_TYPE;
 		}
-		else if (fieldType.equals("ddm-integer") ||
-				 fieldType.equals("viewCount")) {
-
+		else if (fieldType.equals("ddm-integer")) {
 			sortType = Sort.INT_TYPE;
 		}
 
