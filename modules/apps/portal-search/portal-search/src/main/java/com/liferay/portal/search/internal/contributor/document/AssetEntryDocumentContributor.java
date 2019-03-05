@@ -91,7 +91,6 @@ public class AssetEntryDocumentContributor implements DocumentContributor {
 		document.addLocalizedKeyword(
 			"localized_title",
 			_populateMap(assetEntry, assetEntry.getTitleMap()), true, true);
-		document.addNumber("viewCount", assetEntry.getViewCount());
 		document.addKeyword("visible", assetEntry.isVisible());
 	}
 
