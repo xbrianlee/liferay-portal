@@ -126,63 +126,43 @@ public class IndexerPostProcessorRegistryTest {
 			testMBThreadIndexerPostProcessor);
 	}
 
-	@Test
-	public void testMultipleModelIndexerPostProcessors() throws Exception {
-		Indexer<User> userIndexer = IndexerRegistryUtil.getIndexer(
-			User.class.getName());
+    @Test
+    public void testMultipleModelIndexerPostProcessors() throws Exception {
+        Indexer<User> userIndexer = IndexerRegistryUtil.getIndexer(
+            User.class.getName());
 
-		IndexerPostProcessor[] userIndexerPostProcessors =
-			userIndexer.getIndexerPostProcessors();
+        IndexerPostProcessor[] userIndexerPostProcessors =
+            userIndexer.getIndexerPostProcessors();
 
-		Assert.assertTrue(
-			Arrays.toString(userIndexerPostProcessors),
-			userIndexerPostProcessors.length > 0);
+        IndexerPostProcessor userIndexerPostProcessor =
+            Stream.of(
+                userIndexerPostProcessors
+            ).filter(
+                indexerPostProcessor ->
+                    indexerPostProcessor instanceof
+                        TestMultipleEntityIndexerPostProcessor
+            ).findFirst(
+            ).get();
 
-		IndexerPostProcessor testUserIndexerPostProcessor = null;
+        Indexer<UserGroup> userGroupIndexer = IndexerRegistryUtil.getIndexer(
+            UserGroup.class.getName());
 
-		for (IndexerPostProcessor userIndexerPostProcessor :
-				userIndexerPostProcessors) {
+        IndexerPostProcessor[] userGroupIndexerPostProcessors =
+            userGroupIndexer.getIndexerPostProcessors();
 
-			if (userIndexerPostProcessor instanceof
-					TestMultipleEntityIndexerPostProcessor) {
+        IndexerPostProcessor userGroupIndexerPostProcessor =
+            Stream.of(
+                userGroupIndexerPostProcessors
+            ).filter(
+                indexerPostProcessor ->
+                    indexerPostProcessor instanceof
+                        TestMultipleEntityIndexerPostProcessor
+            ).findFirst(
+            ).get();
 
-				testUserIndexerPostProcessor = userIndexerPostProcessor;
-
-				break;
-			}
-		}
-
-		Assert.assertNotNull(testUserIndexerPostProcessor);
-
-		Indexer<UserGroup> userGroupIndexer = IndexerRegistryUtil.getIndexer(
-			UserGroup.class.getName());
-
-		IndexerPostProcessor[] userGroupIndexerPostProcessors =
-			userGroupIndexer.getIndexerPostProcessors();
-
-		Assert.assertTrue(
-			Arrays.toString(userGroupIndexerPostProcessors),
-			userGroupIndexerPostProcessors.length > 0);
-
-		IndexerPostProcessor testUserGroupIndexerPostProcessor = null;
-
-		for (IndexerPostProcessor userGroupIndexerPostProcessor :
-				userGroupIndexerPostProcessors) {
-
-			if (userGroupIndexerPostProcessor instanceof
-					TestMultipleEntityIndexerPostProcessor) {
-
-				testUserGroupIndexerPostProcessor =
-					userGroupIndexerPostProcessor;
-
-				break;
-			}
-		}
-
-		Assert.assertNotNull(testUserGroupIndexerPostProcessor);
-		Assert.assertEquals(
-			testUserIndexerPostProcessor, testUserGroupIndexerPostProcessor);
-	}
+        Assert.assertEquals(
+            userIndexerPostProcessor, userGroupIndexerPostProcessor);
+    }
 
 	@Test
 	public void testNullIndexerIndexerPostProcessor() throws Exception {
