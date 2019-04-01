@@ -541,7 +541,12 @@ definition {
 
 		PortletEntry.save();
 
-		PortalSettingsNavigator.gotoOpenID();
+		PortalSettings.gotoPortalSettings(
+			configurationCategory = "SSO",
+			configurationName = "OpenID",
+			configurationScope = "Virtual Instance Scope"
+		);
+
 
 		AssertChecked(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_ID_ENABLED_CHECKBOX"
@@ -636,7 +641,12 @@ definition {
 
 		PortletEntry.save();
 
-		PortalSettingsNavigator.gotoCAS();
+		PortalSettings.gotoPortalSettings(
+			configurationCategory = "SSO",
+			configurationName = "CAS",
+			configurationScope = "Virtual Instance Scope"
+		);
+
 
 		Uncheck(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_ENABLED_CHECKBOX"
@@ -761,7 +771,11 @@ definition {
 	}
 
 	macro viewAuthenticationCASCP {
-		PortalSettingsNavigator.gotoCAS();
+		PortalSettings.gotoPortalSettings(
+			configurationCategory = "SSO",
+			configurationName = "CAS Server",
+			configurationScope = "Virtual Instance Scope"
+		);
 
 		AssertElementPresent(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_ENABLED_CHECKBOX"
@@ -941,7 +955,11 @@ definition {
 	}
 
 	macro viewAuthenticationNTLMCP {
-		PortalSettingsNavigator.gotoNTLM();
+		PortalSettings.gotoPortalSettings(
+			configurationCategory = "SSO",
+			configurationName = "NTLM",
+			configurationScope = "Virtual Instance Scope"
+		);
 
 		AssertElementPresent(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_NTLM_ENABLED_CHECKBOX"
@@ -999,7 +1017,12 @@ definition {
 	}
 
 	macro viewAuthenticationOpenIDCP {
-		PortalSettingsNavigator.gotoOpenID();
+		PortalSettings.gotoPortalSettings(
+			configurationCategory = "SSO",
+			configurationName = "OpenID",
+			configurationScope = "Virtual Instance Scope"
+		);
+
 
 		AssertElementPresent(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_ID_ENABLED_CHECKBOX"
@@ -1007,7 +1030,11 @@ definition {
 	}
 
 	macro viewAuthenticationOpenSSOCP {
-		PortalSettingsNavigator.gotoOpenSSO();
+		PortalSettings.gotoPortalSettings(
+			configurationCategory = "SSO",
+			configurationName = "OpenSSO",
+			configurationScope = "Virtual Instance Scope"
+		);
 
 		AssertElementPresent(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_SSO_ENABLED_CHECKBOX"
