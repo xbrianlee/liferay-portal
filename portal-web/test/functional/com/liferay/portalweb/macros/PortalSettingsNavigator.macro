@@ -3,51 +3,9 @@ definition {
 		Panel.expandPanel(panel = "Authentication");
 	}
 
-	macro gotoCAS {
-		PortalSettingsNavigator.expandAuthenticationPanel();
-
-		Navigator.gotoNavTab(navTab = "CAS");
-	}
-
-	macro gotoFacebook {
-		PortalSettingsNavigator.expandAuthenticationPanel();
-
-		Navigator.gotoNavTab(navTab = "Facebook");
-	}
-
-	macro gotoGoogle {
-		PortalSettingsNavigator.expandAuthenticationPanel();
-
-		Navigator.gotoNavTab(navTab = "Google");
-	}
-
 	macro gotoLDAP {
 		PortalSettingsNavigator.expandAuthenticationPanel();
 
 		Navigator.gotoNavTab(navTab = "LDAP");
-	}
-
-	macro gotoNTLM {
-		PortalSettingsNavigator.expandAuthenticationPanel();
-
-		Navigator.gotoNavTab(navTab = "NTLM");
-	}
-
-	macro gotoOpenID {
-		PortalSettingsNavigator.expandAuthenticationPanel();
-
-		Navigator.gotoNavTab(navTab = "OpenID");
-	}
-
-	macro gotoOpenIDConnect {
-		PortalSettingsNavigator.expandAuthenticationPanel();
-
-		Navigator.gotoNavTab(navTab = "OpenID Connect");
-	}
-
-	macro gotoOpenSSO {
-		PortalSettingsNavigator.expandAuthenticationPanel();
-
-		Navigator.gotoNavTab(navTab = "OpenSSO");
 	}
 }
