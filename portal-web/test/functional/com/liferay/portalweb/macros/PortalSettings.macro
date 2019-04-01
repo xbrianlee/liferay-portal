@@ -617,10 +617,18 @@ definition {
 			portlet = "Instance Settings"
 		);
 
+		if (!(isSet(configurationCategory))) {
+			var configurationCategory = "Portal Settings";
+		}
+
+		if (!(isSet(configurationScope))) {
+			var configurationScope = "Virtual Instance Scope";
+		}
+
 		SystemSettings.gotoConfiguration(
-			configurationCategory = "Portal Settings",
-			configurationName = "Portal Settings",
-			configurationScope = "Virtual Instance Scope"
+			configurationCategory = "${configurationCategory}",
+			configurationName = "${configurationName}",
+			configurationScope = "${configurationScope}"
 		);
 	}
 
