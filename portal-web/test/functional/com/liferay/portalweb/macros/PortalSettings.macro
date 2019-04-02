@@ -208,23 +208,21 @@ definition {
 	}
 
 	macro configureOpenSSO {
-		Check(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_SSO_ENABLED_CHECKBOX"
+		FormFields.enableCheckbox(fieldName = "enable");
+
+		FormFields.editTextMultiline(
+			fieldName = "loginURL",
+			fieldValue = "${OpenSSOLoginURL}"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_SSO_LOGIN_URL_FIELD",
-			value1 = "${OpenSSOLoginURL}"
+		FormFields.editTextMultiline(
+			fieldName = "logoutURL",
+			fieldValue = "${OpenSSOLogoutURL}"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_SSO_LOGOUT_URL_FIELD",
-			value1 = "${OpenSSOLogoutURL}"
-		);
-
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_SSO_SERVICE_URL_FIELD",
-			value1 = "${OpenSSOServiceURL}"
+		FormFields.editTextMultiline(
+			fieldName = "serviceURL",
+			fieldValue = "${OpenSSOServiceURL}"
 		);
 
 		PortletEntry.save();
@@ -245,75 +243,73 @@ definition {
 	}
 
 	macro editConfigurationAuthenticationCAS {
-		Check(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_ENABLED_CHECKBOX"
+		FormFields.enableCheckbox(fieldName = "enable");
+
+		FormFields.editTextMultiline(
+			fieldName = "loginURL",
+			fieldValue = "${casLoginURL}"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_LOGIN_URL_FIELD",
-			value1 = "${casLoginURL}"
+		FormFields.editTextMultiline(
+			fieldName = "logoutURL",
+			fieldValue = "${casLogoutURL}"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_LOGOUT_URL_FIELD",
-			value1 = "${casLogoutURL}"
+		FormFields.editTextMultiline(
+			fieldName = "ServerURL",
+			fieldValue = "${casServerURL}"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_SERVER_URL_FIELD",
-			value1 = "${casServerURL}"
+		FormFields.editTextMultiline(
+			fieldName = "serviceURL",
+			fieldValue = "${casServiceURL}"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_SERVICE_URL_FIELD",
-			value1 = "${casServiceURL}"
-		);
+		// LPS-90255
 
-		AssertClick(
+		/* AssertClick(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_TEST_CAS_CONFIGURATION_BUTTON",
 			value1 = "Test CAS Configuration"
 		);
 
 		AssertElementNotPresent(locator1 = "//span[.='Unreachable']");
 
-		Click(locator1 = "Icon#CLOSE");
+		Click(locator1 = "Icon#CLOSE"); */
 
 		PortletEntry.save();
 	}
 
 	macro editConfigurationAuthenticationFacebook {
-		Check(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_ENABLED_CHECKBOX"
+		FormFields.enableCheckbox(fieldName = "enable");
+
+		FormFields.editTextMultiline(
+			fieldName = "appId",
+			fieldValue = "${facebookApplicationID}"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_APPLICATION_ID",
-			value1 = "${facebookApplicationID}"
+		FormFields.editTextMultiline(
+			fieldName = "appSecret",
+			fieldValue = "${facebookApplicationSecret}"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_APPLICATION_SECRET",
-			value1 = "${facebookApplicationSecret}"
+		FormFields.editTextMultiline(
+			fieldName = "graphURL",
+			fieldValue = "https://graph.facebook.com"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_GRAPH_URL",
-			value1 = "https://graph.facebook.com"
+		FormFields.editTextMultiline(
+			fieldName = "oauthAuthURL",
+			fieldValue = "https://graph.facebook.com/oauth/authorize"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_OAUTH_AUTHENTICATION_URL",
-			value1 = "https://graph.facebook.com/oauth/authorize"
+		FormFields.editTextMultiline(
+			fieldName = "oauthTokenURL",
+			fieldValue = "https://graph.facebook.com/oauth/access_token"
 		);
 
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_OAUTH_TOKEN_URL",
-			value1 = "https://graph.facebook.com/oauth/access_token"
-		);
-
-		Type(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_REDIRECT_URL",
-			value1 = "http://localhost:8080/c/portal/facebook_connect_oauth"
+		FormFields.editTextMultiline(
+			fieldName = "oauthRedirectURL",
+			fieldValue = "http://localhost:8080/c/portal/facebook_connect_oauth"
 		);
 
 		PortletEntry.save();
@@ -511,9 +507,7 @@ definition {
 	}
 
 	macro enableGoogleSSOCP {
-		Check(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GOOGLE_ENABLED_CHECKBOX"
-		);
+		FormFields.enableCheckbox(fieldName = "enable");
 
 		Type(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GOOGLE_CLIENT_ID",
@@ -523,6 +517,16 @@ definition {
 		Type(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GOOGLE_CLIENT_SECRET",
 			value1 = "${googleClientSecret}"
+		);
+
+		FormFields.editTextMultiline(
+			fieldName = "clientId",
+			fieldValue = "${googleClientID}"
+		);
+
+		FormFields.editTextMultiline(
+			fieldName = "clientSecret",
+			fieldValue = "${googleClientSecret}"
 		);
 
 		PortletEntry.save();
@@ -535,22 +539,9 @@ definition {
 	}
 
 	macro enableOpenIDCP {
-		Check(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_ID_ENABLED_CHECKBOX"
-		);
+		FormFields.enableCheckbox(fieldName = "enable");
 
 		PortletEntry.save();
-
-		PortalSettings.gotoPortalSettings(
-			configurationCategory = "SSO",
-			configurationName = "OpenID",
-			configurationScope = "Virtual Instance Scope"
-		);
-
-
-		AssertChecked(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_ID_ENABLED_CHECKBOX"
-		);
 	}
 
 	macro enterReservedEmailAddressCP {
@@ -618,14 +609,28 @@ definition {
 			var configurationCategory = "Portal Settings";
 		}
 
+		Click(
+			locator1 = "ListGroupItem#ITEM_TEXT",
+			key_itemName = "${configurationCategory}"
+		);
+
+		if (!(isSet(configurationName))) {
+			var configurationName = "Portal Settings";
+		}
+
 		if (!(isSet(configurationScope))) {
 			var configurationScope = "Virtual Instance Scope";
 		}
 
-		SystemSettings.gotoConfiguration(
-			configurationCategory = "${configurationCategory}",
-			configurationName = "${configurationName}",
-			configurationScope = "${configurationScope}"
+		Click(
+			locator1 = "SystemSettings#SCOPED_CONFIGURATION_NAME",
+			key_configurationName = "${configurationName}",
+			key_configurationScope = "${configurationScope}"
+		);
+
+		AssertElementPresent(
+			locator1 = "Header#H2_TITLE",
+			key_title = "${configurationName}"
 		);
 	}
 
@@ -648,9 +653,7 @@ definition {
 		);
 
 
-		Uncheck(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_ENABLED_CHECKBOX"
-		);
+		FormFields.disableCheckbox(fieldName = "enable");
 
 		Type(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_CAS_LOGIN_URL_FIELD",
@@ -1036,9 +1039,7 @@ definition {
 			configurationScope = "Virtual Instance Scope"
 		);
 
-		AssertElementPresent(
-			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_SSO_ENABLED_CHECKBOX"
-		);
+		FormFields.enableCheckbox(fieldName = "enable");
 
 		AssertElementPresent(
 			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_SSO_IMPORT_FROM_LDAP_CHECKBOX"

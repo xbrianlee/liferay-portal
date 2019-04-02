@@ -63,7 +63,7 @@ definition {
 
 		PortalSettings.gotoPortalSettings(
 			configurationCategory = "SSO",
-			configurationName = "Google",
+			configurationName = "Google Authorization",
 			configurationScope = "Virtual Instance Scope"
 		);
 
@@ -257,13 +257,15 @@ definition {
 			OpenSSOServiceURL = "http://test.able.com:8080/openam"
 		);
 
-		PortalSettings.gotoPortalSettings(
+		// LPS-90255
+
+		/* PortalSettings.gotoPortalSettings(
 			configurationCategory = "SSO",
 			configurationName = "OpenSSO",
 			configurationScope = "Virtual Instance Scope"
 		);
 
-		PortalSettings.testOpenSSOConnection();
+		PortalSettings.testOpenSSOConnection(); */
 
 		User.logoutPG();
 
@@ -307,6 +309,8 @@ definition {
 	@ignore = "true"
 	@priority = "3"
 	test ViewInstanceSettingsAuthentication {
+		// LPS-90255
+
 		User.firstLoginPG();
 
 		PortalSettings.gotoPortalSettings(
