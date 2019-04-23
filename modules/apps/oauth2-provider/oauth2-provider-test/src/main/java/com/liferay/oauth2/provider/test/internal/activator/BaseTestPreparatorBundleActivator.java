@@ -272,25 +272,29 @@ public abstract class BaseTestPreparatorBundleActivator
 			bundleContext.getServiceReference(
 				OAuth2ApplicationLocalService.class);
 
-		OAuth2ApplicationLocalService oAuth2ApplicationLocalService =
-			bundleContext.getService(serviceReference);
+		_oAuth2ApplicationLocalService = bundleContext.getService(
+			serviceReference);
 
-		autoCloseables.add(() -> bundleContext.ungetService(serviceReference));
+		try {
+			OAuth2Application oAuth2Application =
+				_oAuth2ApplicationLocalService.addOAuth2Application(
+					companyId, user.getUserId(), user.getLogin(),
+					availableGrants, clientId, 0, clientSecret,
+					"test oauth application",
+					Collections.singletonList("token_introspection"),
+					"http://localhost:8080", 0, "test application",
+					"http://localhost:8080", redirectUris, availableScopes,
+					new ServiceContext());
 
-		OAuth2Application oAuth2Application =
-			oAuth2ApplicationLocalService.addOAuth2Application(
-				companyId, user.getUserId(), user.getLogin(), availableGrants,
-				clientId, 0, clientSecret, "test oauth application",
-				Collections.singletonList("token_introspection"),
-				"http://localhost:8080", 0, "test application",
-				"http://localhost:8080", redirectUris, availableScopes,
-				new ServiceContext());
+			autoCloseables.add(
+				() -> _oAuth2ApplicationLocalService.deleteOAuth2Application(
+					oAuth2Application.getOAuth2ApplicationId()));
 
-		autoCloseables.add(
-			() -> oAuth2ApplicationLocalService.deleteOAuth2Application(
-				oAuth2Application.getOAuth2ApplicationId()));
-
-		return oAuth2Application;
+			return oAuth2Application;
+		}
+		finally {
+			bundleContext.ungetService(serviceReference);
+		}
 	}
 
 	protected void deleteConfiguration(
@@ -603,5 +607,7 @@ public abstract class BaseTestPreparatorBundleActivator
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		BaseTestPreparatorBundleActivator.class);
+
+	private OAuth2ApplicationLocalService _oAuth2ApplicationLocalService;
 
 }
