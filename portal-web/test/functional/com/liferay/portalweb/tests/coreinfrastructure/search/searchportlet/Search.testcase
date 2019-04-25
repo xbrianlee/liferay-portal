@@ -129,6 +129,44 @@ definition {
 		SearchResultPortlet.viewNoSearchResults(searchTerm = "apple");
 	}
 
+	test AssertEngineVendorAndFieldMappings {
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Search"
+		);
+
+		AssertTextEquals.assertPartialText(
+			key_infoMessage = "Elasticsearch",
+			locator1 = "Message#INFO_SPECIFIC",
+			value1 = "Elasticsearch"
+		);
+
+		Navigator.gotoNavItem(navItem = "Field Mappings");
+
+		Click(
+			key_navNested = "liferay-0",
+			locator1 = "NavNested#NAV_NESTED_LINK"
+		);
+
+		AssertTextEquals.assertPartialText(
+			indexName = "liferay-0",
+			locator1 = "Search#FIELD_MAPPINGS_EDITOR",
+			value1 = "liferay-0"
+		);
+
+		Click(
+			key_navNested = "liferay-20101",
+			locator1 = "NavNested#NAV_NESTED_LINK"
+		);
+
+		AssertTextEquals.assertPartialText(
+			indexName = "liferay-20101",
+			locator1 = "Search#FIELD_MAPPINGS_EDITOR",
+			value1 = "liferay-20101"
+		);
+	}
+
 	@priority = "3"
 	test AssertGuestCannotSeeEmptySearchWidgets {
 		// Workaround: Remove assertions for Suggestions, Sort, Search Results, and Modified Facet portlets until LPS-92008 is fixed
