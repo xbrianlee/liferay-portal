@@ -1,4 +1,18 @@
 definition {
+	macro assertEngineVendorAndVersions {
+		var order = "0";
+
+		for (var searchInformation : list "${searchInformationList}") {
+			var order = MathUtil.sum("${order}", "1");
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "Search#SEARCH__ENGINE_INFORMATION",
+				position = "${order}",
+				searchInformation = "${searchInformation}",
+				value1 = "${searchInformation}");
+		}
+	}
+
 	macro executeSearchActions {
 		Panel.expandPanel(panel = "Index Actions");
 
