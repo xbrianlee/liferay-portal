@@ -26,6 +26,35 @@ definition {
 		}
 	}
 
+	test AssertEngineVendorAndFieldMappings {
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Search");
+
+		SearchAdministration.assertEngineVendorAndVersions(searchInformationList = "Elasticsearch,6.5.0,6.5.0");
+
+		Navigator.gotoNavItem(navItem = "Field Mappings");
+
+		Click(
+			key_navNested = "liferay-0",
+			locator1 = "NavNested#NAV_NESTED_LINK");
+
+		AssertTextEquals.assertPartialText(
+			indexName = "liferay-0",
+			locator1 = "Search#FIELD_MAPPINGS_EDITOR",
+			value1 = "liferay-0");
+
+		Click(
+			key_navNested = "liferay-20101",
+			locator1 = "NavNested#NAV_NESTED_LINK");
+
+		AssertTextEquals.assertPartialText(
+			indexName = "liferay-20101",
+			locator1 = "Search#FIELD_MAPPINGS_EDITOR",
+			value1 = "liferay-20101");
+	}
+
 	@ignore = "true"
 	@priority = "3"
 	test AssertSystemSettingsPropogateToModule {

@@ -42,6 +42,15 @@ definition {
 		}
 	}
 
+	test AssertEngineVendor {
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Search");
+
+		SearchAdministration.assertEngineVendorAndVersions(searchInformationList = "Solr,7.5.0,7.5.0");
+	}
+
 	@priority = "4"
 	test NavigateToSearchResultsViaURL {
 		ProductMenu.gotoPortlet(
