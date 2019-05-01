@@ -42,6 +42,18 @@ definition {
 		}
 	}
 
+	test AssertSearchAdmin {
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Search");
+
+		SearchAdministration.assertEngineVendorAndVersions(
+			clientVersion = "7.5.0",
+			engineVendor = "Solr",
+			serverVersion = "7.5.0");
+	}
+
 	@priority = "4"
 	test NavigateToSearchResultsViaURL {
 		ProductMenu.gotoPortlet(
