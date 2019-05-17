@@ -1406,6 +1406,101 @@ definition {
 			searchAssetType = "Wiki Page");
 	}
 
+	test SearchWithNonLiferayIndex {
+		AntCommand(
+			locator1 = "build-test-elasticsearch6.xml",
+			value1 = "add-boston-dataset-index");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Search");
+
+		SearchAdministration.executeSearchActions(actionsDescription = "Reindex all search indexes.");
+
+		JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "Search Page");
+
+		var portalURL = PropsUtil.get("portal.url");
+
+		Navigator.openSpecificURL(url = "${portalURL}/web/guest/search-page");
+
+		SearchPortlets.addWidgets(searchPortletList = "Custom Filter,Search Options,Search Results,Search Bar");
+
+		Portlet.gotoPortletOptions(
+			portletName = "Custom Filter",
+			portletOption = "Configuration");
+
+		SelectFrame(locator1 = "IFrame#CONFIGURATION");
+
+		Type(
+			key_fieldLabel = "Filter Field",
+			locator1 = "TextInput#GENERIC_TEXT_INPUT",
+			value1 = "case_title,closure_reason");
+
+		Select(
+			key_fieldLabel = "Filter Query Type",
+			locator1 = "Select#GENERIC_SELECT_FIELD",
+			value1 = "Multi Match");
+
+		Type(
+			key_fieldLabel = "Federated Search Key",
+			locator1 = "TextInput#GENERIC_TEXT_INPUT",
+			value1 = "s1");
+
+		PortletEntry.save();
+
+		IFrame.closeFrame();
+
+		Portlet.gotoPortletOptions(
+			portletName = "Search Options",
+			portletOption = "Configuration");
+
+		SelectFrame(locator1 = "IFrame#CONFIGURATION");
+
+		Type(
+			key_fieldLabel = "Indexes",
+			locator1 = "TextInput#GENERIC_TEXT_INPUT",
+			value1 = "boston311");
+
+		Type(
+			key_fieldLabel = "Federated Search Key",
+			locator1 = "TextInput#GENERIC_TEXT_INPUT",
+			value1 = "s1");
+
+		PortletEntry.save();
+
+		IFrame.closeFrame();
+
+		Portlet.gotoPortletOptions(
+			portletName = "Search Results",
+			portletOption = "Configuration");
+
+		SelectFrame(locator1 = "IFrame#CONFIGURATION");
+
+		Type(
+			key_fieldLabel = "Fields to Display",
+			locator1 = "TextInput#GENERIC_TEXT_INPUT",
+			value1 = "case_title,closure_reason,case_enquiry_id");
+
+		Type(
+			key_fieldLabel = "Federated Search Key",
+			locator1 = "TextInput#GENERIC_TEXT_INPUT",
+			value1 = "s1");
+
+		PortletEntry.save();
+
+		IFrame.closeFrame();
+
+		SearchPortlets.searchWidget(searchTerm = "bicycle");
+
+		AssertTextEquals.assertPartialText(
+			key_searchAssetTitle = "Abandoned Bicycle",
+			locator1 = "SearchResults#ASSET_ENTRY_TABLE_TITLE",
+			value1 = "Abandoned Bicycle");
+	}
+
 	@priority = "4"
 	test SearchXSSAsset {
 		ProductMenu.gotoPortlet(
