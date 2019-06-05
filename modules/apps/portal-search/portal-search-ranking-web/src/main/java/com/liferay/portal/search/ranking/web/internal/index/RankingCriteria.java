@@ -21,12 +21,14 @@ import java.util.List;
  */
 public interface RankingCriteria {
 
+	@Deprecated
 	public List<String> getAliases();
 
 	public String getId();
 
 	public String getIndex();
 
+	@Deprecated
 	public String getQueryString();
 
 }

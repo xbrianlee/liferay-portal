@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.ranking.web.internal.constants.SearchTuningPortletKeys;
+import com.liferay.portal.search.ranking.web.internal.display.context.RankingEntryDisplayContextBuilder;
 import com.liferay.portal.search.ranking.web.internal.index.Ranking;
 import com.liferay.portal.search.ranking.web.internal.index.RankingCriteriaBuilderFactory;
 import com.liferay.portal.search.ranking.web.internal.index.RankingIndexReader;
@@ -43,6 +44,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -64,6 +67,12 @@ import org.osgi.service.component.annotations.Reference;
 	service = MVCActionCommand.class
 )
 public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
+
+	@Deprecated
+	public static final String PARAM_ALIASES = "aliases";
+
+	@Deprecated
+	public static final String PARAM_KEYWORDS = "keywords";
 
 	protected static List<String> update(
 		List<String> strings, String[] addStrings, String[] removeStrings) {
@@ -89,12 +98,14 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 			Action action)
 		throws Exception {
 
-		if (rankingExistsForKeyword(actionRequest, action)) {
-			SessionErrors.add(actionRequest, Exception.class);
+		if (false) {
+			if (rankingExistsForKeyword(actionRequest, action)) {
+				SessionErrors.add(actionRequest, Exception.class);
 
-			actionResponse.setRenderParameter("mvcPath", "/error.jsp");
+				actionResponse.setRenderParameter("mvcPath", "/error.jsp");
 
-			return;
+				return;
+			}
 		}
 
 		Ranking ranking = addRanking(
@@ -124,17 +135,21 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 			}
 		}
 
+		String name = _getName(actionRequest);
+
 		rankingBuilder.index(
 			index
-		).queryString(
-			ParamUtil.getString(actionRequest, "keywords")
+		).name(
+			name
+		).queryStrings(
+			Arrays.asList(name)
 		).status(
 			WorkflowConstants.STATUS_DRAFT
 		);
 
 		String id = rankingIndexWriter.create(rankingBuilder.build());
 
-		Optional<Ranking> optional = rankingIndexReader.fetch(id);
+		Optional<Ranking> optional = rankingIndexReader.fetchOptional(id);
 
 		return optional.get();
 	}
@@ -205,14 +220,16 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 		portletURL.setParameter("redirect", redirect, false);
 		portletURL.setParameter("resultsRankingUid", ranking.getId(), false);
 		portletURL.setParameter(
-			"aliases", StringUtil.merge(ranking.getAliases(), StringPool.COMMA),
+			PARAM_ALIASES,
+			StringUtil.merge(ranking.getQueryStrings(), StringPool.COMMA),
 			false);
-		portletURL.setParameter("keywords", ranking.getQueryString(), false);
+		portletURL.setParameter(PARAM_KEYWORDS, ranking.getName(), false);
 		portletURL.setWindowState(actionRequest.getWindowState());
 
 		return portletURL.toString();
 	}
 
+	@Deprecated
 	protected boolean rankingExistsForAliases(ActionRequest actionRequest) {
 		String index = ParamUtil.getString(actionRequest, "index-name");
 
@@ -222,9 +239,9 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 			index = "liferay-" + companyId;
 		}
 
-		String[] aliases = ParamUtil.getStringValues(actionRequest, "aliases");
+		List<String> aliases = _getQueryStrings(actionRequest);
 
-		if (ArrayUtil.isEmpty(aliases)) {
+		if (aliases.isEmpty()) {
 			return false;
 		}
 
@@ -234,7 +251,7 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 		return rankingIndexReader.exists(
 			rankingCriteriaBuilderFactory.builder(
 			).aliases(
-				aliases
+				ArrayUtil.toStringArray(aliases)
 			).index(
 				index
 			).id(
@@ -242,6 +259,7 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 			).build());
 	}
 
+	@Deprecated
 	protected boolean rankingExistsForKeyword(
 		ActionRequest actionRequest, Action action) {
 
@@ -267,12 +285,14 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 			Action action)
 		throws IOException {
 
-		if (rankingExistsForAliases(actionRequest)) {
-			SessionErrors.add(actionRequest, Exception.class);
+		if (false) {
+			if (rankingExistsForAliases(actionRequest)) {
+				SessionErrors.add(actionRequest, Exception.class);
 
-			actionResponse.setRenderParameter("mvcPath", "/error.jsp");
+				actionResponse.setRenderParameter("mvcPath", "/error.jsp");
 
-			return;
+				return;
+			}
 		}
 
 		updateRanking(actionRequest);
@@ -285,40 +305,41 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 	protected void updateRanking(ActionRequest actionRequest) {
 		String id = ParamUtil.getString(actionRequest, "resultsRankingUid");
 
-		String[] aliases = ParamUtil.getStringValues(actionRequest, "aliases");
+		int pinnedIdsEndIndex = ParamUtil.getInteger(
+			actionRequest, "pinnedIdsEndIndex");
+		int pinnedIdsStartIndex = ParamUtil.getInteger(
+			actionRequest, "pinnedIdsStartIndex");
+
+		Optional<Ranking> optional = rankingIndexReader.fetchOptional(id);
+
+		optional.ifPresent(ranking -> updateRanking(actionRequest, ranking));
+	}
+
+	protected void updateRanking(ActionRequest actionRequest, Ranking ranking) {
+		Ranking.RankingBuilder rankingBuilder = new Ranking.RankingBuilder(
+			ranking);
 
 		String[] hiddenAdded = ParamUtil.getStringValues(
 			actionRequest, "hiddenIdsAdded");
 		String[] hiddenRemoved = ParamUtil.getStringValues(
 			actionRequest, "hiddenIdsRemoved");
 
-		String[] pinnedIds = ParamUtil.getStringValues(
-			actionRequest, "pinnedIds");
-		int pinnedIdsEndIndex = ParamUtil.getInteger(
-			actionRequest, "pinnedIdsEndIndex");
-		int pinnedIdsStartIndex = ParamUtil.getInteger(
-			actionRequest, "pinnedIdsStartIndex");
-
-		Optional<Ranking> optional = rankingIndexReader.fetch(id);
-
-		if (!optional.isPresent()) {
-			return;
-		}
-
-		Ranking ranking = optional.get();
-
-		Ranking.RankingBuilder rankingBuilder = new Ranking.RankingBuilder(
-			ranking);
-
-		rankingBuilder.aliases(
-			aliases
-		).blocks(
+		rankingBuilder.blocks(
 			update(ranking.getBlockIds(), hiddenAdded, hiddenRemoved)
+		).inactive(
+			_isInactive(actionRequest)
+		).name(
+			_getNameForUpdate(actionRequest, ranking.getName())
+		).queryStrings(
+			_getQueryStrings(actionRequest)
 		);
 
 		List<Ranking.Pin> originalPinnedDocuments = ranking.getPins();
 
 		List<Ranking.Pin> newPinnedDocuments = new ArrayList<>();
+
+		String[] pinnedIds = ParamUtil.getStringValues(
+			actionRequest, "pinnedIds");
 
 		for (int i = 0; i < pinnedIds.length; i++) {
 			newPinnedDocuments.add(new Ranking.Pin(i, pinnedIds[i]));
@@ -331,21 +352,7 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 			rankingBuilder.pins(null);
 		}
 
-		int workflowAction = ParamUtil.getInteger(
-			actionRequest, "workflowAction", WorkflowConstants.ACTION_PUBLISH);
-
-		if (workflowAction == WorkflowConstants.ACTION_SAVE_DRAFT) {
-
-			// @TODO Save draft action
-
-			rankingBuilder.status(WorkflowConstants.STATUS_DRAFT);
-		}
-		else {
-
-			// @TODO Publish action
-
-			rankingBuilder.status(WorkflowConstants.STATUS_APPROVED);
-		}
+		_setStatus(actionRequest, rankingBuilder);
 
 		rankingIndexWriter.update(rankingBuilder.build());
 	}
@@ -377,7 +384,8 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 			_cmd = ParamUtil.getString(actionRequest, Constants.CMD);
 			_redirect = ParamUtil.getString(actionRequest, "redirect");
 			_indexParam = ParamUtil.getString(actionRequest, "index-name");
-			_queryString = ParamUtil.getString(actionRequest, "keywords");
+			_queryString = ParamUtil.getString(
+				actionRequest, EditRankingMVCActionCommand.PARAM_KEYWORDS);
 			_resultsRankingUid = ParamUtil.getString(
 				actionRequest, "resultsRankingUid");
 		}
@@ -385,5 +393,87 @@ public class EditRankingMVCActionCommand extends BaseMVCActionCommand {
 		private final String _resultsRankingUid;
 
 	}
+
+	private String _asNameUpdate(String string) {
+		return string.replace(__UPDATE_NAME__INDICATOR, StringPool.BLANK);
+	}
+
+	@Deprecated
+	private List<String> _getAliasesParamValues(ActionRequest actionRequest) {
+		return new ArrayList<>(
+			Arrays.asList(
+				ParamUtil.getStringValues(
+					actionRequest, EditRankingMVCActionCommand.PARAM_ALIASES)));
+	}
+
+	private String _getName(ActionRequest actionRequest) {
+		return ParamUtil.getString(
+			actionRequest, EditRankingMVCActionCommand.PARAM_KEYWORDS);
+	}
+
+	private String _getNameForUpdate(
+		ActionRequest actionRequest, String oldName) {
+
+		List<String> strings = _getAliasesParamValues(actionRequest);
+
+		return strings.stream(
+		).filter(
+			this::_isNameUpdate
+		).map(
+			this::_asNameUpdate
+		).findAny(
+		).orElse(
+			oldName
+		);
+	}
+
+	private List<String> _getQueryStrings(ActionRequest actionRequest) {
+		List<String> strings = _getAliasesParamValues(actionRequest);
+
+		strings.remove(RankingEntryDisplayContextBuilder.__INACTIVE__INDICATOR);
+
+		Predicate<String> predicate = this::_isNameUpdate;
+
+		return strings.stream(
+		).filter(
+			predicate.negate()
+		).collect(
+			Collectors.toList()
+		);
+	}
+
+	private boolean _isInactive(ActionRequest actionRequest) {
+		List<String> strings = _getAliasesParamValues(actionRequest);
+
+		return strings.contains(
+			RankingEntryDisplayContextBuilder.__INACTIVE__INDICATOR);
+	}
+
+	private boolean _isNameUpdate(String string) {
+		return string.startsWith(__UPDATE_NAME__INDICATOR);
+	}
+
+	@Deprecated
+	private void _setStatus(
+		ActionRequest actionRequest, Ranking.RankingBuilder rankingBuilder) {
+
+		int workflowAction = ParamUtil.getInteger(
+			actionRequest, "workflowAction", WorkflowConstants.ACTION_PUBLISH);
+
+		if (workflowAction == WorkflowConstants.ACTION_SAVE_DRAFT) {
+
+			// @TODO Save draft action
+
+			rankingBuilder.status(WorkflowConstants.STATUS_DRAFT);
+		}
+		else {
+
+			// @TODO Publish action
+
+			rankingBuilder.status(WorkflowConstants.STATUS_APPROVED);
+		}
+	}
+
+	private static final String __UPDATE_NAME__INDICATOR = StringPool.UNDERLINE;
 
 }

@@ -23,8 +23,8 @@ public interface RankingIndexReader {
 
 	public boolean exists(RankingCriteria rankingCriteria);
 
-	public Optional<Ranking> fetch(String id);
-
 	public Optional<Ranking> fetchByQueryStringOptional(String queryString);
+
+	public Optional<Ranking> fetchOptional(String id);
 
 }

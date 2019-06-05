@@ -19,6 +19,7 @@ package com.liferay.portal.search.ranking.web.internal.index;
  */
 public interface RankingCriteriaBuilder {
 
+	@Deprecated
 	public RankingCriteriaBuilder aliases(String... aliases);
 
 	public RankingCriteria build();

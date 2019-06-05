@@ -18,9 +18,9 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.search.document.Document;
 import com.liferay.portal.search.document.DocumentBuilderFactory;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.osgi.service.component.annotations.Component;
@@ -37,20 +37,19 @@ public class RankingToDocumentTranslatorImpl
 	public Document translate(Ranking ranking) {
 		return _documentBuilderFactory.builder(
 		).setStrings(
-			SearchTuningFields.ALIASES,
-			ArrayUtil.toStringArray(ranking.getAliases())
-		).setStrings(
-			SearchTuningFields.ALL_QUERY_STRINGS,
-			ArrayUtil.toStringArray(ranking.getAllQueryStrings())
-		).setStrings(
 			SearchTuningFields.BLOCKS,
 			ArrayUtil.toStringArray(ranking.getBlockIds())
+		).setBoolean(
+			SearchTuningFields.INACTIVE, ranking.isInactive()
 		).setString(
 			"index", ranking.getIndex()
-		).setValue(
-			SearchTuningFields.PINS, _toMaps(ranking.getPins())
 		).setString(
-			SearchTuningFields.QUERY_STRING, ranking.getQueryString()
+			SearchTuningFields.NAME, ranking.getName()
+		).setValues(
+			SearchTuningFields.PINS, _toMaps(ranking.getPins())
+		).setStrings(
+			SearchTuningFields.QUERY_STRINGS,
+			ArrayUtil.toStringArray(ranking.getQueryStrings())
 		).setString(
 			"uid", ranking.getId()
 		).build();
@@ -63,7 +62,7 @@ public class RankingToDocumentTranslatorImpl
 		_documentBuilderFactory = documentBuilderFactory;
 	}
 
-	private List<Map<String, String>> _toMaps(List<Ranking.Pin> pins) {
+	private Collection<Object> _toMaps(List<Ranking.Pin> pins) {
 		return pins.stream(
 		).map(
 			pin -> new LinkedHashMap<String, String>() {

@@ -28,6 +28,10 @@ import com.liferay.portal.search.document.Document;
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.document.GetDocumentRequest;
 import com.liferay.portal.search.engine.adapter.document.GetDocumentResponse;
+import com.liferay.portal.search.filter.ComplexQueryPartBuilderFactory;
+import com.liferay.portal.search.query.IdsQuery;
+import com.liferay.portal.search.query.Queries;
+import com.liferay.portal.search.query.Query;
 import com.liferay.portal.search.ranking.web.internal.constants.SearchTuningPortletKeys;
 import com.liferay.portal.search.ranking.web.internal.index.Ranking;
 import com.liferay.portal.search.ranking.web.internal.index.RankingIndexReader;
@@ -86,11 +90,16 @@ public class RankingMVCResourceCommand implements MVCResourceCommand {
 		}
 	}
 
+	protected String _getRankingId(ResourceRequest resourceRequest) {
+		return ParamUtil.getString(
+			resourceRequest, RankingMVCResourceCommand._PARAM_RANKING_ID);
+	}
+
 	protected SearchRequest buildSearchRequest(
 		ResourceRequest resourceRequest, Ranking ranking) {
 
 		SearchRequestBuilder searchRequestBuilder = getSearchRequestBuilder(
-			resourceRequest);
+			resourceRequest, ranking);
 
 		rankingSearchRequestHelper.contribute(searchRequestBuilder, ranking);
 
@@ -114,14 +123,36 @@ public class RankingMVCResourceCommand implements MVCResourceCommand {
 		return getDocumentResponse.getDocument();
 	}
 
+	protected Query getIdsQuery(String id) {
+		IdsQuery idsQuery = queries.ids();
+
+		idsQuery.addIds(id);
+
+		return idsQuery;
+	}
+
 	protected SearchRequestBuilder getSearchRequestBuilder(
-		ResourceRequest resourceRequest) {
+		ResourceRequest resourceRequest, Ranking ranking) {
+
+		String queryStringOfUrl = _getParamKeywords(resourceRequest);
+
+		String queryStringOfRanking = _getQueryString(ranking);
+
+		String queryString = _isQueryStringADocumentUid(queryStringOfUrl) ?
+			queryStringOfUrl : queryStringOfRanking;
 
 		return searchRequestBuilderFactory.builder(
+		).addComplexQueryPart(
+			complexQueryPartBuilderFactory.builder(
+			).query(
+				getIdsQuery(queryString)
+			).occur(
+				"should"
+			).build()
 		).from(
 			ParamUtil.getInteger(resourceRequest, "from")
 		).queryString(
-			ParamUtil.getString(resourceRequest, "keywords")
+			queryString
 		).size(
 			ParamUtil.getInteger(resourceRequest, "size", 10)
 		).withSearchContext(
@@ -162,8 +193,10 @@ public class RankingMVCResourceCommand implements MVCResourceCommand {
 	protected void populateVisibleDocuments(
 		ResourceRequest resourceRequest, JSONArray jsonArray, Ranking ranking) {
 
-		SearchResponse searchResponse = searcher.search(
-			buildSearchRequest(resourceRequest, ranking));
+		SearchRequest searchRequest = buildSearchRequest(
+			resourceRequest, ranking);
+
+		SearchResponse searchResponse = searcher.search(searchRequest);
 
 		Stream<Document> stream = searchResponse.getDocumentsStream();
 
@@ -175,6 +208,12 @@ public class RankingMVCResourceCommand implements MVCResourceCommand {
 			jsonArray::put
 		);
 	}
+
+	@Reference
+	protected ComplexQueryPartBuilderFactory complexQueryPartBuilderFactory;
+
+	@Reference
+	protected Queries queries;
 
 	@Reference
 	protected RankingIndexReader rankingIndexReader;
@@ -190,6 +229,25 @@ public class RankingMVCResourceCommand implements MVCResourceCommand {
 
 	@Reference
 	protected SearchRequestBuilderFactory searchRequestBuilderFactory;
+
+	@Deprecated
+	private String _getParamKeywords(ResourceRequest resourceRequest) {
+		return ParamUtil.getString(resourceRequest, "keywords");
+	}
+
+	private String _getQueryString(Ranking ranking) {
+		return ranking.getQueryStrings(
+		).stream(
+		).findFirst(
+		).orElse(
+			ranking.getName()
+		);
+	}
+
+	@Deprecated
+	private boolean _isQueryStringADocumentUid(String queryString) {
+		return queryString.startsWith("com.liferay");
+	}
 
 	private JSONObject _translate(Document document) {
 		return JSONUtil.put(
@@ -224,9 +282,9 @@ public class RankingMVCResourceCommand implements MVCResourceCommand {
 
 		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
 
-		String uid = ParamUtil.getString(resourceRequest, "resultsRankingUid");
+		String uid = _getRankingId(resourceRequest);
 
-		Optional<Ranking> optional = rankingIndexReader.fetch(uid);
+		Optional<Ranking> optional = rankingIndexReader.fetchOptional(uid);
 
 		optional.ifPresent(
 			ranking -> populateHiddenDocuments(jsonArray, optional.get()));
@@ -258,13 +316,12 @@ public class RankingMVCResourceCommand implements MVCResourceCommand {
 
 		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
 
-		Optional<Ranking> optional = rankingIndexReader.fetch(
-			ParamUtil.getString(resourceRequest, "resultsRankingUid"));
+		Optional<Ranking> optional = rankingIndexReader.fetchOptional(
+			_getRankingId(resourceRequest));
 
-		if (optional.isPresent()) {
-			populateVisibleDocuments(
-				resourceRequest, jsonArray, optional.get());
-		}
+		optional.ifPresent(
+			ranking -> populateVisibleDocuments(
+				resourceRequest, jsonArray, ranking));
 
 		JSONObject jsonObject = JSONUtil.put(
 			"documents", jsonArray
@@ -274,5 +331,10 @@ public class RankingMVCResourceCommand implements MVCResourceCommand {
 
 		_writeJSON(resourceRequest, resourceResponse, jsonObject);
 	}
+
+	/**
+	 *
+	 */
+	private static final String _PARAM_RANKING_ID = "resultsRankingUid";
 
 }

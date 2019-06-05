@@ -35,6 +35,7 @@ public class RankingCriteriaBuilderFactoryImpl
 	public static class RankingCriteriaBuilderImpl
 		implements RankingCriteriaBuilder {
 
+		@Deprecated
 		@Override
 		public RankingCriteriaBuilder aliases(String... aliases) {
 			_rankingCriteriaImpl._aliases.clear();
@@ -63,6 +64,7 @@ public class RankingCriteriaBuilderFactoryImpl
 			return this;
 		}
 
+		@Deprecated
 		@Override
 		public RankingCriteriaBuilder queryString(String queryString) {
 			_rankingCriteriaImpl._queryString = queryString;
@@ -87,6 +89,7 @@ public class RankingCriteriaBuilderFactoryImpl
 			_aliases = new ArrayList<>(rankingCriteriaImpl._aliases);
 		}
 
+		@Deprecated
 		@Override
 		public List<String> getAliases() {
 			return Collections.unmodifiableList(_aliases);
@@ -102,6 +105,7 @@ public class RankingCriteriaBuilderFactoryImpl
 			return _index;
 		}
 
+		@Deprecated
 		@Override
 		public String getQueryString() {
 			return _queryString;

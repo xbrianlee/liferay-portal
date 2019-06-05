@@ -18,6 +18,7 @@ import com.liferay.portal.search.document.Document;
 import com.liferay.portal.search.document.Field;
 import com.liferay.portal.search.internal.document.DocumentBuilderFactoryImpl;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,28 @@ public class RankingToDocumentTranslatorTest {
 	}
 
 	@Test
+	public void testBlocks() {
+		Ranking.RankingBuilder rankingBuilder = new Ranking.RankingBuilder();
+
+		rankingBuilder.blocks(Arrays.asList("142857", "285714", "428571"));
+
+		Ranking ranking1 = rankingBuilder.build();
+
+		Document document = translate(ranking1);
+
+		Map<String, Field> fieldsMap = document.getFields();
+
+		Assert.assertEquals(
+			"{blocks=[142857, 285714, 428571]}", fieldsMap.toString());
+
+		Ranking ranking2 = _documentToRankingTranslator.translate(
+			document, null);
+
+		Assert.assertEquals(
+			"[142857, 285714, 428571]", String.valueOf(ranking2.getBlockIds()));
+	}
+
+	@Test
 	public void testDefaults() {
 		Ranking ranking1 = new Ranking.RankingBuilder().build();
 
@@ -51,9 +74,9 @@ public class RankingToDocumentTranslatorTest {
 		Ranking ranking2 = _documentToRankingTranslator.translate(
 			document, null);
 
-		Assert.assertEquals("[]", String.valueOf(ranking2.getAliases()));
 		Assert.assertEquals("[]", String.valueOf(ranking2.getBlockIds()));
 		Assert.assertEquals("[]", String.valueOf(ranking2.getPins()));
+		Assert.assertEquals("[]", String.valueOf(ranking2.getQueryStrings()));
 	}
 
 	@Test
@@ -70,12 +93,36 @@ public class RankingToDocumentTranslatorTest {
 		Map<String, Field> fieldsMap = document.getFields();
 
 		Assert.assertEquals(
-			"{pins=[{position=142857, uid=uid}]}", fieldsMap.toString());
+			"{pins={position=142857, uid=uid}}", fieldsMap.toString());
 
 		Ranking ranking2 = _documentToRankingTranslator.translate(
 			document, null);
 
 		Assert.assertEquals("[142857=uid]", _toString(ranking2.getPins()));
+	}
+
+	@Test
+	public void testQueryStrings() {
+		Ranking.RankingBuilder rankingBuilder = new Ranking.RankingBuilder();
+
+		rankingBuilder.queryStrings(
+			Arrays.asList("142857", "285714", "428571"));
+
+		Ranking ranking1 = rankingBuilder.build();
+
+		Document document = translate(ranking1);
+
+		Map<String, Field> fieldsMap = document.getFields();
+
+		Assert.assertEquals(
+			"{queryStrings=[142857, 285714, 428571]}", fieldsMap.toString());
+
+		Ranking ranking2 = _documentToRankingTranslator.translate(
+			document, null);
+
+		Assert.assertEquals(
+			"[142857, 285714, 428571]",
+			String.valueOf(ranking2.getQueryStrings()));
 	}
 
 	protected static DocumentToRankingTranslator

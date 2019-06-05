@@ -19,14 +19,22 @@ package com.liferay.portal.search.ranking.web.internal.index;
  */
 public class SearchTuningFields {
 
+	@Deprecated
 	public static final String ALIASES = "aliases";
-
-	public static final String ALL_QUERY_STRINGS = "allQueryStrings";
 
 	public static final String BLOCKS = "blocks";
 
+	public static final String INACTIVE = "inactive";
+
+	public static final String NAME = "name";
+
 	public static final String PINS = "pins";
 
+	@Deprecated
 	public static final String QUERY_STRING = "queryString";
+
+	public static final String QUERY_STRINGS = "queryStrings";
+
+	public static final String QUERY_STRINGS_KEYWORD = "queryStrings.keyword";
 
 }

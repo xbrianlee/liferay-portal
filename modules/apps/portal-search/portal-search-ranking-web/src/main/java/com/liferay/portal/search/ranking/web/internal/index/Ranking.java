@@ -14,13 +14,11 @@
 
 package com.liferay.portal.search.ranking.web.internal.index;
 
-import com.liferay.portal.kernel.util.ListUtil;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,38 +29,23 @@ import java.util.stream.Collectors;
 public class Ranking {
 
 	public Ranking(Ranking ranking) {
-		_aliases = new ArrayList<>(ranking._aliases);
-		_blockIds = new HashSet<>(ranking._blockIds);
+		_blockIds = new LinkedHashSet<>(ranking._blockIds);
 		_displayDate = ranking._displayDate;
 		_id = ranking._id;
+		_inactive = ranking._inactive;
 		_index = ranking._index;
 		_modifiedDate = ranking._modifiedDate;
+		_name = ranking._name;
 		_pinIds = new HashSet<>(ranking._pinIds);
 		_pins = new ArrayList<>(ranking._pins);
-		_queryString = ranking._queryString;
-		_status = ranking._status;
-	}
-
-	public List<String> getAliases() {
-		return Collections.unmodifiableList(_aliases);
-	}
-
-	public Collection<String> getAllQueryStrings() {
-		List<String> list = new ArrayList<>();
-
-		if (_queryString != null) {
-			list.add(_queryString);
-		}
-
-		list.addAll(_aliases);
-
-		return list;
+		_queryStrings = new ArrayList<>(ranking._queryStrings);
 	}
 
 	public List<String> getBlockIds() {
 		return new ArrayList<>(_blockIds);
 	}
 
+	@Deprecated
 	public Date getDisplayDate() {
 		return _displayDate;
 	}
@@ -79,16 +62,24 @@ public class Ranking {
 		return _modifiedDate;
 	}
 
+	public String getName() {
+		return _name;
+	}
+
 	public List<Pin> getPins() {
 		return Collections.unmodifiableList(_pins);
 	}
 
-	public String getQueryString() {
-		return _queryString;
+	public List<String> getQueryStrings() {
+		return Collections.unmodifiableList(_queryStrings);
 	}
 
 	public int getStatus() {
 		return _status;
+	}
+
+	public boolean isInactive() {
+		return _inactive;
 	}
 
 	public boolean isPinned(String id) {
@@ -125,14 +116,8 @@ public class Ranking {
 			_ranking = ranking;
 		}
 
-		public RankingBuilder aliases(String... aliases) {
-			_ranking._aliases = ListUtil.toList(aliases);
-
-			return this;
-		}
-
 		public RankingBuilder blocks(List<String> hiddenIds) {
-			_ranking._blockIds = new HashSet<>(toList(hiddenIds));
+			_ranking._blockIds = new LinkedHashSet<>(toList(hiddenIds));
 
 			return this;
 		}
@@ -147,42 +132,66 @@ public class Ranking {
 			return this;
 		}
 
+		public RankingBuilder inactive(boolean inactive) {
+			_ranking._inactive = inactive;
+
+			return this;
+		}
+
 		public RankingBuilder index(String index) {
 			_ranking._index = index;
 
 			return this;
 		}
 
+		public RankingBuilder name(String name) {
+			_ranking._name = name;
+
+			return this;
+		}
+
 		public RankingBuilder pins(List<Pin> pins) {
-			_ranking._pins = toList(pins);
-			_ranking._pinIds = pins.stream(
-			).map(
-				Pin::getId
-			).collect(
-				Collectors.toSet()
-			);
+			if (pins != null) {
+				_ranking._pinIds = new LinkedHashSet<>(
+					pins.stream(
+					).map(
+						Pin::getId
+					).collect(
+						Collectors.toSet()
+					));
+
+				_ranking._pins = pins;
+			}
+			else {
+				_ranking._pinIds.clear();
+
+				_ranking._pins.clear();
+			}
 
 			return this;
 		}
 
-		public RankingBuilder queryString(String queryString) {
-			_ranking._queryString = queryString;
+		public RankingBuilder queryStrings(List<String> queryStrings) {
+			_ranking._queryStrings = queryStrings;
 
 			return this;
 		}
 
+		@Deprecated
 		public RankingBuilder setDisplayDate(Date displayDate) {
 			_ranking._displayDate = displayDate;
 
 			return this;
 		}
 
+		@Deprecated
 		public RankingBuilder setModifiedDate(Date modifiedDate) {
 			_ranking._modifiedDate = modifiedDate;
 
 			return this;
 		}
 
+		@Deprecated
 		public RankingBuilder status(int status) {
 			_ranking._status = status;
 
@@ -204,15 +213,24 @@ public class Ranking {
 	private Ranking() {
 	}
 
-	private List<String> _aliases = new ArrayList<>();
-	private Set<String> _blockIds = new HashSet<>();
+	private Set<String> _blockIds = new LinkedHashSet<>();
+
+	@Deprecated
 	private Date _displayDate;
+
 	private String _id;
+	private boolean _inactive;
 	private String _index;
+
+	@Deprecated
 	private Date _modifiedDate;
-	private Set<String> _pinIds = new HashSet<>();
+
+	private String _name;
+	private Set<String> _pinIds = new LinkedHashSet<>();
 	private List<Pin> _pins = new ArrayList<>();
-	private String _queryString;
+	private List<String> _queryStrings = new ArrayList<>();
+
+	@Deprecated
 	private int _status;
 
 }

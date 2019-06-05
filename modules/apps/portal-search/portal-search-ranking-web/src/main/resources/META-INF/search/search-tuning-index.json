@@ -2,14 +2,6 @@
 	"mappings": {
 		"_doc": {
 			"properties": {
-				"aliases": {
-					"store": true,
-					"type": "keyword"
-				},
-				"all_query_strings": {
-					"store": true,
-					"type": "text"
-				},
 				"blocks": {
 					"store": true,
 					"type": "keyword"
@@ -19,6 +11,10 @@
 					"store": true,
 					"type": "date"
 				},
+				"inactive": {
+					"store": true,
+					"type": "boolean"
+				},
 				"index": {
 					"store": true,
 					"type": "keyword"
@@ -27,6 +23,10 @@
 					"format": "yyyyMMddHHmmss",
 					"store": true,
 					"type": "date"
+				},
+				"name": {
+					"store": true,
+					"type": "text"
 				},
 				"pins" : {
 					"properties" : {
@@ -41,13 +41,14 @@
 					},
 					"type" : "nested"
 				},
-				"queryString": {
+				"queryStrings": {
+					"fields" : {
+						"keyword" : {
+							"type" : "keyword"
+						}
+					},
 					"store": true,
-					"type": "keyword"
-				},
-				"status": {
-					"store": true,
-					"type": "keyword"
+					"type": "text"
 				},
 				"uid": {
 					"store": true,
