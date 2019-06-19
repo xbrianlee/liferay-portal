@@ -483,6 +483,36 @@ definition {
 		}
 	}
 
+	macro viewScopeMappings {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = "${applicationName}");
+
+		Navigator.gotoNavItem(navItem = "Scopes");
+
+		if (IsElementPresent(locator1 = "NavUnderline#ACTIVE_NAV_UNDERLINE_LINK", key_navUnderline = "Global scopes")) {
+			Navigator.gotoNavUnderline(navUnderline = "Resource scopes");
+		}
+
+		OAuth2.expandResourcePanel(resourcePanel = "${resourcePanel}");
+
+		for (var scopeName : list "${scopeNameList}") {
+			AssertElementPresent(
+				key_scopeName = "${scopeName}",
+				locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_NAME");
+		}
+
+		AssertTextEquals(
+			key_partialResourceName = "${partialResourceName}",
+			locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_ALIASE",
+			value1 = "${scopeAliase}");
+
+		AssertTextEquals(
+			key_scopeName = "${partialScopeAliase}",
+			locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_LINK",
+			value1 = "This resource scope MUST be assigned via a global scope.");
+	}
+
 	macro viewScopes {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
