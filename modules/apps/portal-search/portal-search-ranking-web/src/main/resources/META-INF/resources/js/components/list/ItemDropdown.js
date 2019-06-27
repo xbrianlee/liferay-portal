@@ -1,4 +1,4 @@
-import ClayButton from 'components/shared/ClayButton';
+import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import getCN from 'classnames';
 import React, {Component} from 'react';
@@ -90,23 +90,23 @@ class ItemDropdown extends Component {
 				<ClayButton
 					aria-expanded='false'
 					aria-haspopup='true'
-					borderless
-					className='component-action dropdown-toggle'
+					className='btn-outline-borderless component-action dropdown-toggle'
 					data-testid='dropdown-toggle'
 					data-toggle='dropdown'
-					iconName='ellipsis-v'
 					onClick={this._handleDropdownToggle}
 					title={Liferay.Language.get('toggle-dropdown')}
-				/>
+				>
+					<ClayIcon symbol='ellipsis-v' />
+				</ClayButton>
 
 				<ul className={classHidden}>
 					{onClickPin && (
 						<li>
 							<ClayButton
 								className='dropdown-item'
-								displayStyle='link'
+								displayType='link'
 								onClick={this._handleDropdownAction(onClickPin)}
-								size='sm'
+								small
 							>
 								<div className='dropdown-item-indicator'>
 									<ClayIcon
@@ -137,11 +137,11 @@ class ItemDropdown extends Component {
 						<li>
 							<ClayButton
 								className='dropdown-item'
-								displayStyle='link'
+								displayType='link'
 								onClick={this._handleDropdownAction(
 									onClickHide
 								)}
-								size='sm'
+								small
 							>
 								<div className='dropdown-item-indicator'>
 									<ClayIcon

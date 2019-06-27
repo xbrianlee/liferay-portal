@@ -1,4 +1,4 @@
-import ClayButton from 'components/shared/ClayButton';
+import ClayButton from '@clayui/button';
 import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 import {sub} from 'utils/language';
@@ -35,13 +35,14 @@ class FilterDisplay extends Component {
 						<li className='tbar=item'>
 							<div className='tbar-section'>
 								<ClayButton
-									borderless
-									displayStyle='unstyled'
-									label={Liferay.Language.get('clear')}
+									className='btn-outline-borderless'
+									displayType='unstyled'
 									onClick={onClear}
-									size='sm'
+									small
 									title={Liferay.Language.get('clear')}
-								/>
+								>
+									{Liferay.Language.get('clear')}
+								</ClayButton>
 							</div>
 						</li>
 					</ul>

@@ -1,5 +1,6 @@
 import AddResult from 'components/add_result/AddResult';
-import ClayButton from 'components/shared/ClayButton';
+import ClayButton from '@clayui/button';
+import ClayIcon from '@clayui/icon';
 import getCN from 'classnames';
 import ItemDropdown from './ItemDropdown';
 import React, {Component} from 'react';
@@ -178,13 +179,8 @@ class SearchBar extends Component {
 										<li className='nav-item'>
 											<div className='nav-link nav-link-monospaced'>
 												<ClayButton
-													borderless
-													className='component-action'
-													iconName={
-														this._isAnyHidden()
-															? 'view'
-															: 'hidden'
-													}
+													className='btn-outline-borderless component-action'
+													displayType='secondary'
 													onClick={
 														this._handleClickHide
 													}
@@ -197,20 +193,23 @@ class SearchBar extends Component {
 																	'hide-result'
 															  )
 													}
-												/>
+												>
+													<ClayIcon
+														symbol={
+															this._isAnyHidden()
+																? 'view'
+																: 'hidden'
+														}
+													/>
+												</ClayButton>
 											</div>
 										</li>
 
 										<li className='nav-item'>
 											<div className='nav-link nav-link-monospaced'>
 												<ClayButton
-													borderless
-													className='component-action'
-													iconName={
-														this._isAnyUnpinned()
-															? 'pin'
-															: 'unpin'
-													}
+													className='btn-outline-borderless component-action'
+													displayType='secondary'
 													onClick={
 														this._handleClickPin
 													}
@@ -223,7 +222,15 @@ class SearchBar extends Component {
 																	'unpin-result'
 															  )
 													}
-												/>
+												>
+													<ClayIcon
+														symbol={
+															this._isAnyUnpinned()
+																? 'pin'
+																: 'unpin'
+														}
+													/>
+												</ClayButton>
 											</div>
 										</li>
 

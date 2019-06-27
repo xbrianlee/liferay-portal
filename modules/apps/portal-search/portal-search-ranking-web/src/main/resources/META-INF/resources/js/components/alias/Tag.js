@@ -1,4 +1,5 @@
-import ClayButton from 'components/shared/ClayButton';
+import ClayButton from '@clayui/button';
+import ClayIcon from '@clayui/icon';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 
@@ -29,9 +30,11 @@ class Tag extends Component {
 					<ClayButton
 						aria-label={Liferay.Language.get('close')}
 						className='close'
-						iconName='times'
+						displayType='secondary'
 						onClick={this._handleDelete}
-					/>
+					>
+						<ClayIcon symbol='times' />
+					</ClayButton>
 				</span>
 			</span>
 		);

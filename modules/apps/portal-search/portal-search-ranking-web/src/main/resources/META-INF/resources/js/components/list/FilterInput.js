@@ -1,4 +1,4 @@
-import ClayButton from 'components/shared/ClayButton';
+import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
@@ -49,11 +49,12 @@ class FilterInput extends Component {
 
 							<div className='input-group-inset-item input-group-inset-item-after'>
 								<ClayButton
-									displayStyle={'unstyled'}
-									iconName='search'
+									displayType='unstyled'
 									onClick={onSubmit}
 									title={Liferay.Language.get('search-icon')}
-								/>
+								>
+									<ClayIcon symbol='search' />
+								</ClayButton>
 							</div>
 						</div>
 					</div>

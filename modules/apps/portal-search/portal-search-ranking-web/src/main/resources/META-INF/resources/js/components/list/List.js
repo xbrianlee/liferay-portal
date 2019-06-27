@@ -1,4 +1,4 @@
-import ClayButton from 'components/shared/ClayButton';
+import ClayButton from '@clayui/button';
 import ClayEmptyState, {DISPLAY_STATES} from 'components/shared/ClayEmptyState';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Item from './Item';
@@ -273,11 +273,11 @@ class List extends PureComponent {
 							<div className='load-more-container'>
 								<ClayButton
 									className='load-more-button'
-									label={Liferay.Language.get(
-										'load-more-results'
-									)}
+									displayType='secondary'
 									onClick={this._handleLoadMoreResults}
-								/>
+								>
+									{Liferay.Language.get('load-more-results')}
+								</ClayButton>
 							</div>
 						)}
 					</React.Fragment>

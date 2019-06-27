@@ -1,4 +1,4 @@
-import ClayButton from 'components/shared/ClayButton';
+import ClayButton from '@clayui/button';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 
@@ -25,22 +25,24 @@ class PageToolbar extends Component {
 
 						<li className='tbar-item'>
 							<ClayButton
-								borderless
+								className='btn-outline-borderless'
+								displayType='secondary'
 								href={onCancel}
-								label={Liferay.Language.get('cancel')}
-								size='sm'
-							/>
+								small
+							>
+								{Liferay.Language.get('cancel')}
+							</ClayButton>
 						</li>
 
 						{onSaveAsDraft && (
 							<li className='tbar-item'>
 								<ClayButton
-									label={Liferay.Language.get(
-										'save-as-draft'
-									)}
+									displayType='secondary'
 									onClick={onSaveAsDraft}
-									size='sm'
-								/>
+									small
+								>
+									{Liferay.Language.get('save-as-draft')}
+								</ClayButton>
 							</li>
 						)}
 
@@ -48,12 +50,12 @@ class PageToolbar extends Component {
 							<li className='tbar-item'>
 								<ClayButton
 									disabled={submitDisabled}
-									displayStyle='primary'
-									label={Liferay.Language.get('publish')}
 									onClick={onPublish}
-									size='sm'
+									small
 									type='submit'
-								/>
+								>
+									{Liferay.Language.get('publish')}
+								</ClayButton>
 							</li>
 						)}
 					</ul>

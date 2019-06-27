@@ -1,4 +1,4 @@
-import ClayButton from 'components/shared/ClayButton';
+import ClayButton from '@clayui/button';
 import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 
@@ -61,9 +61,11 @@ class ClayEmptyState extends Component {
 				{actionLabel && onClickAction && (
 					<div className='empty-state-action'>
 						<ClayButton
-							label={actionLabel}
+							displayType='secondary'
 							onClick={onClickAction}
-						/>
+						>
+							{actionLabel}
+						</ClayButton>
 					</div>
 				)}
 			</div>

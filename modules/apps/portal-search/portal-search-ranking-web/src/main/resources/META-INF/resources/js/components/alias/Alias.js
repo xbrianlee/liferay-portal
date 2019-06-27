@@ -1,4 +1,5 @@
-import ClayButton from 'components/shared/ClayButton';
+import ClayButton from '@clayui/button';
+import ClayIcon from '@clayui/icon';
 import ClayMultiselect from 'components/shared/ClayMultiselect';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
@@ -74,12 +75,13 @@ class Alias extends Component {
 
 						<div className='input-group-item input-group-item-shrink'>
 							<ClayButton
-								borderless
-								displayStyle='primary'
-								label={Liferay.Language.get('add-an-alias')}
+								className='btn-outline-borderless'
+								displayType='secondary'
 								onClick={this._handleOpenModal}
-								size='sm'
-							/>
+								small
+							>
+								{Liferay.Language.get('add-an-alias')}
+							</ClayButton>
 						</div>
 					</div>
 				</div>
@@ -99,10 +101,12 @@ class Alias extends Component {
 							</div>
 
 							<ClayButton
-								borderless
-								iconName='times'
+								className='btn-outline-borderless'
+								displayType='secondary'
 								onClick={this._handleCloseModal}
-							/>
+							>
+								<ClayIcon symbol='times' />
+							</ClayButton>
 						</div>
 
 						<div className='modal-body'>
@@ -135,12 +139,12 @@ class Alias extends Component {
 								<div className='btn-group'>
 									<div className='btn-group-item'>
 										<ClayButton
-											borderless
-											label={Liferay.Language.get(
-												'cancel'
-											)}
+											className='btn-outline-borderless'
+											displayType='secondary'
 											onClick={this._handleCloseModal}
-										/>
+										>
+											{Liferay.Language.get('cancel')}
+										</ClayButton>
 									</div>
 
 									<div className='btn-group-item'>
@@ -148,10 +152,10 @@ class Alias extends Component {
 											disabled={
 												modalKeywords.length === 0
 											}
-											displayStyle='primary'
-											label={Liferay.Language.get('add')}
 											onClick={this._handleSubmit}
-										/>
+										>
+											{Liferay.Language.get('add')}
+										</ClayButton>
 									</div>
 								</div>
 							</div>

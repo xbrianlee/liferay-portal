@@ -1,7 +1,6 @@
-import ClayButton from 'components/shared/ClayButton';
-import ClayEmptyState, {
-	DISPLAY_STATES
-} from 'components/shared/ClayEmptyState';
+import ClayButton from '@clayui/button';
+import ClayEmptyState, {DISPLAY_STATES} from 'components/shared/ClayEmptyState';
+import ClayIcon from '@clayui/icon';
 import getCN from 'classnames';
 import Item from 'components/list/Item';
 import PaginationBar from './PaginationBar';
@@ -291,11 +290,11 @@ class AddResult extends Component {
 		return (
 			<li className='nav-item'>
 				<ClayButton
-					displayStyle='primary'
 					key='ADD_RESULT_BUTTON'
-					label={Liferay.Language.get('add-a-result')}
 					onClick={this._handleAddResult}
-				/>
+				>
+					{Liferay.Language.get('add-a-result')}
+				</ClayButton>
 
 				<ReactModal
 					className='modal-dialog modal-dialog-lg modal-full-screen-sm-down add-result-modal-root'
@@ -315,10 +314,12 @@ class AddResult extends Component {
 							</div>
 
 							<ClayButton
-								borderless
-								iconName='times'
+								className='btn-outline-borderless'
+								displayType='secondary'
 								onClick={this._handleCloseModal}
-							/>
+							>
+								<ClayIcon symbol='times' />
+							</ClayButton>
 						</div>
 
 						<div className='modal-header'>
@@ -348,13 +349,14 @@ class AddResult extends Component {
 
 												<div className='input-group-inset-item input-group-inset-item-after'>
 													<ClayButton
-														displayStyle='unstyled'
-														iconName='search'
+														displayType='unstyled'
 														onClick={
 															this
 																._handleSearchEnter
 														}
-													/>
+													>
+														<ClayIcon symbol='search' />
+													</ClayButton>
 												</div>
 											</div>
 										</div>
@@ -445,16 +447,18 @@ class AddResult extends Component {
 														0 && (
 														<li className='nav-item nav-item-shrink'>
 															<ClayButton
-																borderless
-																label={Liferay.Language.get(
-																	'clear-all-selected'
-																)}
+																className='btn-outline-borderless'
+																displayType='secondary'
 																onClick={
 																	this
 																		._handleClearAllSelected
 																}
-																size='sm'
-															/>
+																small
+															>
+																{Liferay.Language.get(
+																	'clear-all-selected'
+																)}
+															</ClayButton>
 														</li>
 													)}
 												</ul>
@@ -514,12 +518,12 @@ class AddResult extends Component {
 								<div className='btn-group'>
 									<div className='btn-group-item'>
 										<ClayButton
-											borderless
-											label={Liferay.Language.get(
-												'cancel'
-											)}
+											className='btn-outline-borderless'
+											displayType='secondary'
 											onClick={this._handleCloseModal}
-										/>
+										>
+											{Liferay.Language.get('cancel')}
+										</ClayButton>
 									</div>
 
 									<div className='btn-group-item'>
@@ -528,10 +532,10 @@ class AddResult extends Component {
 												addResultSelectedIds.length ===
 												0
 											}
-											displayStyle='primary'
-											label={Liferay.Language.get('add')}
 											onClick={this._handleSubmit}
-										/>
+										>
+											{Liferay.Language.get('add')}
+										</ClayButton>
 									</div>
 								</div>
 							</div>
