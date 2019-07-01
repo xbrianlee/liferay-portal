@@ -1,6 +1,7 @@
 import ClayButton from '@clayui/button';
 import ClayEmptyState, {DISPLAY_STATES} from 'components/shared/ClayEmptyState';
 import ClayIcon from '@clayui/icon';
+import ClayLoadingIndicator from '@clayui/loading-indicator';
 import getCN from 'classnames';
 import Item from 'components/list/Item';
 import PaginationBar from './PaginationBar';
@@ -370,7 +371,7 @@ class AddResult extends Component {
 								<div className='list-group sheet'>
 									<div className='sheet-title'>
 										<div className='load-more-container'>
-											<span className='loading-animation' />
+											<ClayLoadingIndicator />
 										</div>
 									</div>
 								</div>

@@ -1,5 +1,6 @@
 import ClayButton from '@clayui/button';
 import ClayEmptyState, {DISPLAY_STATES} from 'components/shared/ClayEmptyState';
+import ClayLoadingIndicator from '@clayui/loading-indicator';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Item from './Item';
 import ItemDragLayer from './ItemDragLayer';
@@ -245,7 +246,7 @@ class List extends PureComponent {
 
 				{dataLoading && (
 					<div className='load-more-container'>
-						<span className='loading-animation' />
+						<ClayLoadingIndicator />
 					</div>
 				)}
 
