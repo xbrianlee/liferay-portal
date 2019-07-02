@@ -14,6 +14,7 @@ import List from 'components/list/List';
 import PageToolbar from 'components/PageToolbar';
 import ResultsRankingForm from 'components/ResultsRankingForm';
 import ThemeContext from 'ThemeContext';
+import {ClayIconSpriteContext} from '@clayui/icon';
 import {mockDataMap} from 'stories/mock-data';
 
 import '../../css/main.scss';
@@ -33,9 +34,11 @@ addDecorator(storyFn => {
 	};
 
 	return (
-		<ThemeContext.Provider value={context}>
-			<div className='results-rankings-root'>{storyFn()}</div>
-		</ThemeContext.Provider>
+		<ClayIconSpriteContext.Provider value={context.spritemap}>
+			<ThemeContext.Provider value={context}>
+				<div className='results-rankings-root'>{storyFn()}</div>
+			</ThemeContext.Provider>
+		</ClayIconSpriteContext.Provider>
 	);
 });
 
