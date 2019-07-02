@@ -10,7 +10,7 @@
 		"lodash.times": "^4.3.2",
 		"metal-uri": "2.4.0",
 		"prop-types": "^15.6.2",
-		"react": "^16.6.3",
+		"react": "^16.8.6",
 		"react-dnd": "7.4.5",
 		"react-dnd-html5-backend": "^7.0.2",
 		"react-dom": "^16.6.3",
