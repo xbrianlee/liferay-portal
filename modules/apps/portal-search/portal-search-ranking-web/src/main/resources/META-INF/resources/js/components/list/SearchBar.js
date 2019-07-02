@@ -1,5 +1,6 @@
 import AddResult from 'components/add_result/AddResult';
 import ClayButton from '@clayui/button';
+import ClayCheckbox from '@clayui/checkbox';
 import ClayIcon from '@clayui/icon';
 import getCN from 'classnames';
 import ItemDropdown from './ItemDropdown';
@@ -36,20 +37,6 @@ class SearchBar extends Component {
 		resultIds: [],
 		selectedIds: []
 	};
-
-	selectAllCheckbox = React.createRef();
-
-	/**
-	 * Sets the indeterminate state of the select all checkbox.
-	 */
-	componentDidUpdate() {
-		const {resultIds, selectedIds} = this.props;
-
-		const indeterminate =
-			selectedIds.length > 0 && selectedIds.length !== resultIds.length;
-
-		this.selectAllCheckbox.current.indeterminate = indeterminate;
-	}
 
 	_handleAllCheckbox = () => {
 		if (this.props.selectedIds.length > 0) {
@@ -133,25 +120,19 @@ class SearchBar extends Component {
 						<div className='navbar-form navbar-form-autofit navbar-overlay'>
 							<ul className='navbar-nav'>
 								<li className='nav-item'>
-									<div className='custom-control custom-checkbox'>
-										<label>
-											<input
-												aria-label={Liferay.Language.get(
-													'select-all'
-												)}
-												checked={this._hasSelectedIds()}
-												className='custom-control-input'
-												disabled={!resultIds.length}
-												onChange={
-													this._handleAllCheckbox
-												}
-												ref={this.selectAllCheckbox}
-												type='checkbox'
-											/>
-
-											<span className='custom-control-label' />
-										</label>
-									</div>
+									<ClayCheckbox
+										aria-label={Liferay.Language.get(
+											'select-all'
+										)}
+										checked={this._hasSelectedIds()}
+										disabled={!resultIds.length}
+										indeterminate={
+											selectedIds.length > 0 &&
+											selectedIds.length !==
+												resultIds.length
+										}
+										onChange={this._handleAllCheckbox}
+									/>
 								</li>
 							</ul>
 

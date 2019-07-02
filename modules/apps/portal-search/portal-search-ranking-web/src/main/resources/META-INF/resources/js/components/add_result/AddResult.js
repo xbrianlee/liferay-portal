@@ -1,4 +1,5 @@
 import ClayButton from '@clayui/button';
+import ClayCheckbox from '@clayui/checkbox';
 import ClayEmptyState, {DISPLAY_STATES} from 'components/shared/ClayEmptyState';
 import ClayIcon from '@clayui/icon';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
@@ -24,8 +25,6 @@ class AddResult extends Component {
 		onAddResultSubmit: PropTypes.func.isRequired
 	};
 
-	selectAllCheckbox = React.createRef();
-
 	state = {
 		addResultSearchTerm: '',
 		addResultSelectedIds: [],
@@ -49,23 +48,6 @@ class AddResult extends Component {
 	_clearResultSelectedIds = () => {
 		this.setState({addResultSelectedIds: []});
 	};
-
-	/**
-	 * Sets the indeterminate state of the select all checkbox.
-	 */
-	componentDidUpdate() {
-		const {addResultSelectedIds, results} = this.state;
-
-		const checkboxElement = this.selectAllCheckbox.current;
-
-		if (checkboxElement) {
-			const currentResultSelectedIds = this._getCurrentResultSelectedIds();
-
-			checkboxElement.indeterminate =
-				addResultSelectedIds.length > 0 &&
-				currentResultSelectedIds.length !== results.items.length;
-		}
-	}
 
 	_fetchSearchResults = () => {
 		const {addResultSearchTerm, page, selectedDelta} = this.state;
@@ -384,34 +366,30 @@ class AddResult extends Component {
 											<div className='container-fluid container-fluid-max-xl'>
 												<ul className='navbar-nav navbar-nav-expand'>
 													<li className='nav-item'>
-														<div className='custom-control custom-checkbox'>
-															<label>
-																<input
-																	aria-label={Liferay.Language.get(
-																		'select-all'
-																	)}
-																	checked={
-																		this._getCurrentResultSelectedIds()
-																			.length ===
-																		results
-																			.items
-																			.length
-																	}
-																	className='custom-control-input'
-																	onChange={
-																		this
-																			._handleAllCheckbox
-																	}
-																	ref={
-																		this
-																			.selectAllCheckbox
-																	}
-																	type='checkbox'
-																/>
-
-																<span className='custom-control-label' />
-															</label>
-														</div>
+														<ClayCheckbox
+															aria-label={Liferay.Language.get(
+																'select-all'
+															)}
+															checked={
+																this._getCurrentResultSelectedIds()
+																	.length ===
+																results.items
+																	.length
+															}
+															indeterminate={
+																addResultSelectedIds.length >
+																	0 &&
+																this._getCurrentResultSelectedIds()
+																	.length !==
+																	results
+																		.items
+																		.length
+															}
+															onChange={
+																this
+																	._handleAllCheckbox
+															}
+														/>
 													</li>
 
 													<li className='nav-item'>

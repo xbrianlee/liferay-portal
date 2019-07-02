@@ -1,4 +1,5 @@
 import ClayButton from '@clayui/button';
+import ClayCheckbox from '@clayui/checkbox';
 import ClayIcon from '@clayui/icon';
 import DRAG_TYPES from 'utils/drag-types';
 import getCN from 'classnames';
@@ -451,19 +452,11 @@ class Item extends PureComponent {
 				</div>
 
 				<div className='autofit-col'>
-					<div className='custom-control custom-checkbox'>
-						<label>
-							<input
-								aria-label={Liferay.Language.get('select')}
-								checked={selected}
-								className='custom-control-input'
-								onChange={this._handleSelect}
-								type='checkbox'
-							/>
-
-							<span className='custom-control-label' />
-						</label>
-					</div>
+					<ClayCheckbox
+						aria-label={Liferay.Language.get('select')}
+						checked={selected}
+						onChange={this._handleSelect}
+					/>
 				</div>
 
 				<div className='autofit-col'>
