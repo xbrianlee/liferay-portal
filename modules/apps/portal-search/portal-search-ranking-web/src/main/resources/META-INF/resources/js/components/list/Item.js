@@ -1,5 +1,5 @@
 import ClayButton from 'components/shared/ClayButton';
-import ClayIcon from 'components/shared/ClayIcon';
+import ClayIcon from '@clayui/icon';
 import DRAG_TYPES from 'utils/drag-types';
 import getCN from 'classnames';
 import ItemDropdown from './ItemDropdown';
@@ -444,7 +444,7 @@ class Item extends PureComponent {
 				>
 					{connectDragSource(
 						<span className='result-drag-sticker sticker sticker-secondary'>
-							<ClayIcon iconName='drag' />
+							<ClayIcon symbol='drag' />
 						</span>
 					)}
 				</div>
@@ -470,7 +470,7 @@ class Item extends PureComponent {
 						{extension ? (
 							extension.toUpperCase()
 						) : (
-							<ClayIcon iconName='web-content' />
+							<ClayIcon symbol='web-content' />
 						)}
 					</span>
 				</div>

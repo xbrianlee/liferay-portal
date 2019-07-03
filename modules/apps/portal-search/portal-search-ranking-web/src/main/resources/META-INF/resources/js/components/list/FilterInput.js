@@ -1,4 +1,5 @@
 import ClayButton from 'components/shared/ClayButton';
+import ClayIcon from '@clayui/icon';
 import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 

@@ -1,4 +1,4 @@
-import ClayIcon from 'components/shared/ClayIcon';
+import ClayIcon from '@clayui/icon';
 import getCN from 'classnames';
 import isFunction from 'lodash.isfunction';
 import React, {Component} from 'react';
@@ -268,7 +268,7 @@ class Pagination extends Component {
 						role='button'
 						tabIndex='-1'
 					>
-						<ClayIcon iconName='angle-left' />
+						<ClayIcon symbol='angle-left' />
 
 						<span className='sr-only'>
 							{Liferay.Language.get('previous')}
@@ -295,7 +295,7 @@ class Pagination extends Component {
 						onClick={this._handlePageChangeNext}
 						role='button'
 					>
-						<ClayIcon iconName='angle-right' />
+						<ClayIcon symbol='angle-right' />
 
 						<span className='sr-only'>
 							{Liferay.Language.get('next')}

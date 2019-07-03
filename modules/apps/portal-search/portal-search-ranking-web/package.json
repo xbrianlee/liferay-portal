@@ -1,5 +1,8 @@
 {
 	"dependencies": {
+		"@clayui/button": "^3.0.0-milestone.1",
+		"@clayui/icon": "^3.0.0-milestone.1",
+		"@clayui/loading-indicator": "^3.0.0-milestone.1",
 		"classnames": "^2.2.6",
 		"frontend-js-web": "^4.0.0",
 		"lodash.isfunction": "3.0.9",

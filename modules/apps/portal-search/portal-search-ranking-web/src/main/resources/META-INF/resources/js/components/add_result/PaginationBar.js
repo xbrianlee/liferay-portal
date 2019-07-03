@@ -1,4 +1,4 @@
-import ClayIcon from 'components/shared/ClayIcon';
+import ClayIcon from '@clayui/icon';
 import getCN from 'classnames';
 import Pagination from './Pagination';
 import React, {Component} from 'react';
@@ -128,7 +128,7 @@ class PaginationBar extends Component {
 						onClick={this._handleDropdownToggle}
 					>
 						{sub(Liferay.Language.get('x-items'), [selectedDelta])}
-						<ClayIcon iconName='caret-double-l' />
+						<ClayIcon symbol='caret-double-l' />
 					</a>
 
 					<div className={classDeltaDropdown}>

@@ -1,5 +1,5 @@
 import ClayButton from 'components/shared/ClayButton';
-import ClayIcon from 'components/shared/ClayIcon';
+import ClayIcon from '@clayui/icon';
 import getCN from 'classnames';
 import React, {Component} from 'react';
 import {getPluralMessage} from 'utils/language';
@@ -110,7 +110,7 @@ class ItemDropdown extends Component {
 							>
 								<div className='dropdown-item-indicator'>
 									<ClayIcon
-										iconName={pinned ? 'unpin' : 'pin'}
+										symbol={pinned ? 'unpin' : 'pin'}
 									/>
 								</div>
 
@@ -145,7 +145,7 @@ class ItemDropdown extends Component {
 							>
 								<div className='dropdown-item-indicator'>
 									<ClayIcon
-										iconName={hidden ? 'view' : 'hidden'}
+										symbol={hidden ? 'view' : 'hidden'}
 									/>
 								</div>
 

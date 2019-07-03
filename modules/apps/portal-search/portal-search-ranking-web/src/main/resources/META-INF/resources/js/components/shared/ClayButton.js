@@ -1,4 +1,4 @@
-import ClayIcon from 'components/shared/ClayIcon';
+import ClayIcon from '@clayui/icon';
 import getCN from 'classnames';
 import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
@@ -80,7 +80,7 @@ class ClayButton extends Component {
 						className={
 							label ? 'inline-item inline-item-before' : 'icon'
 						}
-						iconName={iconName}
+						symbol={iconName}
 					/>
 				)}
 
