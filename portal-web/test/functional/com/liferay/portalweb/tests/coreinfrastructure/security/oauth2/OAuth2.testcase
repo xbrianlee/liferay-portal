@@ -219,6 +219,11 @@ definition {
 			resourceCheckList = "liferay-json-web-services.read.buildnumber",
 			resourcePanels = "Portal Services");
 
+		OAuth2.viewScopes(
+			applicationName = "OAuth Application",
+			resourceCheckedList = "liferay-json-web-services.read.buildnumber",
+			resourcePanels = "Portal Services");
+
 		var accessToken = OAuth2.getAccessToken(
 			clientId = "${generatedClientId}",
 			clientSecret = "${generatedClientSecret}",
