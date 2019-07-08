@@ -32,7 +32,7 @@ const TEST_LIST = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
 
 describe('utils', () => {
 	describe('isNil', () => {
-		it('should return false for a defined variable', () => {
+		it('returns false for a defined variable', () => {
 			const definedVariable = 'test';
 
 			expect(isNil(definedVariable)).not.toBeTruthy();
@@ -43,14 +43,14 @@ describe('utils', () => {
 			expect(isNil(-1)).not.toBeTruthy();
 		});
 
-		it('should return true for an undefined or null variable', () => {
+		it('returns true for an undefined or null variable', () => {
 			expect(isNil(null)).toBeTruthy();
 			expect(isNil(undefined)).toBeTruthy();
 		});
 	});
 
 	describe('move', () => {
-		it('should return an array with an item moved downward', () => {
+		it('returns an array with an item moved downward', () => {
 			expect(move(TEST_LIST, 0, 2)).toEqual([
 				{id: 2},
 				{id: 1},
@@ -68,7 +68,7 @@ describe('utils', () => {
 			]);
 		});
 
-		it('should return an array with an item moved upward', () => {
+		it('returns an array with an item moved upward', () => {
 			expect(move(TEST_LIST, 2, 0)).toEqual([
 				{id: 3},
 				{id: 1},
@@ -86,7 +86,7 @@ describe('utils', () => {
 			]);
 		});
 
-		it('should move items in a string list', () => {
+		it('moves items in a string list', () => {
 			expect(move(['one', 'two', 'three'], 0, 2)).toEqual([
 				'two',
 				'one',
@@ -94,11 +94,11 @@ describe('utils', () => {
 			]);
 		});
 
-		it('should move items in a number list', () => {
+		it('moves items in a number list', () => {
 			expect(move([1, 2, 3], 0, 2)).toEqual([2, 1, 3]);
 		});
 
-		it('should move an item to the end of the to index exceeds the list length', () => {
+		it('moves an item to the end of the to index exceeds the list length', () => {
 			expect(move(TEST_LIST, 0, 99)).toEqual([
 				{id: 2},
 				{id: 3},
@@ -118,14 +118,14 @@ describe('utils', () => {
 	});
 
 	describe('resultsDataToMap', () => {
-		it('should return a mapped set of data', () => {
+		it('returns a mapped set of data', () => {
 			expect(resultsDataToMap(RESULTS_LIST)).toEqual({
 				102: RESULTS_LIST.filter(({id}) => id === 102)[0],
 				103: RESULTS_LIST.filter(({id}) => id === 103)[0]
 			});
 		});
 
-		it('should not replace existing ids', () => {
+		it('does not replace existing ids', () => {
 			const newResults = [
 				{
 					id: 103,
@@ -141,13 +141,13 @@ describe('utils', () => {
 			);
 		});
 
-		it('should be an empty set if data is empty', () => {
+		it('returns an empty set if data is empty', () => {
 			expect(resultsDataToMap([])).toEqual({});
 		});
 	});
 
 	describe('toggleListItem', () => {
-		it('should return a new list', () => {
+		it('returns a new list', () => {
 			expect(toggleListItem([102, 103, 104], 102)).toEqual([103, 104]);
 			expect(toggleListItem([102, 103, 104], 103)).toEqual([102, 104]);
 			expect(toggleListItem([102, 103, 104], 105)).toEqual([
@@ -160,7 +160,7 @@ describe('utils', () => {
 	});
 
 	describe('updateDataMap', () => {
-		it('should a data map object with the updated properties', () => {
+		it('returns a data map object with the updated properties', () => {
 			const initialDataMap = {
 				101: {
 					id: 101,
@@ -188,7 +188,7 @@ describe('utils', () => {
 			).toEqual(updatedDataMap);
 		});
 
-		it('should multiple items from a data map object', () => {
+		it('returns multiple items from a data map object', () => {
 			const initialDataMap = {
 				101: {
 					id: 101,
@@ -216,7 +216,7 @@ describe('utils', () => {
 			).toEqual(updatedDataMap);
 		});
 
-		it('should a data map object with the multiple updated properties', () => {
+		it('returns a data map object with the multiple updated properties', () => {
 			const initialDataMap = {
 				101: {
 					id: 101,

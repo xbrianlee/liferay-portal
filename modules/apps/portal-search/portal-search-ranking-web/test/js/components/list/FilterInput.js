@@ -3,7 +3,7 @@ import FilterInput from 'components/list/FilterInput';
 import {cleanup, fireEvent, render} from '@testing-library/react';
 
 describe('FilterInput', () => {
-	it('should have the searchbar term in the filter input', () => {
+	it('has the searchbar term in the filter input', () => {
 		const {getByPlaceholderText} = render(
 			<FilterInput
 				disableSearch={false}
@@ -18,7 +18,7 @@ describe('FilterInput', () => {
 		expect(input.value).toEqual('test');
 	});
 
-	it('should call the onChange function when adding to the input', () => {
+	it('calls the onChange function when adding to the input', () => {
 		const onChange = jest.fn();
 
 		const {queryByPlaceholderText} = render(
@@ -37,7 +37,7 @@ describe('FilterInput', () => {
 		expect(onChange).toHaveBeenCalledTimes(1);
 	});
 
-	it('should call the onLoadResults function when the searchbar enter is pressed', () => {
+	it('calls the onLoadResults function when the searchbar enter is pressed', () => {
 		const onSubmit = jest.fn();
 
 		const {queryByPlaceholderText} = render(

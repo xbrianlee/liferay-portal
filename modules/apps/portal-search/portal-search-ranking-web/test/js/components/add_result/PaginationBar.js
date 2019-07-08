@@ -8,7 +8,7 @@ const PAGINATION_DELTA_ID = 'pagination-delta';
 const PAGINATION_ID = 'pagination';
 
 describe('PaginationBar', () => {
-	it('should have a dropdown for updating delta', () => {
+	it('has a dropdown for updating delta', () => {
 		const {getByTestId} = render(
 			<PaginationBar
 				deltas={DELTAS}
@@ -33,7 +33,7 @@ describe('PaginationBar', () => {
 		expect(dropdownItems[4]).toHaveTextContent('50');
 	});
 
-	it('should have correct pagination with 100 items and delta 50', () => {
+	it('has correct pagination with 100 items and delta 50', () => {
 		const {getByTestId, queryByText} = render(
 			<PaginationBar
 				deltas={DELTAS}
@@ -51,7 +51,7 @@ describe('PaginationBar', () => {
 		expect(getByTestId(PAGINATION_ID)).not.toHaveTextContent('3');
 	});
 
-	it('should have correct pagination with 105 items and delta 5', () => {
+	it('has correct pagination with 105 items and delta 5', () => {
 		const {getByTestId, queryByText} = render(
 			<PaginationBar
 				deltas={DELTAS}
@@ -69,7 +69,7 @@ describe('PaginationBar', () => {
 		expect(getByTestId(PAGINATION_ID)).not.toHaveTextContent('22');
 	});
 
-	it('should be on the correct page', () => {
+	it('is on the correct page', () => {
 		const {queryByText} = render(
 			<PaginationBar
 				deltas={DELTAS}
@@ -84,7 +84,7 @@ describe('PaginationBar', () => {
 		expect(queryByText('Showing 31 to 35 of 100 entries.')).not.toBeNull();
 	});
 
-	it('should show the pagination dropdown menu when clicked on dropdown delta', () => {
+	it('shows the pagination dropdown menu when clicked on dropdown delta', () => {
 		const {getByTestId, getByText} = render(
 			<PaginationBar
 				deltas={DELTAS}
@@ -103,7 +103,7 @@ describe('PaginationBar', () => {
 		).toHaveClass('show');
 	});
 
-	it('should call the onDeltaChange function when selecting delta', () => {
+	it('calls the onDeltaChange function when selecting delta', () => {
 		const onDeltaChange = jest.fn();
 
 		const {getByTestId} = render(

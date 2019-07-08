@@ -3,7 +3,7 @@ import React from 'react';
 import {cleanup, render} from '@testing-library/react';
 
 describe('ClayMultiselect', () => {
-	it('should render', () => {
+	it('renders', () => {
 		const {container} = render(<ClayMultiselect />);
 
 		expect(container.firstChild).not.toBeNull();

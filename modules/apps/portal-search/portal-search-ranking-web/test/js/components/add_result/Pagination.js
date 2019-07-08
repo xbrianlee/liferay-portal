@@ -3,7 +3,7 @@ import Pagination from 'components/add_result/Pagination';
 import {cleanup, fireEvent, render} from '@testing-library/react';
 
 describe('Pagination', () => {
-	it('should have a disabled previous arrow on first page', () => {
+	it('has a disabled previous arrow on first page', () => {
 		const {container} = render(
 			<Pagination href='' onChange={jest.fn()} page={1} total={7} />
 		);
@@ -13,7 +13,7 @@ describe('Pagination', () => {
 		);
 	});
 
-	it('should have a disabled next arrow on last page', () => {
+	it('has a disabled next arrow on last page', () => {
 		const {container} = render(
 			<Pagination href='' onChange={jest.fn()} page={7} total={7} />
 		);
@@ -23,7 +23,7 @@ describe('Pagination', () => {
 		);
 	});
 
-	it('should show the pagination dropdown menu when clicked on ellipses', () => {
+	it('shows the pagination dropdown menu when clicked on ellipses', () => {
 		const {container, getByText} = render(
 			<Pagination href='' onChange={jest.fn()} page={1} total={5} />
 		);
@@ -33,7 +33,7 @@ describe('Pagination', () => {
 		expect(container.querySelector('.dropdown-menu')).toHaveClass('show');
 	});
 
-	it('should have two ellipses buttons when on certain pages', () => {
+	it('has two ellipses buttons when on certain pages', () => {
 		const {queryAllByText} = render(
 			<Pagination href='' onChange={jest.fn()} page={5} total={10} />
 		);
@@ -41,7 +41,7 @@ describe('Pagination', () => {
 		expect(queryAllByText('...').length).toEqual(2);
 	});
 
-	it('should show no ellipses button when on certain pages', () => {
+	it('shows no ellipses button when on certain pages', () => {
 		const {queryByText} = render(
 			<Pagination href='' onChange={jest.fn()} page={3} total={5} />
 		);
@@ -49,7 +49,7 @@ describe('Pagination', () => {
 		expect(queryByText('...')).toBeNull();
 	});
 
-	it('should call function onChange when new page is clicked on', () => {
+	it('calls function onChange when new page is clicked on', () => {
 		const onChange = jest.fn();
 
 		const {getByText} = render(

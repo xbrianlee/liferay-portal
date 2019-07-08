@@ -27,7 +27,7 @@ const HIDE_BUTTON_LABEL = 'Hide Result';
 const SHOW_BUTTON_LABEL = 'Show Result';
 
 describe('ResultsRankingForm', () => {
-	it('should render the results ranking form', () => {
+	it('renders the results ranking form', () => {
 		const {container} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -43,7 +43,7 @@ describe('ResultsRankingForm', () => {
 		).toBeInTheDocument();
 	});
 
-	it('should render the results ranking form after loading', async () => {
+	it('renders the results ranking form after loading', async () => {
 		const {getByTestId} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -59,7 +59,7 @@ describe('ResultsRankingForm', () => {
 		expect(getByTestId(RESULTS_LIST_ID)).toBeInTheDocument();
 	});
 
-	it('should render the results ranking form after loading hidden tab', async () => {
+	it('renders the results ranking form after loading hidden tab', async () => {
 		const {getByTestId, getByText} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -77,7 +77,7 @@ describe('ResultsRankingForm', () => {
 		expect(getByTestId(RESULTS_LIST_ID)).toBeInTheDocument();
 	});
 
-	it('should include the initial aliases', async () => {
+	it('includes the initial aliases', async () => {
 		const {container} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -96,7 +96,7 @@ describe('ResultsRankingForm', () => {
 		expect(tagsElement[2]).toHaveTextContent('three');
 	});
 
-	it('should remove an initial alias after clicking delete', async () => {
+	it('removes an initial alias after clicking delete', async () => {
 		const {container} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -119,7 +119,7 @@ describe('ResultsRankingForm', () => {
 		expect(tagsElement[0]).not.toHaveTextContent('one');
 	});
 
-	xit('should update the pinnedAdded', async () => {
+	xit('updates the pinnedAdded', async () => {
 		const {container, getByTestId} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -137,7 +137,7 @@ describe('ResultsRankingForm', () => {
 		expect(container.querySelector('#pinnedAdded').value).toEqual('109');
 	});
 
-	xit('should update the pinnedAdded back', async () => {
+	xit('updates the pinnedAdded back', async () => {
 		const {container, getByTestId} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -157,7 +157,7 @@ describe('ResultsRankingForm', () => {
 		expect(container.querySelector('#pinnedAdded').value).toEqual('');
 	});
 
-	xit('should update the pinnedRemoved', async () => {
+	xit('updates the pinnedRemoved', async () => {
 		const {container, getByTestId} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -175,7 +175,7 @@ describe('ResultsRankingForm', () => {
 		expect(container.querySelector('#pinnedRemoved').value).toEqual('100');
 	});
 
-	xit('should update the pinnedRemoved back', async () => {
+	xit('updates the pinnedRemoved back', async () => {
 		const {container, getByTestId} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -195,7 +195,7 @@ describe('ResultsRankingForm', () => {
 		expect(container.querySelector('#pinnedRemoved').value).toEqual('');
 	});
 
-	it('should update the hiddenAdded', async () => {
+	it('updates the hiddenAdded', async () => {
 		const {container, getByTestId} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -217,7 +217,7 @@ describe('ResultsRankingForm', () => {
 		).toEqual('100');
 	});
 
-	it('should update the hiddenAdded back', async () => {
+	it('updates the hiddenAdded back', async () => {
 		const {container, getByTestId, getByText} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -245,7 +245,7 @@ describe('ResultsRankingForm', () => {
 		).toEqual('');
 	});
 
-	it('should update the hiddenRemoved', async () => {
+	it('updates the hiddenRemoved', async () => {
 		const {container, getByTestId, getByText} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -269,7 +269,7 @@ describe('ResultsRankingForm', () => {
 		).toEqual('200');
 	});
 
-	it('should update the hiddenRemoved back', async () => {
+	it('updates the hiddenRemoved back', async () => {
 		const {container, getByTestId, getByText} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -299,7 +299,7 @@ describe('ResultsRankingForm', () => {
 		).toEqual('');
 	});
 
-	xit('should update the pinnedRemoved from hiding a result', async () => {
+	xit('updates the pinnedRemoved from hiding a result', async () => {
 		const {container, getByTestId, getByText} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -337,7 +337,7 @@ describe('ResultsRankingForm', () => {
 		expect(getByText('Publish')).not.toHaveAttribute('disabled');
 	});
 
-	it('should fetch more results after clicking on load more button', async () => {
+	it('fetches more results after clicking on load more button', async () => {
 		const {container, getByTestId} = render(
 			<ResultsRankingForm
 				cancelUrl='cancel'
@@ -362,7 +362,7 @@ describe('ResultsRankingForm', () => {
 		);
 	});
 
-	it('should have the same pinned end index if there are no additional pinned items loaded', async () => {
+	it('has the same pinned end index if there are no additional pinned items loaded', async () => {
 		const {container, getByTestId} = render(
 			<ResultsRankingForm
 				cancelUrl=''

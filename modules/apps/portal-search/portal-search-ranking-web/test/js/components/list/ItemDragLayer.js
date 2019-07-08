@@ -3,7 +3,7 @@ import React from 'react';
 import {cleanup, render} from '@testing-library/react';
 
 describe('ItemDragLayer', () => {
-	it('should render when dragging', () => {
+	it('renders when dragging', () => {
 		const {container} = render(
 			<ItemDragLayer.DecoratedComponent dragging />
 		);
@@ -12,7 +12,7 @@ describe('ItemDragLayer', () => {
 		expect(container.firstChild).toBeVisible();
 	});
 
-	it('should not render by default', () => {
+	it('does not render by default', () => {
 		const {container} = render(<ItemDragLayer.DecoratedComponent />);
 
 		expect(container.firstChild).toBeNull();

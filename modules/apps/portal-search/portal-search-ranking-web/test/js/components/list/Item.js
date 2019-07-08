@@ -14,7 +14,7 @@ const HIDE_BUTTON_LABEL = 'Hide Result';
 const UNPIN_BUTTON_LABEL = 'Unpin Result';
 
 describe('Item', () => {
-	it('should show the dropdown when clicked on', () => {
+	it('shows the dropdown when clicked on', () => {
 		const {container, getByTestId} = render(
 			<Item
 				addedResult={false}
@@ -47,7 +47,7 @@ describe('Item', () => {
 		expect(container.querySelector('.dropdown-menu')).toHaveClass('show');
 	});
 
-	it('should show the appropriate subtext', () => {
+	it('shows the appropriate subtext', () => {
 		const {container} = render(
 			<Item
 				addedResult={false}
@@ -83,7 +83,7 @@ describe('Item', () => {
 		expect(subtitles[1]).toHaveTextContent('[Web Content]');
 	});
 
-	it('should show the appropriate title', () => {
+	it('shows the appropriate title', () => {
 		const {container} = render(
 			<Item
 				addedResult={false}
@@ -116,7 +116,7 @@ describe('Item', () => {
 		).toHaveTextContent('This is a Web Content Example');
 	});
 
-	it('should show the appropriate description', () => {
+	it('shows the appropriate description', () => {
 		const {container} = render(
 			<Item
 				addedResult={false}
@@ -151,7 +151,7 @@ describe('Item', () => {
 		);
 	});
 
-	it('should show the appropriate view count', () => {
+	it('shows the appropriate view count', () => {
 		const {container} = render(
 			<Item
 				addedResult={false}
@@ -184,7 +184,7 @@ describe('Item', () => {
 		);
 	});
 
-	it('should call the onClickHide function when its button gets clicked on', () => {
+	it('calls the onClickHide function when its button gets clicked on', () => {
 		const onClickHide = jest.fn();
 
 		const {container} = render(
@@ -219,7 +219,7 @@ describe('Item', () => {
 		expect(onClickHide.mock.calls.length).toBe(1);
 	});
 
-	it('should call the onClickPin function when its button gets clicked on', () => {
+	it('calls the onClickPin function when its button gets clicked on', () => {
 		const onClickPin = jest.fn();
 
 		const {container} = render(
@@ -254,7 +254,7 @@ describe('Item', () => {
 		expect(onClickPin.mock.calls.length).toBe(1);
 	});
 
-	it('should call the onFocus event when focused', () => {
+	it('calls the onFocus event when focused', () => {
 		const onFocus = jest.fn();
 
 		const {getByTestId} = render(
@@ -293,7 +293,7 @@ describe('Item', () => {
 		expect(onFocus.mock.calls.length).toBe(1);
 	});
 
-	it('should call the onBlur event when un-focused', () => {
+	it('calls the onBlur event when un-focused', () => {
 		const onBlur = jest.fn();
 
 		const {getByTestId} = render(
@@ -332,7 +332,7 @@ describe('Item', () => {
 		expect(onBlur.mock.calls.length).toBe(1);
 	});
 
-	it('should not call the onFocus event when a button within is focused', () => {
+	it('calls the onFocus event when a button within is focused', () => {
 		const onFocus = jest.fn();
 
 		const {getByTitle} = render(

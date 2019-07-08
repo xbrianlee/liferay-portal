@@ -8,7 +8,7 @@ import React from 'react';
 import {cleanup, render} from '@testing-library/react';
 
 describe('ClayTabs', () => {
-	it('should render', () => {
+	it('renders', () => {
 		const {asFragment} = render(
 			<ClayTabs>
 				<ClayTabList className='results-ranking-tabs'>

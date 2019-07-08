@@ -3,7 +3,7 @@ import PageToolbar from 'components/PageToolbar';
 import {cleanup, render} from '@testing-library/react';
 
 describe('PageToolbar', () => {
-	it('should disable the publish button', () => {
+	it('disables the publish button', () => {
 		const {getByText} = render(
 			<PageToolbar
 				onCancel={'cancel'}
@@ -15,7 +15,7 @@ describe('PageToolbar', () => {
 		expect(getByText('Publish')).toHaveAttribute('disabled');
 	});
 
-	it('should enable the publish button', () => {
+	it('enables the publish button', () => {
 		const {getByText} = render(
 			<PageToolbar
 				onCancel={'cancel'}

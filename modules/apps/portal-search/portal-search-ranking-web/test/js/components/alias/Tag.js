@@ -3,7 +3,7 @@ import Tag from 'components/alias/Tag';
 import {cleanup, fireEvent, render} from '@testing-library/react';
 
 describe('Tag', () => {
-	it('should have corresponding label', () => {
+	it('has a corresponding label', () => {
 		const {container} = render(
 			<Tag label='one' onClickDelete={jest.fn()} />
 		);
@@ -13,7 +13,7 @@ describe('Tag', () => {
 		expect(tag).toHaveTextContent('one');
 	});
 
-	it('should call the onClickDelete function when it gets clicked on', () => {
+	it('calls the onClickDelete function when it gets clicked on', () => {
 		const onClickDelete = jest.fn();
 
 		const {container} = render(

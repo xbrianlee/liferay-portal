@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ClayTabs should render 1`] = `
+exports[`ClayTabs renders 1`] = `
 <DocumentFragment>
   <div
     class="react-tabs"

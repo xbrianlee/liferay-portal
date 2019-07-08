@@ -18,27 +18,27 @@ function testText(text) {
 }
 
 describe('ItemDragPreview', () => {
-	it('should display the title', () => {
+	it('displays the title', () => {
 		testText(MOCK_DOCUMENT.title);
 	});
 
-	it('should display the description', () => {
+	it('displays the description', () => {
 		testText(MOCK_DOCUMENT.description);
 	});
 
-	it('should display the author', () => {
+	it('displays the author', () => {
 		testText(MOCK_DOCUMENT.author);
 	});
 
-	it('should display the clicks', () => {
+	it('displays the clicks', () => {
 		testText(`${MOCK_DOCUMENT.clicks}`);
 	});
 
-	it('should display the date', () => {
+	it('displays the date', () => {
 		testText(`${MOCK_DOCUMENT.date}`);
 	});
 
-	it('should display the drag handle', () => {
+	it('displays the drag handle', () => {
 		const {getByTestId} = render(<ItemDragPreview {...MOCK_DOCUMENT} />);
 
 		expect(getByTestId('DRAG_ICON')).toBeVisible();

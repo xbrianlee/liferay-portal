@@ -10,7 +10,7 @@ describe('Alias', () => {
 		ReactModal.setAppElement('body');
 	});
 
-	it('should have a list of tags available', () => {
+	it('has a list of tags available', () => {
 		const {container} = render(
 			<Alias
 				keywords={['one', 'two', 'three']}
@@ -27,7 +27,7 @@ describe('Alias', () => {
 		expect(tagsElement[2]).toHaveTextContent('three');
 	});
 
-	it('should not show a modal by default', () => {
+	it('shows a modal by default', () => {
 		const {queryByTestId} = render(
 			<Alias
 				keywords={['one', 'two', 'three']}
@@ -40,7 +40,7 @@ describe('Alias', () => {
 		expect(queryByTestId(MODAL_ID)).toBeNull();
 	});
 
-	it('should render a modal when the add an alias button gets clicked', () => {
+	it('renders a modal when the add an alias button gets clicked', () => {
 		const {getByText, queryByTestId} = render(
 			<Alias
 				keywords={['one', 'two', 'three']}
@@ -55,7 +55,7 @@ describe('Alias', () => {
 		expect(queryByTestId(MODAL_ID)).not.toBeNull();
 	});
 
-	it('should close the modal after the cancel button gets clicked', () => {
+	it('closes the modal after the cancel button gets clicked', () => {
 		const {getByText, queryByTestId} = render(
 			<Alias
 				keywords={['one', 'two', 'three']}
@@ -72,7 +72,7 @@ describe('Alias', () => {
 		expect(queryByTestId(MODAL_ID)).toBeNull();
 	});
 
-	it('should prompt to input an alias', () => {
+	it('prompts to input an alias', () => {
 		const {getByText, queryByText} = render(
 			<Alias
 				keywords={['one', 'two', 'three']}
@@ -89,7 +89,7 @@ describe('Alias', () => {
 		).not.toBeNull();
 	});
 
-	it('should have the modal with a default disabled add button', () => {
+	it('has the modal with a default disabled add button', () => {
 		const {getByText, queryByTestId} = render(
 			<Alias
 				keywords={['one', 'two', 'three']}
@@ -108,7 +108,7 @@ describe('Alias', () => {
 		).toHaveAttribute('disabled');
 	});
 
-	it('should not render blank keywords', () => {
+	it('renders blank keywords', () => {
 		const {container} = render(
 			<Alias
 				keywords={['', ' ']}

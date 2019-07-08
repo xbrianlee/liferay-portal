@@ -16,7 +16,7 @@ const DATA_MAP = resultsDataToMap(
 const DROPDOWN_TOGGLE_ID = 'dropdown-toggle';
 
 describe('SearchBar', () => {
-	it('should have an add result button when onAddResultSubmit is defined', () => {
+	it('has an add result button when onAddResultSubmit is defined', () => {
 		const {queryByText} = render(
 			<SearchBar
 				dataMap={DATA_MAP}
@@ -34,7 +34,7 @@ describe('SearchBar', () => {
 		expect(queryByText('Add a Result')).not.toBeNull();
 	});
 
-	it('should not have an add result button when onAddResultSubmit is not defined', () => {
+	it('does not have an add result button when onAddResultSubmit is not defined', () => {
 		const {queryByText} = render(
 			<SearchBar
 				dataMap={DATA_MAP}
@@ -52,7 +52,7 @@ describe('SearchBar', () => {
 		expect(queryByText('Add a Result')).toBeNull();
 	});
 
-	it('should show what is selected using selectedIds', () => {
+	it('shows what is selected using selectedIds', () => {
 		const {queryByText} = render(
 			<SearchBar
 				dataMap={DATA_MAP}
@@ -71,7 +71,7 @@ describe('SearchBar', () => {
 		expect(queryByText('Add a Result')).toBeNull();
 	});
 
-	it('should show the dropdown when clicked on', () => {
+	it('shows the dropdown when clicked on', () => {
 		const {container, getByTestId} = render(
 			<SearchBar
 				dataMap={DATA_MAP}
@@ -91,7 +91,7 @@ describe('SearchBar', () => {
 		expect(container.querySelector('.dropdown-menu')).toHaveClass('show');
 	});
 
-	it('should show no items selected with empty selectedIds', () => {
+	it('shows no items selected with empty selectedIds', () => {
 		const {queryByText} = render(
 			<SearchBar
 				dataMap={DATA_MAP}

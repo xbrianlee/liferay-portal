@@ -23,7 +23,7 @@ describe('AddResult', () => {
 		ReactModal.setAppElement('body');
 	});
 
-	it('should show a modal when the add a result button gets clicked', () => {
+	it('shows a modal when the add a result button gets clicked', async () => {
 		const {getByText, queryByTestId} = render(
 			<AddResult
 				fetchDocumentsUrl={FETCH_VISIBLE_DOCUMENTS_URL}
@@ -36,7 +36,7 @@ describe('AddResult', () => {
 		expect(queryByTestId(MODAL_ID)).not.toBeNull();
 	});
 
-	it('should close the modal when the cancel button gets clicked', () => {
+	it('closes the modal when the cancel button gets clicked', () => {
 		const {getByText, queryByTestId} = render(
 			<AddResult
 				fetchDocumentsUrl={FETCH_VISIBLE_DOCUMENTS_URL}
@@ -51,7 +51,7 @@ describe('AddResult', () => {
 		expect(queryByTestId(MODAL_ID)).toBeNull();
 	});
 
-	it('should prompt a message to search in the modal', () => {
+	it('prompts a message to search in the modal', () => {
 		const {getByTestId, getByText} = render(
 			<AddResult
 				fetchDocumentsUrl={FETCH_VISIBLE_DOCUMENTS_URL}
@@ -71,7 +71,7 @@ describe('AddResult', () => {
 		).toHaveTextContent('Search your engine to display results.');
 	});
 
-	it('should not show the prompt in the modal after enter key is pressed', async () => {
+	it('does not show the prompt in the modal after enter key is pressed', async () => {
 		const {getByTestId, getByText} = render(
 			<AddResult
 				fetchDocumentsUrl={FETCH_VISIBLE_DOCUMENTS_URL}
@@ -99,7 +99,7 @@ describe('AddResult', () => {
 		).not.toBeInTheDocument();
 	});
 
-	it('should show the results in the modal after enter key is pressed', async () => {
+	it('shows the results in the modal after enter key is pressed', async () => {
 		const {getByTestId, getByText} = render(
 			<AddResult
 				fetchDocumentsUrl={FETCH_VISIBLE_DOCUMENTS_URL}
@@ -123,7 +123,7 @@ describe('AddResult', () => {
 		expect(modal).toHaveTextContent('309 This is a Web Content Example');
 	});
 
-	it('should call the onAddResultSubmit function after add is pressed', async () => {
+	it('calls the onAddResultSubmit function after add is pressed', async () => {
 		const onAddResultSubmit = jest.fn();
 
 		const {getByTestId, getByText} = render(
@@ -154,7 +154,7 @@ describe('AddResult', () => {
 		expect(onAddResultSubmit.mock.calls.length).toBe(1);
 	});
 
-	it('should show next page results in the modal after navigation is pressed', async () => {
+	it('shows next page results in the modal after navigation is pressed', async () => {
 		const onAddResultSubmit = jest.fn();
 
 		const {getByTestId, getByText} = render(
@@ -188,7 +188,7 @@ describe('AddResult', () => {
 		expect(modal).toHaveTextContent('319 This is a Web Content Example');
 	});
 
-	it('should update results count in the modal after page delta is pressed', async () => {
+	it('updates results count in the modal after page delta is pressed', async () => {
 		const onAddResultSubmit = jest.fn();
 
 		const {getByTestId, getByText} = render(

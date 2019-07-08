@@ -3,19 +3,19 @@ import React from 'react';
 import {cleanup, render} from '@testing-library/react';
 
 describe('ClayEmptyState', () => {
-	it('should render', () => {
+	it('renders', () => {
 		const {asFragment} = render(<ClayEmptyState />);
 
 		expect(asFragment()).toMatchSnapshot();
 	});
 
-	it('should display a custom title', () => {
+	it('displays a custom title', () => {
 		const {getByText} = render(<ClayEmptyState title='Test Title' />);
 
 		expect(getByText('Test Title')).toBeInTheDocument();
 	});
 
-	it('should display a custom description', () => {
+	it('displays a custom description', () => {
 		const {getByText} = render(
 			<ClayEmptyState description='Test Description' />
 		);

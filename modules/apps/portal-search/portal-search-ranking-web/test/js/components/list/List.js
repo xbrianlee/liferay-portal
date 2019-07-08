@@ -11,7 +11,7 @@ const DATA_MAP = resultsDataToMap(
 );
 
 describe('List', () => {
-	it('should list out results in order with expected titles', () => {
+	it('lists out results in order with expected titles', () => {
 		const {container} = render(
 			<List
 				dataLoading={false}
@@ -37,7 +37,7 @@ describe('List', () => {
 		);
 	});
 
-	it('should have no loading icon', () => {
+	it('has no loading icon', () => {
 		const {container} = render(
 			<List
 				dataLoading={false}
@@ -53,7 +53,7 @@ describe('List', () => {
 		expect(container.querySelector('.load-more-button')).not.toBeNull();
 	});
 
-	it('should have a loading icon', () => {
+	it('has a loading icon', () => {
 		const {container} = render(
 			<List
 				dataLoading={true}
@@ -69,7 +69,7 @@ describe('List', () => {
 		expect(container.querySelector('.load-more-button')).toBeNull();
 	});
 
-	it('should call the onLoadResults function when the loading button is clicked', () => {
+	it('calls the onLoadResults function when the loading button is clicked', () => {
 		const mockLoad = jest.fn();
 
 		const {container} = render(
@@ -91,7 +91,7 @@ describe('List', () => {
 		expect(mockLoad).toHaveBeenCalledTimes(1);
 	});
 
-	it('should update the selected ids', () => {
+	it('updates the selected ids', () => {
 		const mockLoad = jest.fn();
 
 		const {getByTestId, queryByText} = render(
@@ -116,7 +116,7 @@ describe('List', () => {
 		expect(queryByText('2 of 3 Items Selected')).toBeInTheDocument();
 	});
 
-	it('should update the selected ids back', () => {
+	it('updates the selected ids back', () => {
 		const mockLoad = jest.fn();
 
 		const {getByTestId, queryByText} = render(
@@ -141,7 +141,7 @@ describe('List', () => {
 		expect(queryByText('Items Selected')).not.toBeInTheDocument();
 	});
 
-	it('should focus on the id', () => {
+	it('focuses on the id', () => {
 		const mockLoad = jest.fn();
 
 		const {getByTestId} = render(
@@ -163,7 +163,7 @@ describe('List', () => {
 		expect(focusedElement).toBe(getByTestId('102'));
 	});
 
-	it('should add classes of focus and reorder on the id', () => {
+	it('adds classes of focus and reorder on the id', () => {
 		const mockLoad = jest.fn();
 
 		const {getByTestId} = render(

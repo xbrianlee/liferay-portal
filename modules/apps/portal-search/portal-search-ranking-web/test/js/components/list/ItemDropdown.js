@@ -5,7 +5,7 @@ import {cleanup, fireEvent, render} from '@testing-library/react';
 const DROPDOWN_TOGGLE_ID = 'dropdown-toggle';
 
 describe('ItemDropdown', () => {
-	it('should have option to unpin visible', () => {
+	it('has option to unpin visible', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={false}
@@ -19,7 +19,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Unpin Results')).toBeNull();
 	});
 
-	it('should have option to unpin multiple visible', () => {
+	it('has option to unpin multiple visible', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={false}
@@ -33,7 +33,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Unpin Results')).not.toBeNull();
 	});
 
-	it('should have option to pin visible', () => {
+	it('has option to pin visible', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={false}
@@ -47,7 +47,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Pin Results')).toBeNull();
 	});
 
-	it('should have option to unpin multiple visible', () => {
+	it('has option to unpin multiple visible', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={false}
@@ -61,7 +61,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Pin Results')).not.toBeNull();
 	});
 
-	it('should have option to hide visible', () => {
+	it('has option to hide visible', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={false}
@@ -75,7 +75,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Hide Results')).toBeNull();
 	});
 
-	it('should have option to hide multiple visible', () => {
+	it('has option to hide multiple visible', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={false}
@@ -89,7 +89,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Hide Results')).not.toBeNull();
 	});
 
-	it('should have option to show hidden', () => {
+	it('has option to show hidden', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={true}
@@ -103,7 +103,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Show Results')).toBeNull();
 	});
 
-	it('should have option to show multiple hidden', () => {
+	it('has option to show multiple hidden', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={true}
@@ -117,7 +117,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Show Results')).not.toBeNull();
 	});
 
-	it('should have option to pin hidden', () => {
+	it('has option to pin hidden', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={true}
@@ -131,7 +131,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Pin Results')).toBeNull();
 	});
 
-	it('should have option to pin multiple hidden', () => {
+	it('has option to pin multiple hidden', () => {
 		const {queryByText} = render(
 			<ItemDropdown
 				hidden={true}
@@ -145,7 +145,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Pin Results')).not.toBeNull();
 	});
 
-	it('should have not have option to show/hide when onClickHide is missing', () => {
+	it('does not have option to show/hide when onClickHide is missing', () => {
 		const {queryByText} = render(
 			<ItemDropdown hidden={false} onClickPin={jest.fn()} pinned={true} />
 		);
@@ -154,7 +154,7 @@ describe('ItemDropdown', () => {
 		expect(queryByText('Hide Result')).toBeNull();
 	});
 
-	it('should show the dropdown when clicked on', () => {
+	it('shows the dropdown when clicked on', () => {
 		const {container, getByTestId} = render(
 			<ItemDropdown
 				hidden={false}
@@ -169,7 +169,7 @@ describe('ItemDropdown', () => {
 		expect(container.querySelector('.dropdown-menu')).toHaveClass('show');
 	});
 
-	it('should call the onClickHide function when it gets clicked on', () => {
+	it('calls the onClickHide function when it gets clicked on', () => {
 		const onClickHide = jest.fn();
 
 		const {getByText} = render(
@@ -186,7 +186,7 @@ describe('ItemDropdown', () => {
 		expect(onClickHide.mock.calls.length).toBe(1);
 	});
 
-	it('should call the onClickPin function when it gets clicked on', () => {
+	it('calls the onClickPin function when it gets clicked on', () => {
 		const onClickPin = jest.fn();
 
 		const {getByText} = render(
