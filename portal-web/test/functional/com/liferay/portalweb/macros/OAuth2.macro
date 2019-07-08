@@ -152,6 +152,8 @@ definition {
 					Check(
 						key_scopeName = "${scopeName}",
 						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
+
+					Pause(locator1 = "5000");
 				}
 			}
 
@@ -177,6 +179,8 @@ definition {
 		}
 
 		PortletEntry.save();
+
+		Pause(locator1 = "5000");
 
 		Navigator.gotoBack();
 	}
