@@ -181,7 +181,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 				_log.info(
 					StringBundler.concat(
-						"Searching ", query.toString(), " took ",
+						"Searching ", String.valueOf(query), " took ",
 						stopWatch.getTime(), " ms"));
 			}
 		}
