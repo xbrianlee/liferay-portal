@@ -74,11 +74,6 @@ export const COMPATIBLE_TYPES = {
 };
 
 /**
- * Default language id key
- */
-export const DEFAULT_LANGUAGE_ID_KEY = 'defaultValue';
-
-/**
  * Available editable field config keys
  */
 export const EDITABLE_FIELD_CONFIG_KEYS = {
@@ -164,14 +159,6 @@ export const FLOATING_TOOLBAR_BUTTONS = {
 		id: 'mapping',
 		panelId: 'mapping',
 		title: Liferay.Language.get('map'),
-		type: 'panel'
-	},
-
-	removeFragment: {
-		icon: 'times-circle',
-		id: 'remove_fragment',
-		panelId: 'remove_fragment',
-		title: Liferay.Language.get('remove-fragment'),
 		type: 'panel'
 	},
 
@@ -265,61 +252,5 @@ export const TARGET_TYPES = [
 	{
 		label: Liferay.Language.get('top'),
 		targetTypeId: '_top'
-	}
-];
-
-/**
- * Available values for textAlignmentOptions config key
- */
-export const TEXT_ALIGNMENT_OPTIONS = [
-	{
-		label: Liferay.Language.get('left'),
-		textAlignmentId: 'left'
-	},
-	{
-		label: Liferay.Language.get('center'),
-		textAlignmentId: 'center'
-	},
-	{
-		label: Liferay.Language.get('justify'),
-		textAlignmentId: 'justify'
-	},
-	{
-		label: Liferay.Language.get('right'),
-		textAlignmentId: 'right'
-	}
-];
-
-/**
- * Available values for textStyle config key
- */
-export const TEXT_STYLES = [
-	{
-		label: Liferay.Language.get('normal'),
-		textStyleId: ''
-	},
-	{
-		label: Liferay.Language.get('small'),
-		textStyleId: 'small'
-	},
-	{
-		label: Liferay.Language.get('lead'),
-		textStyleId: 'lead'
-	},
-	{
-		label: Liferay.Util.sub(Liferay.Language.get('heading-x'), '1'),
-		textStyleId: 'h1'
-	},
-	{
-		label: Liferay.Util.sub(Liferay.Language.get('heading-x'), '2'),
-		textStyleId: 'h2'
-	},
-	{
-		label: Liferay.Util.sub(Liferay.Language.get('heading-x'), '3'),
-		textStyleId: 'h3'
-	},
-	{
-		label: Liferay.Util.sub(Liferay.Language.get('heading-x'), '4'),
-		textStyleId: 'h4'
 	}
 ];

@@ -442,6 +442,17 @@ class Sidebar extends Component {
 		}, group);
 	}
 
+	_getTabItems() {
+		if (!this._isEditMode()) {
+			return this.state.tabs;
+		}
+
+		const {focusedField} = this.props;
+		const {settingsContext} = focusedField;
+
+		return settingsContext.pages.map(({title}) => title);
+	}
+
 	_getTransitionEndEvent() {
 		const el = document.createElement('metalClayTransitionEnd');
 
@@ -659,10 +670,7 @@ class Sidebar extends Component {
 	_isEditMode() {
 		const {focusedField} = this.props;
 
-		return !(
-			Object.keys(focusedField).length === 0 &&
-			focusedField.constructor === Object
-		);
+		return Object.keys(focusedField).length > 0;
 	}
 
 	_isModalElement(node) {
@@ -956,35 +964,33 @@ class Sidebar extends Component {
 	}
 
 	_renderNavItems() {
-		const {activeTab, tabs} = this.state;
+		const {activeTab} = this.state;
 
-		return tabs[this._isEditMode() ? 'edit' : 'add'].items.map(
-			(name, index) => {
-				const style = classnames('nav-link', {
-					active: index === activeTab
-				});
+		return this._getTabItems().map((name, index) => {
+			const style = classnames('nav-link', {
+				active: index === activeTab
+			});
 
-				return (
-					<li
-						class="nav-item"
-						data-index={index}
-						data-onclick={this._handleTabItemClicked}
-						key={`tab${index}`}
-						ref={`tab${index}`}
+			return (
+				<li
+					class="nav-item"
+					data-index={index}
+					data-onclick={this._handleTabItemClicked}
+					key={`tab${index}`}
+					ref={`tab${index}`}
+				>
+					<a
+						aria-controls="sidebarLightDetails"
+						class={style}
+						data-toggle="tab"
+						href="javascript:;"
+						role="tab"
 					>
-						<a
-							aria-controls="sidebarLightDetails"
-							class={style}
-							data-toggle="tab"
-							href="javascript:;"
-							role="tab"
-						>
-							<span class="navbar-text-truncate">{name}</span>
-						</a>
-					</li>
-				);
-			}
-		);
+						<span class="navbar-text-truncate">{name}</span>
+					</a>
+				</li>
+			);
+		});
 	}
 
 	_renderSettingsForm() {
@@ -1172,20 +1178,10 @@ Sidebar.STATE = {
 	 */
 
 	tabs: Config.object()
-		.value({
-			add: {
-				items: [
-					Liferay.Language.get('elements'),
-					Liferay.Language.get('element-sets')
-				]
-			},
-			edit: {
-				items: [
-					Liferay.Language.get('basic'),
-					Liferay.Language.get('properties')
-				]
-			}
-		})
+		.value([
+			Liferay.Language.get('elements'),
+			Liferay.Language.get('element-sets')
+		])
 		.internal()
 };
 

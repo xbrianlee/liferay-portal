@@ -27,9 +27,7 @@ const TableWithPagination = ({actions, columns, items, totalCount}) => {
 		}
 	} = useContext(SearchContext);
 
-	const deltas = [5, 10, 20, 30, 50, 75].map(size => {
-		return {label: size};
-	});
+	const deltas = [5, 10, 20, 30, 50, 75].map(size => ({label: size}));
 
 	return (
 		<div className="container-fluid container-fluid-max-xl">

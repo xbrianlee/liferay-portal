@@ -70,7 +70,7 @@ public class ProductMenuAppDeployer implements AppDeployer {
 			key -> new ServiceRegistration<?>[] {
 				_deployAppPanelApp(portletName, panelCategoryKey),
 				_deployAppPanelCategory(appName, panelCategoryKey),
-				_deployAppPortlet(appName, portletName)
+				_deployAppPortlet(appId, appName, portletName)
 			});
 
 		appBuilderApp.setStatus(
@@ -133,10 +133,10 @@ public class ProductMenuAppDeployer implements AppDeployer {
 	}
 
 	private ServiceRegistration<?> _deployAppPortlet(
-		String appName, String portletName) {
+		long appId, String appName, String portletName) {
 
 		return _bundleContext.registerService(
-			Portlet.class, new ProductMenuAppPortlet(),
+			Portlet.class, new ProductMenuAppPortlet(appId),
 			new HashMapDictionary<String, Object>() {
 				{
 					put("com.liferay.portlet.add-default-resource", true);
@@ -149,7 +149,9 @@ public class ProductMenuAppDeployer implements AppDeployer {
 					put(
 						"javax.portlet.init-param.template-path",
 						"/META-INF/resources/");
-					put("javax.portlet.init-param.view-template", "/view.jsp");
+					put(
+						"javax.portlet.init-param.view-template",
+						"/view_entries.jsp");
 					put(
 						"javax.portlet.security-role-ref",
 						"administrator,guest,power-user,user");

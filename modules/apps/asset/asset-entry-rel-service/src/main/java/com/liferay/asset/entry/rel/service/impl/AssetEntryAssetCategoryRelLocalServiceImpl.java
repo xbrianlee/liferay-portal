@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.util.List;
 
@@ -122,11 +124,40 @@ public class AssetEntryAssetCategoryRelLocalServiceImpl
 	}
 
 	@Override
+	public long[] getAssetCategoryPrimaryKeys(long assetEntryId) {
+		List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels =
+			getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
+
+		return ListUtil.toLongArray(
+			assetEntryAssetCategoryRels,
+			AssetEntryAssetCategoryRel::getAssetCategoryId);
+	}
+
+	@Override
 	public List<AssetEntryAssetCategoryRel>
 		getAssetEntryAssetCategoryRelsByAssetCategoryId(long assetCategoryId) {
 
 		return assetEntryAssetCategoryRelPersistence.findByAssetCategoryId(
 			assetCategoryId);
+	}
+
+	@Override
+	public List<AssetEntryAssetCategoryRel>
+		getAssetEntryAssetCategoryRelsByAssetCategoryId(
+			long assetCategoryId, int start, int end) {
+
+		return assetEntryAssetCategoryRelPersistence.findByAssetCategoryId(
+			assetCategoryId, start, end);
+	}
+
+	@Override
+	public List<AssetEntryAssetCategoryRel>
+		getAssetEntryAssetCategoryRelsByAssetCategoryId(
+			long assetCategoryId, int start, int end,
+			OrderByComparator<AssetEntryAssetCategoryRel> orderByComparator) {
+
+		return assetEntryAssetCategoryRelPersistence.findByAssetCategoryId(
+			assetCategoryId, start, end, orderByComparator);
 	}
 
 	@Override
@@ -138,9 +169,38 @@ public class AssetEntryAssetCategoryRelLocalServiceImpl
 	}
 
 	@Override
+	public List<AssetEntryAssetCategoryRel>
+		getAssetEntryAssetCategoryRelsByAssetEntryId(
+			long assetEntryId, int start, int end) {
+
+		return assetEntryAssetCategoryRelPersistence.findByAssetEntryId(
+			assetEntryId, start, end);
+	}
+
+	@Override
+	public List<AssetEntryAssetCategoryRel>
+		getAssetEntryAssetCategoryRelsByAssetEntryId(
+			long assetEntryId, int start, int end,
+			OrderByComparator<AssetEntryAssetCategoryRel> orderByComparator) {
+
+		return assetEntryAssetCategoryRelPersistence.findByAssetEntryId(
+			assetEntryId, start, end, orderByComparator);
+	}
+
+	@Override
 	public int getAssetEntryAssetCategoryRelsCount(long assetEntryId) {
 		return assetEntryAssetCategoryRelPersistence.countByAssetEntryId(
 			assetEntryId);
+	}
+
+	@Override
+	public long[] getAssetEntryPrimaryKeys(long assetCategoryId) {
+		List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels =
+			getAssetEntryAssetCategoryRelsByAssetCategoryId(assetCategoryId);
+
+		return ListUtil.toLongArray(
+			assetEntryAssetCategoryRels,
+			AssetEntryAssetCategoryRel::getAssetCategoryId);
 	}
 
 	private void _reindex(long assetEntryId) {

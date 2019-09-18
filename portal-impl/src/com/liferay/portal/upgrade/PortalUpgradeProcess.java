@@ -102,12 +102,17 @@ public class PortalUpgradeProcess extends UpgradeProcess {
 	public static boolean isInRequiredSchemaVersion(Connection connection)
 		throws SQLException {
 
+		Version currentSchemaVersion = getCurrentSchemaVersion(connection);
+
 		Version requiredSchemaVersion = getRequiredSchemaVersion();
 
-		int result = requiredSchemaVersion.compareTo(
-			getCurrentSchemaVersion(connection));
+		int result = requiredSchemaVersion.compareTo(currentSchemaVersion);
 
-		if (result <= 0) {
+		if ((result == 0) ||
+			((result < 0) &&
+			 (requiredSchemaVersion.getMajor() ==
+				 currentSchemaVersion.getMajor()))) {
+
 			return true;
 		}
 
@@ -164,6 +169,13 @@ public class PortalUpgradeProcess extends UpgradeProcess {
 		}
 	}
 
+	private static final Class<?>[] _PORTAL_UPGRADE_PROCESS_REGISTRIES = {
+		PortalUpgradeProcessRegistryImpl.class,
+		com.liferay.portal.upgrade.v7_2_x.PortalUpgradeProcessRegistryImpl.
+			class,
+		com.liferay.portal.upgrade.v7_3_x.PortalUpgradeProcessRegistryImpl.class
+	};
+
 	private static final Version _initialSchemaVersion = new Version(0, 1, 0);
 	private static final TreeMap<Version, UpgradeProcess> _upgradeProcesses =
 		new TreeMap<Version, UpgradeProcess>() {
@@ -173,25 +185,20 @@ public class PortalUpgradeProcess extends UpgradeProcess {
 		};
 
 	static {
-		PortalUpgradeProcessRegistry portalUpgradeProcessRegistry =
-			new PortalUpgradeProcessRegistryImpl();
+		try {
+			for (Class<?> portalUpgradeProcessRegistry :
+					_PORTAL_UPGRADE_PROCESS_REGISTRIES) {
 
-		portalUpgradeProcessRegistry.registerUpgradeProcesses(
-			_upgradeProcesses);
+				PortalUpgradeProcessRegistry registry =
+					(PortalUpgradeProcessRegistry)
+						portalUpgradeProcessRegistry.newInstance();
 
-		PortalUpgradeProcessRegistry v72xPortalUpgradeProcessRegistry =
-			new com.liferay.portal.upgrade.v7_2_x.
-				PortalUpgradeProcessRegistryImpl();
-
-		v72xPortalUpgradeProcessRegistry.registerUpgradeProcesses(
-			_upgradeProcesses);
-
-		PortalUpgradeProcessRegistry portalUpgradeProcessRegistry73x =
-			new com.liferay.portal.upgrade.v7_3_x.
-				PortalUpgradeProcessRegistryImpl();
-
-		portalUpgradeProcessRegistry73x.registerUpgradeProcesses(
-			_upgradeProcesses);
+				registry.registerUpgradeProcesses(_upgradeProcesses);
+			}
+		}
+		catch (ReflectiveOperationException roe) {
+			throw new ExceptionInInitializerError(roe);
+		}
 	}
 
 }

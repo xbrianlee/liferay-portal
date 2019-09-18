@@ -13,8 +13,28 @@
  */
 
 import Form from 'dynamic-data-mapping-form-renderer/js/containers/Form/Form.es';
+import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 
 const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
+
+const UNIMPLIMENTED_PROPERTIES = ['indexType', 'required', 'validation'];
+
+const getFilteredSettingsContext = settingsContext => {
+	const visitor = new PagesVisitor(settingsContext.pages);
+
+	return {
+		...settingsContext,
+		pages: visitor.mapColumns(column => {
+			return {
+				...column,
+				fields: column.fields.filter(
+					({fieldName}) =>
+						UNIMPLIMENTED_PROPERTIES.indexOf(fieldName) === -1
+				)
+			};
+		})
+	};
+};
 
 export default ({dataLayoutBuilder, settingsContext}, container) => {
 	const handleFieldBlurred = ({fieldInstance, value}) => {
@@ -39,7 +59,7 @@ export default ({dataLayoutBuilder, settingsContext}, container) => {
 		}
 	};
 
-	const handleFormAttached = () => {
+	const handleFormAttached = function() {
 		const firstInput = container.querySelector('input');
 
 		if (firstInput && !container.contains(document.activeElement)) {
@@ -49,11 +69,13 @@ export default ({dataLayoutBuilder, settingsContext}, container) => {
 				firstInput.select();
 			}
 		}
+
+		this.evaluate();
 	};
 
 	return new Form(
 		{
-			...settingsContext,
+			...getFilteredSettingsContext(settingsContext),
 			editable: true,
 			events: {
 				attached: handleFormAttached,

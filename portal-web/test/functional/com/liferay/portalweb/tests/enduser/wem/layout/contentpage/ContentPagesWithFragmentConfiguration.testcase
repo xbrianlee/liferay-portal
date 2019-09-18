@@ -76,6 +76,44 @@ definition {
 		}
 	}
 
+	@description = "This is a test for LPS-96685. User can change select fragment configuration."
+	test AddSelectConfigurationFragmentToContentPage {
+		property portal.acceptance = "true";
+
+		task ("Add a section fragment to the fragment collection via JSON") {
+			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "select_configuration.html");
+			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "select_configuration.json");
+
+			JSONFragment.addSection(
+				collectionName = "Collection Name",
+				configuration = "${jsonSnippet}",
+				groupName = "Test Site Name",
+				html = "${htmlSnippet}",
+				name = "Text Fragment Example");
+		}
+
+		SitePages.openPagesAdmin(siteURLKey = "test-site-name");
+
+		ContentPages.addPage(pageName = "Test Content Page Name");
+
+		PageEditor.addFragment(
+			collectionName = "Collection Name",fragmentName = "Text Fragment Example");
+
+		PageEditorConfiguration.changeConfigSelection(
+			fragmentName = "Text Fragment Example",
+			optionValue = "dark");
+
+		PageEditor.clickPublish();
+
+		Navigator.gotoSitePage(
+			pageName = "Test Content Page Name",
+			siteName = "Test Site Name");
+
+		task ("Assert dark text is visible") {
+			AssertElementPresent(locator1 = "//div[contains(@class,'fragment-configuration')]/div[contains(@class,'dark')]");
+		}
+	}
+
 	@description = "This is a test for LPS-99543. User can change text fragment configuration."
 	@priority = "5"
 	test AddTextConfigurationFragmentToContentPage {
@@ -145,43 +183,19 @@ definition {
 			collectionName = "Collection Name",
 			fragmentName = "Text Fragment Example");
 
-		task ("Change the configuration value in the toolbar") {
-			PageEditorConfiguration.changeConfigSelection(
-				fragmentName = "Text Fragment Example",
-				optionValue = "dark");
+		PageEditorConfiguration.changeConfigSelection(
+			fragmentName = "Text Fragment Example",
+			optionValue = "dark");
+
+		task ("Assert dark text is visible") {
+			AssertElementPresent(locator1 = "//div[contains(@class,'fragment-configuration')]/div[contains(@class,'dark')]");
 		}
 
-		task ("Assert value is changed") {
-			AssertVisible(
-				key_text = "Title-dark",
-				locator1 = "Fragment#EDITABLE_FIELD_CONTENT");
-		}
-
-		task ("Retore the configuration value in the toolbar") {
-			PageEditorConfiguration.restoreConfigSelectionValue(
-				defaultValue = "light",
-				fragmentName = "Text Fragment Example");
-		}
+		PageEditorConfiguration.restoreConfigValues(
+			fragmentName = "Text Fragment Example");
 
 		task ("Assert default value is displayed") {
-			AssertVisible(
-				key_text = "Title-light",
-				locator1 = "Fragment#EDITABLE_FIELD_CONTENT");
-		}
-
-		task ("Publish content page and assert the value selected is displayed") {
-
-			PageEditor.clickPublish();
-
-			Navigator.gotoSitePage(
-				pageName = "Test Content Page Name",
-				siteName = "Test Site Name");
-
-			task ("Assert default value is displayed") {
-				AssertVisible(
-					key_text = "Title-light",
-					locator1 = "Fragment#EDITABLE_FIELD_CONTENT");
-			}
+			AssertElementPresent(locator1 = "//div[contains(@class,'fragment-configuration')]/div[contains(@class,'light')]");
 		}
 	}
 

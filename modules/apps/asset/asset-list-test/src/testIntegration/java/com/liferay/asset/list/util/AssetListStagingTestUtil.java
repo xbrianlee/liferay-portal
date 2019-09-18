@@ -76,10 +76,9 @@ public class AssetListStagingTestUtil {
 	protected static void addStagingAttribute(
 		ServiceContext serviceContext, String key, Object value) {
 
-		String affixedKey =
-			StagingConstants.STAGED_PREFIX + key + StringPool.DOUBLE_DASH;
-
-		serviceContext.setAttribute(affixedKey, String.valueOf(value));
+		serviceContext.setAttribute(
+			StagingConstants.STAGED_PREFIX + key + StringPool.DOUBLE_DASH,
+			String.valueOf(value));
 	}
 
 }

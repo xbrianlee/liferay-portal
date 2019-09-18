@@ -106,7 +106,7 @@ public class DLOpenerGoogleDriveDLPortletToolbarContributorContext
 		URLMenuItem urlMenuItem = new URLMenuItem();
 
 		urlMenuItem.setIcon(icon);
-		urlMenuItem.setLabel(_translateKey(portletRequest, key));
+		urlMenuItem.setLabel(_translate(portletRequest, key));
 		urlMenuItem.setMethod(HttpMethods.POST);
 		urlMenuItem.setURL(_getActionURL(portletRequest, folder, contentType));
 		urlMenuItem.setData(
@@ -154,7 +154,7 @@ public class DLOpenerGoogleDriveDLPortletToolbarContributorContext
 		}
 	}
 
-	private String _translateKey(PortletRequest portletRequest, String key) {
+	private String _translate(PortletRequest portletRequest, String key) {
 		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
 			_portal.getLocale(portletRequest),
 			DLOpenerGoogleDriveDLPortletToolbarContributorContext.class);

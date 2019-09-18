@@ -85,7 +85,6 @@ export default ({
 				...item,
 				dateCreated: moment(item.dateCreated).fromNow(),
 				dateModified: moment(item.dateModified).fromNow(),
-				id: item.id,
 				name: <Link to={`${url}/${item.id}`}>{item.name.en_US}</Link>
 			})}
 		</ListView>

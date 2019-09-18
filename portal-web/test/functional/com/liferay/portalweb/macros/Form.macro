@@ -268,8 +268,15 @@ definition {
 
 	macro gotoAdvancedTab {
 		AssertClick(
-			locator1 = "Form#SIDEBAR_PROPERTIES_TAB",
-			value1 = "Properties");
+			locator1 = "Form#SIDEBAR_ADVANCED_TAB",
+			value1 = "Advanced");
+		Pause(locator1 = "1000");
+	}
+
+	macro gotoAutocompleteTab {
+		AssertClick(
+			locator1 = "Form#SIDEBAR_AUTOCOMPLETE_TAB",
+			value1 = "Autocomplete");
 		Pause(locator1 = "1000");
 	}
 

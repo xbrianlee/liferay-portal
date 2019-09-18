@@ -67,28 +67,45 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 					{
 						@DDMFormLayoutColumn(
 							size = 12,
-							value = {"label", "tip", "displayStyle", "required"}
+							value = {
+								"label", "placeholder", "tip", "displayStyle",
+								"required"
+							}
 						)
 					}
 				)
 			}
 		),
 		@DDMFormLayoutPage(
-			title = "%properties",
+			title = "%advanced",
 			value = {
 				@DDMFormLayoutRow(
 					{
 						@DDMFormLayoutColumn(
 							size = 12,
 							value = {
-								"predefinedValue", "placeholder",
+								"name", "predefinedValue",
 								"visibilityExpression", "fieldNamespace",
 								"indexType", "localizable", "readOnly",
-								"dataType", "type", "name", "showLabel",
-								"repeatable", "validation", "autocomplete",
-								"dataSourceType", "ddmDataProviderInstanceId",
-								"ddmDataProviderInstanceOutput", "options",
-								"tooltip"
+								"dataType", "type", "showLabel", "repeatable",
+								"validation", "tooltip"
+							}
+						)
+					}
+				)
+			}
+		),
+		@DDMFormLayoutPage(
+			title = "%autocomplete",
+			value = {
+				@DDMFormLayoutRow(
+					{
+						@DDMFormLayoutColumn(
+							size = 12,
+							value = {
+								"autocomplete", "dataSourceType",
+								"ddmDataProviderInstanceId",
+								"ddmDataProviderInstanceOutput", "options"
 							}
 						)
 					}
@@ -130,11 +147,10 @@ public interface TextDDMFormFieldTypeSettings
 	public String ddmDataProviderInstanceOutput();
 
 	@DDMFormField(
-		label = "%my-text-field-has",
-		optionLabels = {"%a-single-line", "%multiple-lines"},
+		label = "%field-type",
+		optionLabels = {"%single-line", "%multiple-lines"},
 		optionValues = {"singleline", "multiline"},
-		predefinedValue = "singleline", properties = "inline=true",
-		type = "radio"
+		predefinedValue = "singleline", type = "radio"
 	)
 	public String displayStyle();
 

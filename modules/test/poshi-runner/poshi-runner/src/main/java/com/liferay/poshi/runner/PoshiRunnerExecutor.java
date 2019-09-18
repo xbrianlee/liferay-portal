@@ -1149,7 +1149,13 @@ public class PoshiRunnerExecutor {
 				throw ee;
 			}
 
-			throw (Exception)ee.getCause();
+			Throwable throwable = ee.getCause();
+
+			if (throwable instanceof Error) {
+				throw (Error)throwable;
+			}
+
+			throw (Exception)throwable;
 		}
 		catch (InterruptedException | TimeoutException e) {
 			future.cancel(true);

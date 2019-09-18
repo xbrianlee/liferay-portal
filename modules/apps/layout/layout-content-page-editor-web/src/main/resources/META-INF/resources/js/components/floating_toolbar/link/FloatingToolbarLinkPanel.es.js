@@ -88,16 +88,15 @@ class FloatingToolbarLinkPanel extends PortletBase {
 
 		if (
 			nextState.mappedAssetEntries &&
-			nextState.item.editableValues.config &&
-			nextState.item.editableValues.config.classNameId &&
-			nextState.item.editableValues.config.classPK
+			nextState._selectedAssetEntry &&
+			nextState._selectedAssetEntry.classNameId &&
+			nextState._selectedAssetEntry.classPK
 		) {
 			const mappedAssetEntry = nextState.mappedAssetEntries.find(
 				assetEntry =>
-					nextState.item.editableValues.config.classNameId ===
+					nextState._selectedAssetEntry.classNameId ===
 						assetEntry.classNameId &&
-					nextState.item.editableValues.config.classPK ===
-						assetEntry.classPK
+					nextState._selectedAssetEntry.classPK === assetEntry.classPK
 			);
 
 			if (mappedAssetEntry) {
@@ -139,6 +138,8 @@ class FloatingToolbarLinkPanel extends PortletBase {
 	 */
 	rendered(firstRender) {
 		if (firstRender) {
+			this._selectedAssetEntry.classNameId = this.item.editableValues.config.classNameId;
+			this._selectedAssetEntry.classPK = this.item.editableValues.config.classPK;
 			this._selectedSourceTypeId = MAPPING_SOURCE_TYPE_IDS.content;
 
 			if (
@@ -190,6 +191,24 @@ class FloatingToolbarLinkPanel extends PortletBase {
 	}
 
 	/**
+	 * Clears row config
+	 * @private
+	 * @review
+	 */
+	_clearRowConfig() {
+		const config = {
+			classNameId: '',
+			classPK: '',
+			fieldId: '',
+			href: '',
+			mappedField: '',
+			mapperType: 'link'
+		};
+
+		this._updateRowConfig(config);
+	}
+
+	/**
 	 * @private
 	 * @review
 	 */
@@ -204,8 +223,8 @@ class FloatingToolbarLinkPanel extends PortletBase {
 	_getMappedValue(fieldId) {
 		if (fieldId) {
 			return this.fetch(this.getAssetFieldValueURL, {
-				classNameId: this.item.editableValues.config.classNameId,
-				classPK: this.item.editableValues.config.classPK,
+				classNameId: this._selectedAssetEntry.classNameId,
+				classPK: this._selectedAssetEntry.classPK,
 				fieldId
 			})
 				.then(response => response.json())
@@ -228,12 +247,6 @@ class FloatingToolbarLinkPanel extends PortletBase {
 			assetBrowserURL: assetBrowserUrl,
 			callback: selectedAssetEntry => {
 				this._selectAssetEntry(selectedAssetEntry);
-
-				this.store.dispatch(
-					Object.assign({}, selectedAssetEntry, {
-						type: ADD_MAPPED_ASSET_ENTRY
-					})
-				);
 
 				this._focusPanel();
 			},
@@ -268,33 +281,41 @@ class FloatingToolbarLinkPanel extends PortletBase {
 	_handleFieldOptionChange(event) {
 		const fieldId = event.delegateTarget.value;
 
-		const config = {
-			href: '',
-			mapperType: 'link'
-		};
-
-		if (this._selectedSourceTypeId === MAPPING_SOURCE_TYPE_IDS.content) {
-			config.fieldId = fieldId;
-		} else if (
-			this._selectedSourceTypeId === MAPPING_SOURCE_TYPE_IDS.structure
-		) {
-			config.mappedField = fieldId;
-		}
-
-		this._updateRowConfig(config);
-
-		if (
-			!fieldId ||
-			this._selectedSourceTypeId === MAPPING_SOURCE_TYPE_IDS.structure
-		) {
-			this._mappedFieldValue = '';
+		if (fieldId === '') {
+			this._clearRowConfig();
 		} else {
-			this._getMappedValue(fieldId).then(fieldValue => {
-				if (typeof fieldValue === 'string') {
-					this._mappedFieldValue = fieldValue;
-					this._updateRowConfig({href: fieldValue});
-				}
-			});
+			const config = {
+				classNameId: this._selectedAssetEntry.classNameId,
+				classPK: this._selectedAssetEntry.classPK,
+				href: '',
+				mapperType: 'link'
+			};
+
+			if (
+				this._selectedSourceTypeId === MAPPING_SOURCE_TYPE_IDS.content
+			) {
+				config.fieldId = fieldId;
+			} else if (
+				this._selectedSourceTypeId === MAPPING_SOURCE_TYPE_IDS.structure
+			) {
+				config.mappedField = fieldId;
+			}
+
+			this._updateRowConfig(config);
+
+			if (
+				!fieldId ||
+				this._selectedSourceTypeId === MAPPING_SOURCE_TYPE_IDS.structure
+			) {
+				this._mappedFieldValue = '';
+			} else {
+				this._getMappedValue(fieldId).then(fieldValue => {
+					if (typeof fieldValue === 'string') {
+						this._mappedFieldValue = fieldValue;
+						this._updateRowConfig({href: fieldValue});
+					}
+				});
+			}
 		}
 	}
 
@@ -328,18 +349,8 @@ class FloatingToolbarLinkPanel extends PortletBase {
 	_handleSourceTypeChange(event) {
 		this._selectedSourceTypeId = event.delegateTarget.value;
 
-		const config = {
-			classNameId: '',
-			classPK: '',
-			fieldId: '',
-			href: '',
-			mappedField: '',
-			mapperType: 'link'
-		};
-
 		this._clearFields();
-
-		this._updateRowConfig(config);
+		this._clearRowConfig();
 	}
 
 	/**
@@ -378,13 +389,12 @@ class FloatingToolbarLinkPanel extends PortletBase {
 			promise = this.fetch(this.mappingFieldsURL, data);
 		} else if (
 			this._selectedSourceTypeId === MAPPING_SOURCE_TYPE_IDS.content &&
-			this.item.editableValues.config &&
-			this.item.editableValues.config.classNameId &&
-			this.item.editableValues.config.classPK
+			this._selectedAssetEntry.classNameId &&
+			this._selectedAssetEntry.classPK
 		) {
 			promise = this.fetch(this.getAssetMappingFieldsURL, {
-				classNameId: this.item.editableValues.config.classNameId,
-				classPK: this.item.editableValues.config.classPK
+				classNameId: this._selectedAssetEntry.classNameId,
+				classPK: this._selectedAssetEntry.classPK
 			});
 		}
 
@@ -394,6 +404,12 @@ class FloatingToolbarLinkPanel extends PortletBase {
 				.then(response => {
 					this._fields = response.filter(field =>
 						['text', 'url'].includes(field.type)
+					);
+
+					this.store.dispatch(
+						Object.assign({}, this._selectedAssetEntry, {
+							type: ADD_MAPPED_ASSET_ENTRY
+						})
 					);
 				});
 		} else if (this._fields.length) {
@@ -409,17 +425,9 @@ class FloatingToolbarLinkPanel extends PortletBase {
 	 * @review
 	 */
 	_selectAssetEntry(assetEntry) {
-		const config = {
-			classNameId: assetEntry.classNameId,
-			classPK: assetEntry.classPK,
-			fieldId: '',
-			href: '',
-			mappedField: ''
-		};
+		this._selectedAssetEntry = assetEntry;
 
-		this._clearFields();
-
-		this._updateRowConfig(config);
+		this._loadFields();
 	}
 
 	/**
@@ -489,7 +497,7 @@ class FloatingToolbarLinkPanel extends PortletBase {
 FloatingToolbarLinkPanel.STATE = {
 	/**
 	 * @default []
-	 * @memberOf FloatingToolbarMappingPanel
+	 * @memberOf FloatingToolbarLinkPanel
 	 * @private
 	 * @review
 	 * @type {object[]}
@@ -501,7 +509,7 @@ FloatingToolbarLinkPanel.STATE = {
 	/**
 	 * Mapped asset field value
 	 * @instance
-	 * @memberOf FragmentEditableField
+	 * @memberOf FloatingToolbarLinkPanel
 	 * @private
 	 * @review
 	 * @type {string}
@@ -510,7 +518,17 @@ FloatingToolbarLinkPanel.STATE = {
 
 	/**
 	 * @default undefined
-	 * @memberof FloatingToolbarMappingPanel
+	 * @memberof FloatingToolbarLinkPanel
+	 * @review
+	 * @type {string}
+	 */
+	_selectedAssetEntry: Config.object()
+		.internal()
+		.value({}),
+
+	/**
+	 * @default undefined
+	 * @memberof FloatingToolbarLinkPanel
 	 * @review
 	 * @type {string}
 	 */

@@ -42,7 +42,6 @@ import com.liferay.info.item.selector.InfoItemSelectorTracker;
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.ItemSelectorCriterion;
 import com.liferay.item.selector.criteria.DownloadFileEntryItemSelectorReturnType;
-import com.liferay.item.selector.criteria.DownloadURLItemSelectorReturnType;
 import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
 import com.liferay.item.selector.criteria.url.criterion.URLItemSelectorCriterion;
@@ -242,10 +241,6 @@ public class ContentPageEditorDisplayContext {
 			"editFragmentEntryLinkURL",
 			getFragmentEntryActionURL(
 				"/content_layout/edit_fragment_entry_link")
-		).put(
-			"editFragmentEntryLinksURL",
-			getFragmentEntryActionURL(
-				"/content_layout/edit_fragment_entry_links")
 		).put(
 			"elements",
 			_getFragmentCollectionsSoyContexts(FragmentConstants.TYPE_COMPONENT)
@@ -1046,8 +1041,7 @@ public class ContentPageEditorDisplayContext {
 			new ImageItemSelectorCriterion();
 
 		itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-			new DownloadFileEntryItemSelectorReturnType(),
-			new DownloadURLItemSelectorReturnType());
+			new DownloadFileEntryItemSelectorReturnType());
 
 		_imageItemSelectorCriterion = itemSelectorCriterion;
 

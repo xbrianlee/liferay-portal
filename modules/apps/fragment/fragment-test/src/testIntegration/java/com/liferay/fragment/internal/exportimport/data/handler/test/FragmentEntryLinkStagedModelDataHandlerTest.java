@@ -146,6 +146,38 @@ public class FragmentEntryLinkStagedModelDataHandlerTest
 		validateImportedStagedModel(stagedModel, importedStagedModel);
 	}
 
+	@Test
+	public void testValidateFragmentEntry() throws Exception {
+		Map<String, List<StagedModel>> dependentStagedModelsMap =
+			addDependentStagedModelsMap(stagingGroup);
+
+		StagedModel stagedModel = addStagedModel(
+			stagingGroup, dependentStagedModelsMap);
+
+		try {
+			exportImportStagedModel(stagedModel);
+		}
+		finally {
+			ExportImportThreadLocal.setPortletImportInProcess(false);
+		}
+
+		FragmentEntryLink fragmentEntryLink = (FragmentEntryLink)stagedModel;
+
+		Assert.assertNotNull(
+			_fragmentEntryLocalService.getFragmentEntry(
+				fragmentEntryLink.getFragmentEntryId()));
+
+		StagedModel importedStagedModel = getStagedModel(
+			stagedModel.getUuid(), liveGroup);
+
+		FragmentEntryLink importedFragmentEntryLink =
+			(FragmentEntryLink)importedStagedModel;
+
+		Assert.assertNotNull(
+			_fragmentEntryLocalService.getFragmentEntry(
+				importedFragmentEntryLink.getFragmentEntryId()));
+	}
+
 	@Override
 	protected StagedModel addStagedModel(
 			Group group,
@@ -192,6 +224,11 @@ public class FragmentEntryLinkStagedModelDataHandlerTest
 	@Override
 	protected Class<? extends StagedModel> getStagedModelClass() {
 		return FragmentEntryLink.class;
+	}
+
+	@Override
+	protected boolean isCommentableStagedModel() {
+		return true;
 	}
 
 	@Override

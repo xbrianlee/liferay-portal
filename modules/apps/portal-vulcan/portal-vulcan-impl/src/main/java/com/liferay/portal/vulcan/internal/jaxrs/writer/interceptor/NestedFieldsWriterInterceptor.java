@@ -64,6 +64,7 @@ import org.apache.cxf.message.Message;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceObjects;
 import org.osgi.framework.ServiceReference;
 
 /**
@@ -112,18 +113,24 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 		return ProviderFactory.getInstance(message);
 	}
 
-	protected List<Object> getResources() throws InvalidSyntaxException {
-		List<Object> resources = new ArrayList<>();
+	protected Class<?> getResourceClass(ServiceReference<?> serviceReference) {
+		Object resource = _bundleContext.getService(serviceReference);
 
-		ServiceReference<?>[] serviceReferences =
+		return resource.getClass();
+	}
+
+	protected ServiceObjects<?> getServiceObjects(
+		ServiceReference<?> serviceReference) {
+
+		return _bundleContext.getServiceObjects(serviceReference);
+	}
+
+	protected List<ServiceReference<?>> getServiceReferences()
+		throws InvalidSyntaxException {
+
+		return Arrays.asList(
 			_bundleContext.getAllServiceReferences(
-				null, "(osgi.jaxrs.resource=true)");
-
-		for (ServiceReference<?> serviceReference : serviceReferences) {
-			resources.add(_bundleContext.getService(serviceReference));
-		}
-
-		return resources;
+				null, "(osgi.jaxrs.resource=true)"));
 	}
 
 	private Object _adaptToFieldType(Class<?> fieldType, Object value) {
@@ -485,8 +492,8 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 			NestedFieldsContext nestedFieldsContext)
 		throws Exception {
 
-		for (Object resource : getResources()) {
-			Class<?> resourceClass = resource.getClass();
+		for (ServiceReference<?> serviceReference : getServiceReferences()) {
+			Class<?> resourceClass = getResourceClass(serviceReference);
 
 			if (!Objects.equals(
 					nestedFieldsContext.getResourceVersion(),
@@ -501,13 +508,25 @@ public class NestedFieldsWriterInterceptor implements WriterInterceptor {
 				continue;
 			}
 
-			_setResourceContexts(nestedFieldsContext.getMessage(), resource);
+			@SuppressWarnings("unchecked")
+			ServiceObjects<Object> serviceObjects =
+				(ServiceObjects<Object>)getServiceObjects(serviceReference);
 
-			Object[] args = _getMethodArgs(
-				fieldName, item, method, nestedFieldsContext,
-				resource.getClass());
+			Object resource = serviceObjects.getService();
 
-			return method.invoke(resource, args);
+			try {
+				_setResourceContexts(
+					nestedFieldsContext.getMessage(), resource);
+
+				Object[] args = _getMethodArgs(
+					fieldName, item, method, nestedFieldsContext,
+					resourceClass);
+
+				return method.invoke(resource, args);
+			}
+			finally {
+				serviceObjects.ungetService(resource);
+			}
 		}
 
 		return null;

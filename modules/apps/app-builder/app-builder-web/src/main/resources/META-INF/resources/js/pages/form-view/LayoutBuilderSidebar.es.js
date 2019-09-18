@@ -91,6 +91,7 @@ const SettingsSidebarHeader = ({dataLayoutBuilder}) => {
 
 			<ClayDropDown
 				className="d-inline-flex flex-grow-1"
+				onActiveChange={() => {}}
 				trigger={
 					<Button
 						className="d-inline-flex flex-grow-1"
@@ -144,7 +145,7 @@ export default ({dataLayoutBuilder, dataLayoutBuilderElementId}) => {
 
 	useEffect(() => {
 		const eventHandler = ({target}) => {
-			if (isClickOutside(target, sidebarRef.current)) {
+			if (isClickOutside(target, sidebarRef.current, '.dropdown-menu')) {
 				dataLayoutBuilder.dispatch('sidebarFieldBlurred');
 			}
 		};

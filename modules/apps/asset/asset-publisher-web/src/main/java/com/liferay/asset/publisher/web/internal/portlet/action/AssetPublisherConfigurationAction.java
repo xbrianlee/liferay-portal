@@ -234,6 +234,10 @@ public class AssetPublisherConfigurationAction
 				String selectionStyle = getParameter(
 					actionRequest, "selectionStyle");
 
+				if (Validator.isNull(selectionStyle)) {
+					selectionStyle = "dynamic";
+				}
+
 				if (selectionStyle.equals("dynamic")) {
 					updateQueryLogic(actionRequest, preferences);
 				}

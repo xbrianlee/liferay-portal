@@ -20,8 +20,8 @@ const context = {
 	siteId: Liferay.ThemeDisplay.getCompanyGroupId()
 };
 
-const AppContextProvider = ({basePortletURL, children}) => (
-	<AppContext.Provider value={{...context, basePortletURL}}>
+const AppContextProvider = ({appId, basePortletURL, children}) => (
+	<AppContext.Provider value={{...context, appId, basePortletURL}}>
 		{children}
 	</AppContext.Provider>
 );

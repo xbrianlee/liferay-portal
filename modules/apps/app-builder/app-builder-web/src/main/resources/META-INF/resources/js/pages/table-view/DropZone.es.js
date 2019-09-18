@@ -70,17 +70,17 @@ const DropZone = ({columns, onAddColumn, onRemoveColumn}) => {
 	return (
 		<Table
 			actions={[]}
-			columns={columns.map(fieldName => ({
-				key: fieldName,
+			columns={columns.map(column => ({
+				key: column,
 				value: (
 					<div className="container p-0">
 						<div className="row align-items-center">
-							<div className="col">{fieldName}</div>
+							<div className="col">{column}</div>
 							<div className="col-md-auto">
 								<Button
 									borderless
 									displayType="secondary"
-									onClick={() => onRemoveColumn(fieldName)}
+									onClick={() => onRemoveColumn(column)}
 									symbol="trash"
 									tooltip={Liferay.Language.get('remove')}
 								/>
