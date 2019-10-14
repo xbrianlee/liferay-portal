@@ -21,9 +21,12 @@ import com.liferay.portal.kernel.util.StringUtil;
 import java.lang.reflect.Method;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Iván Zaera
@@ -35,8 +38,26 @@ public class AnnotatedSettingsDescriptor implements SettingsDescriptor {
 
 		Method[] methods = _getPropertyMethods();
 
-		_initAllKeys(methods);
-		_initMultiValuedKeys(methods);
+		Stream<Method> stream = Arrays.stream(methods);
+
+		_allKeys = Collections.unmodifiableSet(
+			stream.map(
+				this::_getPropertyName
+			).collect(
+				Collectors.toSet()
+			));
+
+		stream = Arrays.stream(methods);
+
+		_multiValuedKeys = Collections.unmodifiableSet(
+			stream.filter(
+				propertyMethod ->
+					propertyMethod.getReturnType() == String[].class
+			).map(
+				this::_getPropertyName
+			).collect(
+				Collectors.toSet()
+			));
 	}
 
 	@Override
@@ -104,24 +125,8 @@ public class AnnotatedSettingsDescriptor implements SettingsDescriptor {
 		return StringUtil.toLowerCase(name.substring(0, 1)) + name.substring(1);
 	}
 
-	private void _initAllKeys(Method[] propertyMethods) {
-		for (Method propertyMethod : propertyMethods) {
-			_allKeys.add(_getPropertyName(propertyMethod));
-		}
-	}
-
-	private void _initMultiValuedKeys(Method[] propertyMethods) {
-		for (Method propertyMethod : propertyMethods) {
-			Class<?> clazz = propertyMethod.getReturnType();
-
-			if (clazz == String[].class) {
-				_multiValuedKeys.add(_getPropertyName(propertyMethod));
-			}
-		}
-	}
-
-	private final Set<String> _allKeys = new HashSet<>();
-	private final Set<String> _multiValuedKeys = new HashSet<>();
+	private final Set<String> _allKeys;
+	private final Set<String> _multiValuedKeys;
 	private final Class<?> _settingsClass;
 
 }

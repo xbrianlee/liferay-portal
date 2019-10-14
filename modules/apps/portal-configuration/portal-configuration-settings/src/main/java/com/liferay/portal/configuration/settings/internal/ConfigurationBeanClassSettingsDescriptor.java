@@ -18,8 +18,11 @@ import com.liferay.portal.kernel.settings.SettingsDescriptor;
 
 import java.lang.reflect.Method;
 
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Iván Zaera
@@ -32,8 +35,28 @@ public class ConfigurationBeanClassSettingsDescriptor
 
 		_configurationBeanClass = configurationBeanClass;
 
-		_initAllKeys();
-		_initMultiValuedKeys();
+		Method[] methods = _configurationBeanClass.getMethods();
+
+		Stream<Method> stream = Arrays.stream(methods);
+
+		_allKeys = Collections.unmodifiableSet(
+			stream.map(
+				method -> method.getName()
+			).collect(
+				Collectors.toSet()
+			));
+
+		stream = Arrays.stream(methods);
+
+		_multiValuedKeys = Collections.unmodifiableSet(
+			stream.filter(
+				propertyMethod ->
+					propertyMethod.getReturnType() == String[].class
+			).map(
+				method -> method.getName()
+			).collect(
+				Collectors.toSet()
+			));
 	}
 
 	@Override
@@ -46,28 +69,8 @@ public class ConfigurationBeanClassSettingsDescriptor
 		return _multiValuedKeys;
 	}
 
-	private void _initAllKeys() {
-		Method[] methods = _configurationBeanClass.getMethods();
-
-		for (Method method : methods) {
-			_allKeys.add(method.getName());
-		}
-	}
-
-	private void _initMultiValuedKeys() {
-		Method[] methods = _configurationBeanClass.getMethods();
-
-		for (Method method : methods) {
-			Class<?> returnType = method.getReturnType();
-
-			if (returnType.equals(String[].class)) {
-				_multiValuedKeys.add(method.getName());
-			}
-		}
-	}
-
-	private final Set<String> _allKeys = new HashSet<>();
+	private final Set<String> _allKeys;
 	private final Class<?> _configurationBeanClass;
-	private final Set<String> _multiValuedKeys = new HashSet<>();
+	private final Set<String> _multiValuedKeys;
 
 }
