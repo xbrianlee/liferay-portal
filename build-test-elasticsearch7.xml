@@ -25,7 +25,7 @@ xpack.security.http.ssl.key: certs/localhost/localhost.key</echo>
 	<macrodef name="configure-elasticsearch7-ltr-test-properties">
 		<sequential>
 			<property name="elasticsearch.ltr.version" value="1.1.2" />
-			<property name="elasticsearch.ltr-linear-regression-model.zip.name" value="ltr-linear-regression-model.zip"/>
+			<property name="elasticsearch.ltr-linear-regression-model.zip.name" value="ltr-linear-regression-model.zip" />
 			<property name="elasticsearch.ltr-linear-regression-model.zip.url" value="http://files.liferay.com/private/apps/elastic/elasticsearch/${elasticsearch.ltr-linear-regression-model.zip.name}" />
 			<property name="elasticsearch.ltr.zip.name" value="ltr-${elasticsearch.ltr.version}-es${elasticsearch.version}.zip" />
 			<property name="elasticsearch.ltr.url" value="http://es-learn-to-rank.labs.o19s.com/${elasticsearch.ltr.zip.name}" />
@@ -362,10 +362,10 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 			<if>
 				<os family="unix" />
 				<then>
-						<exec dir="${elasticsearch.dir}/bin" executable="/bin/bash" inputstring="y&#x0A;">
-							<arg value="-c" />
-							<arg value="./elasticsearch-plugin install file:///${elasticsearch.dir}/${elasticsearch.ltr.zip.name}" />
-						</exec>
+					<exec dir="${elasticsearch.dir}/bin" executable="/bin/bash" inputstring="y&#x0A;">
+						<arg value="-c" />
+						<arg value="./elasticsearch-plugin install file:///${elasticsearch.dir}/${elasticsearch.ltr.zip.name}" />
+					</exec>
 				</then>
 				<elseif>
 					<os family="windows" />
@@ -672,8 +672,8 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 		<unzip-boston-dataset-index />
 
 		<antcall target="restore-backup">
-			<param name="backup.index" value="${backup.index}"/>
-			<param name="elasticsearch.port" value="${elasticsearch.port}"/>
+			<param name="backup.index" value="${backup.index}" />
+			<param name="elasticsearch.port" value="${elasticsearch.port}" />
 		</antcall>
 
 		<echo>Finished adding Boston dataset index.</echo>
@@ -687,8 +687,8 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 		<unzip-ltr-linear-regression-model />
 
 		<antcall target="restore-backup">
-			<param name="backup.index" value="${backup.index}"/>
-			<param name="elasticsearch.port" value="${elasticsearch.port}"/>
+			<param name="backup.index" value="${backup.index}" />
+			<param name="elasticsearch.port" value="${elasticsearch.port}" />
 		</antcall>
 
 		<echo>Finished adding LTR linear regression model.</echo>
