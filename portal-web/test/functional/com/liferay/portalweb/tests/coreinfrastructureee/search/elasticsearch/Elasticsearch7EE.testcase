@@ -156,6 +156,109 @@ definition {
 			searchAssetType = "Message Boards Message");
 	}
 
+	test SimilarResultsDisplayTemplate {
+		property test.name.skip.portal.instance = "Elasticsearch7EE#SimilarResultsDisplayTemplate";
+
+		for (var count : list "1,2,3") {
+			JSONWebcontent.addWebContent(
+				content = "WC Content",
+				groupName = "Guest",
+				title = "WC Title ${count}");
+		}
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Similar Results Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = "1",
+			groupName = "Guest",
+			layoutName = "Similar Results Page",
+			widgetName = "Asset Publisher");
+
+		Navigator.gotoPage(pageName = "Similar Results Page");
+
+		Portlet.addPG(portletName = "Similar Results");
+
+		Portlet.gotoPortletOptions(
+			portletName = "Similar Results",
+			portletOption = "Configuration");
+
+		SelectFrame(locator1 = "IFrame#CONFIGURATION");
+
+		Select(
+			locator1 = "Select#DISPLAY_TEMPLATE",
+			value1 = "Compact Layout");
+
+		Type(
+			key_fieldLabel = "Minimum Document Frequency",
+			locator1 = "TextInput#GENERIC_TEXT_INPUT",
+			value1 = "1");
+
+		Type(
+			key_fieldLabel = "Minimum Term Frequency",
+			locator1 = "TextInput#GENERIC_TEXT_INPUT",
+			value1 = "1");
+
+		PortletEntry.save();
+
+		IFrame.closeFrame();
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "WC Title 1");
+
+		AssertElementPresent(
+			key_linkResultTitle = "WC Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "WC Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		Portlet.gotoPortletOptions(
+			portletName = "Similar Results",
+			portletOption = "Configuration");
+
+		SelectFrame(locator1 = "IFrame#CONFIGURATION");
+
+		Select(
+			locator1 = "Select#DISPLAY_TEMPLATE",
+			value1 = "List Layout");
+
+		PortletEntry.save();
+
+		IFrame.closeFrame();
+
+		AssertElementPresent(
+			key_listResultTitle = "WC Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LIST_TITLE");
+
+		AssertElementPresent(
+			key_listResultTitle = "WC Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LIST_TITLE");
+
+		Portlet.gotoPortletOptions(
+			portletName = "Similar Results",
+			portletOption = "Configuration");
+
+		SelectFrame(locator1 = "IFrame#CONFIGURATION");
+
+		Select(
+			locator1 = "Select#DISPLAY_TEMPLATE",
+			value1 = "Card Layout");
+
+		PortletEntry.save();
+
+		IFrame.closeFrame();
+
+		AssertElementPresent(
+			key_cardResultTitle = "WC Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_CARD_TITLE");
+
+		AssertElementPresent(
+			key_cardResultTitle = "WC Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_CARD_TITLE");
+	}
+
 	@ignore = "true"
 	@priority = "5"
 	test XPackSmokeTest {
