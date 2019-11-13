@@ -31,6 +31,7 @@ definition {
 		}
 	}
 
+	@ignore = "true"
 	test AssertSimilarResultsMatchesAssetType {
 		property test.name.skip.portal.instance = "Elasticsearch7EE#AssertSimilarResultsMatchesAssetType";
 
@@ -321,6 +322,7 @@ definition {
 			searchAssetType = "Message Boards Message");
 	}
 
+	@ignore = "true"
 	test SimilarResultsDisplayTemplate {
 		property test.name.skip.portal.instance = "Elasticsearch7EE#SimilarResultsDisplayTemplate";
 
