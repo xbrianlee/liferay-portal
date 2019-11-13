@@ -949,6 +949,7 @@ xpack.monitoring.collection.enabled: true</echo>
 	</target>
 
 	<target name="stop-elasticsearch">
+		<get-testcase-property property.name="elastic.xpack.enabled" />
 		<get-testcase-property property.name="remote.elasticsearch.cluster.size" />
 
 		<if>
