@@ -186,8 +186,9 @@ public class StartupAction extends SimpleAction {
 		if (StartupHelperUtil.isDBNew()) {
 			StartupHelperUtil.initResourceActions();
 		}
-
-		ResourceActionLocalServiceUtil.checkResourceActions();
+		else {
+			ResourceActionLocalServiceUtil.checkResourceActions();
+		}
 
 		// Verify
 
