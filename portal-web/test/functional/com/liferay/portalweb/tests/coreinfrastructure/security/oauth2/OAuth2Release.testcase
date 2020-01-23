@@ -2,7 +2,6 @@
 definition {
 
 	property portal.release = "true";
-	property osgi.app.includes = "oauth2-provider";
 	property testray.main.component.name = "OAuth 2";
 
 	setUp {
