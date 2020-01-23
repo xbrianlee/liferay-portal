@@ -15,9 +15,10 @@
 package com.liferay.portal.search.tuning.synonyms.web.internal.index.creation.contributor;
 
 import com.liferay.portal.search.spi.model.index.contributor.IndexContributor;
+import com.liferay.portal.search.tuning.synonyms.web.internal.index.SynonymSetIndexCreator;
 import com.liferay.portal.search.tuning.synonyms.web.internal.index.SynonymSetIndexReader;
+import com.liferay.portal.search.tuning.synonyms.web.internal.index.name.SynonymSetIndexName;
 import com.liferay.portal.search.tuning.synonyms.web.internal.index.name.SynonymSetIndexNameBuilder;
-import com.liferay.portal.search.tuning.synonyms.web.internal.synchronizer.IndexToFilterSynchronizer;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -31,18 +32,32 @@ public class SynonymSetIndexCreationIndexContributor
 
 	@Override
 	public void onAfterCreate(String companyIndexName) {
-		if (!_synonymSetIndexReader.isExists(
-				_synonymSetIndexNameBuilder.getSynonymSetIndexName(
-					companyIndexName))) {
+		SynonymSetIndexName synonymSetIndexName =
+			_synonymSetIndexNameBuilder.getSynonymSetIndexName(
+				companyIndexName);
 
+		if (_synonymSetIndexReader.isExists(synonymSetIndexName)) {
 			return;
 		}
 
-		_indexToFilterSynchronizer.copyToFilter(companyIndexName);
+		_synonymSetIndexCreator.create(synonymSetIndexName);
+	}
+
+	@Override
+	public void onBeforeRemove(String companyIndexName) {
+		SynonymSetIndexName synonymSetIndexName =
+			_synonymSetIndexNameBuilder.getSynonymSetIndexName(
+				companyIndexName);
+
+		if (!_synonymSetIndexReader.isExists(synonymSetIndexName)) {
+			return;
+		}
+
+		_synonymSetIndexCreator.delete(synonymSetIndexName);
 	}
 
 	@Reference
-	private IndexToFilterSynchronizer _indexToFilterSynchronizer;
+	private SynonymSetIndexCreator _synonymSetIndexCreator;
 
 	@Reference
 	private SynonymSetIndexNameBuilder _synonymSetIndexNameBuilder;
