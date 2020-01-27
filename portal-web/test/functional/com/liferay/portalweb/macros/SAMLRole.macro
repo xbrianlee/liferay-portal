@@ -53,7 +53,8 @@ definition {
 			value1 = "${samlKeyPassword}");
 
 		AssertClick(
-			locator1 = "Button#SUBMIT",
+			key_text = "Save",
+			locator1 = "Button#ANY_ENABLED",
 			value1 = "Save");
 
 		WaitForElementNotPresent(locator1 = "IFrame#DIALOG");
