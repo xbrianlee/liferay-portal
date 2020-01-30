@@ -430,6 +430,17 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 		</sequential>
 	</macrodef>
 
+	<macrodef name="use-jdk11">
+		<sequential>
+			<replace
+				file="${elasticsearch.dir}/bin/elasticsearch-env"
+			>
+				<replacetoken><![CDATA[$JAVA_HOME/bin/java]]></replacetoken>
+				<replacevalue><![CDATA[/opt/java/jdk11/bin/java]]></replacevalue>
+			</replace>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="prepare-elasticsearch-ltr">
 		<sequential>
 			<lstopwatch action="start" name="prepare.elasticsearch.ltr" />
@@ -877,6 +888,8 @@ xpack.monitoring.collection.enabled: true</echo>
 
 		<prepare-elasticsearch-analyzers />
 
+		<use-jdk11 />
+
 		<if>
 			<equals arg1="${remote.elasticsearch.ltr.enabled}" arg2="true" />
 			<then>
@@ -1013,7 +1026,6 @@ xpack.monitoring.collection.enabled: true</echo>
 					<os family="mac" />
 					<then>
 						<exec dir="${elasticsearch.dir}-${elasticsearch.node.number}/bin" executable="/bin/bash">
-							<arg value="-c" />
 							<arg value="./elasticsearch -d -p pid-elasticsearch" />
 						</exec>
 					</then>
