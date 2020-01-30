@@ -602,6 +602,17 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 		</sequential>
 	</macrodef>
 
+	<macrodef name="use-jdk11">
+		<sequential>
+			<replace
+				file="${elasticsearch.dir}/bin/elasticsearch-env"
+			>
+				<replacetoken><![CDATA[JAVA="$JAVA_HOME/bin/java"]]></replacetoken>
+				<replacevalue><![CDATA[JAVA="/opt/java/jdk11/bin/java"]]></replacevalue>
+			</replace>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="unzip-ltr-linear-regression-model">
 		<sequential>
 			<if>
@@ -743,6 +754,8 @@ xpack.monitoring.collection.enabled: true</echo>
 		<unzip-elasticsearch />
 
 		<prepare-elasticsearch-analyzers />
+
+		<use-jdk11 />
 
 		<if>
 			<equals arg1="${remote.elasticsearch.ltr.enabled}" arg2="true" />
