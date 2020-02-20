@@ -687,6 +687,7 @@ definition {
 	@priority = "5"
 	test CrossClusterReplicationSmoke {
 		property osgi.app.includes = "portal-search-elasticsearch-cross-cluster-replication,portal-search-elasticsearch7";
+		property portal.acceptance = "timpak";
 		property remote.elasticsearch.enabled = "true";
 		property remote.elasticsearch.ccr.enabled = "true";
 		property test.name.skip.portal.instance = "Elasticsearch7EE#CrossClusterReplicationSmoke";
