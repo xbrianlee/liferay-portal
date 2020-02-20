@@ -801,6 +801,15 @@ definition {
 
 		AssertElementNotPresent(locator1 = "SearchAdmin#LOCAL_CLUSTER_NAME");
 
+		// Workaround for LPS-109038
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Gogo Shell");
+
+		GogoShell.executeCommand(commandName = "stop com.liferay.portal.search.tuning.rankings.web");
+
 		Navigator.openURL();
 
 		SearchPortlets.searchEmbedded(searchTerm = "DM");
