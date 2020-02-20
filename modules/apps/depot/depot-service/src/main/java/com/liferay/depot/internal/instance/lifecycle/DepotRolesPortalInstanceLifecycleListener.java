@@ -70,24 +70,30 @@ public class DepotRolesPortalInstanceLifecycleListener
 		ResourceBundle resourceBundle =
 			_resourceBundleLoader.loadResourceBundle(locale);
 
-		if (Objects.equals(DepotRolesConstants.DEPOT_ADMINISTRATOR, name)) {
+		if (Objects.equals(
+				DepotRolesConstants.ASSET_LIBRARY_ADMINISTRATOR, name)) {
+
 			return _language.get(
 				resourceBundle,
-				"repository-administrators-are-super-users-of-their-" +
-					"repository-but-cannot-make-other-users-into-repository-" +
+				"asset-library-administrators-are-super-users-of-their-asset-" +
+					"library-but-cannot-make-other-users-into-asset-library-" +
 						"administrators");
 		}
-		else if (Objects.equals(DepotRolesConstants.DEPOT_MEMBER, name)) {
+		else if (Objects.equals(
+					DepotRolesConstants.ASSET_LIBRARY_MEMBER, name)) {
+
 			return _language.get(
 				resourceBundle,
-				"all-users-who-belong-to-a-repository-have-this-role-within-" +
-					"that-repository");
+				"all-users-who-belong-to-an-asset library-have-this-role-" +
+					"within-that-asset-library");
 		}
-		else if (Objects.equals(DepotRolesConstants.DEPOT_OWNER, name)) {
+		else if (Objects.equals(
+					DepotRolesConstants.ASSET_LIBRARY_OWNER, name)) {
+
 			return _language.get(
 				resourceBundle,
-				"repository-owners-are-super-users-of-their-repository-and-" +
-					"can-assign-reposiitory-roles-to-users");
+				"asset-library-owners-are-super-users-of-their-asset-library-" +
+					"and-can-assign-asset-library-roles-to-users");
 		}
 
 		return StringPool.BLANK;
@@ -144,8 +150,9 @@ public class DepotRolesPortalInstanceLifecycleListener
 	}
 
 	private static final String[] _DEPOT_ROLE_NAMES = {
-		DepotRolesConstants.DEPOT_ADMINISTRATOR,
-		DepotRolesConstants.DEPOT_MEMBER, DepotRolesConstants.DEPOT_OWNER
+		DepotRolesConstants.ASSET_LIBRARY_ADMINISTRATOR,
+		DepotRolesConstants.ASSET_LIBRARY_MEMBER,
+		DepotRolesConstants.ASSET_LIBRARY_OWNER
 	};
 
 	private static final Log _log = LogFactoryUtil.getLog(

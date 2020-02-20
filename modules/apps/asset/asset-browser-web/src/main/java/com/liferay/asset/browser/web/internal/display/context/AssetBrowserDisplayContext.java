@@ -18,7 +18,6 @@ import com.liferay.asset.browser.web.internal.configuration.AssetBrowserWebConfi
 import com.liferay.asset.browser.web.internal.constants.AssetBrowserPortletKeys;
 import com.liferay.asset.browser.web.internal.search.AddAssetEntryChecker;
 import com.liferay.asset.browser.web.internal.search.AssetBrowserSearch;
-import com.liferay.asset.constants.AssetWebKeys;
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
@@ -26,13 +25,16 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.util.AssetHelper;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.servlet.taglib.ui.BreadcrumbEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -41,9 +43,11 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -56,20 +60,21 @@ import javax.servlet.http.HttpServletRequest;
 public class AssetBrowserDisplayContext {
 
 	public AssetBrowserDisplayContext(
-		HttpServletRequest httpServletRequest, RenderRequest renderRequest,
+		AssetHelper assetHelper, HttpServletRequest httpServletRequest,
+		PortletURL portletURL, RenderRequest renderRequest,
 		RenderResponse renderResponse) {
 
+		_assetHelper = assetHelper;
 		_httpServletRequest = httpServletRequest;
+		_portletURL = portletURL;
 		_renderRequest = renderRequest;
 		_renderResponse = renderResponse;
 
-		_assetHelper = (AssetHelper)renderRequest.getAttribute(
-			AssetWebKeys.ASSET_HELPER);
 		_portalPreferences = PortletPreferencesFactoryUtil.getPortalPreferences(
 			_httpServletRequest);
 	}
 
-	public AssetBrowserSearch getAssetBrowserSearch() {
+	public AssetBrowserSearch getAssetBrowserSearch() throws PortletException {
 		AssetBrowserSearch assetBrowserSearch = new AssetBrowserSearch(
 			_renderRequest, getPortletURL());
 
@@ -196,8 +201,15 @@ public class AssetBrowserDisplayContext {
 		return _groupId;
 	}
 
-	public PortletURL getPortletURL() {
-		PortletURL portletURL = _renderResponse.createRenderURL();
+	public List<BreadcrumbEntry> getPortletBreadcrumbEntries()
+		throws PortalException, PortletException {
+
+		return Arrays.asList(_getSiteBreadcrumb(), _getHomeBreadcrumb());
+	}
+
+	public PortletURL getPortletURL() throws PortletException {
+		PortletURL portletURL = PortletURLUtil.clone(
+			_portletURL, PortalUtil.getLiferayPortletResponse(_renderResponse));
 
 		portletURL.setParameter("groupId", String.valueOf(getGroupId()));
 
@@ -399,6 +411,18 @@ public class AssetBrowserDisplayContext {
 		return filterGroupIds;
 	}
 
+	private BreadcrumbEntry _getHomeBreadcrumb() throws PortalException {
+		ThemeDisplay themeDisplay =
+			(ThemeDisplay)_httpServletRequest.getAttribute(
+				WebKeys.THEME_DISPLAY);
+
+		BreadcrumbEntry breadcrumbEntry = new BreadcrumbEntry();
+
+		breadcrumbEntry.setTitle(themeDisplay.getSiteGroupName());
+
+		return breadcrumbEntry;
+	}
+
 	private String _getKeywords() {
 		if (_keywords != null) {
 			return _keywords;
@@ -421,6 +445,23 @@ public class AssetBrowserDisplayContext {
 		}
 
 		return listable;
+	}
+
+	private BreadcrumbEntry _getSiteBreadcrumb() throws PortletException {
+		BreadcrumbEntry breadcrumbEntry = new BreadcrumbEntry();
+
+		breadcrumbEntry.setTitle(
+			LanguageUtil.get(_httpServletRequest, "sites"));
+
+		PortletURL portletURL = PortletURLUtil.clone(
+			_portletURL, PortalUtil.getLiferayPortletResponse(_renderResponse));
+
+		portletURL.setParameter("groupType", "site");
+		portletURL.setParameter("showGroupSelector", Boolean.TRUE.toString());
+
+		breadcrumbEntry.setURL(portletURL.toString());
+
+		return breadcrumbEntry;
 	}
 
 	private int[] _getStatuses() {
@@ -473,6 +514,7 @@ public class AssetBrowserDisplayContext {
 	private String _orderByCol;
 	private String _orderByType;
 	private final PortalPreferences _portalPreferences;
+	private final PortletURL _portletURL;
 	private Long _refererAssetEntryId;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;

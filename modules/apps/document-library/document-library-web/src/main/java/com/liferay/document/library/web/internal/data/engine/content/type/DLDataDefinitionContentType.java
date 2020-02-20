@@ -16,6 +16,9 @@ package com.liferay.document.library.web.internal.data.engine.content.type;
 
 import com.liferay.data.engine.content.type.DataDefinitionContentType;
 import com.liferay.document.library.kernel.model.DLFileEntryMetadata;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portlet.documentlibrary.constants.DLConstants;
 
@@ -46,7 +49,26 @@ public class DLDataDefinitionContentType implements DataDefinitionContentType {
 		return DLConstants.RESOURCE_NAME;
 	}
 
+	@Override
+	public boolean hasPortletPermission(
+			PermissionChecker permissionChecker, long groupId, String actionId)
+		throws PortalException {
+
+		if (actionId.equals("ADD_DATA_DEFINITION") ||
+			actionId.equals("ADD_DATA_RECORD_COLLECTION")) {
+
+			return _portletResourcePermission.contains(
+				permissionChecker, groupId, "ADD_STRUCTURE");
+		}
+
+		return _portletResourcePermission.contains(
+			permissionChecker, groupId, actionId);
+	}
+
 	@Reference
 	private Portal _portal;
+
+	@Reference(target = "(resource.name=" + DLConstants.RESOURCE_NAME + ")")
+	private PortletResourcePermission _portletResourcePermission;
 
 }

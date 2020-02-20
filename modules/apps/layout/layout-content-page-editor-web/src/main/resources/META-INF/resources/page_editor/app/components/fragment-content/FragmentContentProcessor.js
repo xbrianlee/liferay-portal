@@ -91,8 +91,6 @@ export default function FragmentContentProcessor({
 		processor.createEditor(
 			editableElement,
 			value => {
-				processor.render(editableElement, value, editableValue.config);
-
 				let nextEditableValue = {
 					...editableValue
 				};
@@ -137,11 +135,14 @@ export default function FragmentContentProcessor({
 		);
 
 		return () => {
-			processor.destroyEditor(editableElement, editableValue.config);
+			if (!editableProcessorUniqueId) {
+				processor.destroyEditor(editableElement, editableValue.config);
+			}
 		};
 	}, [
 		dispatch,
 		editableElement,
+		editableProcessorUniqueId,
 		editableValues,
 		fragmentEntryLinkId,
 		languageId,

@@ -52,10 +52,6 @@ const Languages = ({
 
 	const [showModal, setShowModal] = useState(false);
 
-	const {observer, onClose} = useModal({
-		onClose: handleOnModalClose
-	});
-
 	const handleOnModalClose = () => {
 		setShowModal(false);
 	};
@@ -64,6 +60,10 @@ const Languages = ({
 		setCustomLocales(selectedLocales);
 		onClose();
 	};
+
+	const {observer, onClose} = useModal({
+		onClose: handleOnModalClose
+	});
 
 	const customLocalesInputRef = useRef();
 
@@ -193,7 +193,7 @@ const Languages = ({
 
 				<ClayRadio
 					label={Liferay.Language.get(
-						'define-a-custom-default-language-and-additional-active-languages-for-this-repository'
+						'define-a-custom-default-language-and-additional-active-languages-for-this-asset-library'
 					)}
 					value={false}
 				/>
@@ -258,7 +258,7 @@ const Languages = ({
 					title={Liferay.Language.get('warning')}
 				>
 					{Liferay.Language.get(
-						'repository-name-will-display-a-generic-text-until-a-translation-is-added'
+						'asset-library-name-will-display-a-generic-text-until-a-translation-is-added'
 					)}
 				</ClayAlert>
 			)}

@@ -684,6 +684,140 @@ definition {
 			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
 	}
 
+	@priority = "5"
+	test CrossClusterReplicationSmoke {
+		property osgi.app.includes = "portal-search-elasticsearch-cross-cluster-replication,portal-search-elasticsearch7";
+		property portal.acceptance = "timpak";
+		property remote.elasticsearch.enabled = "true";
+		property remote.elasticsearch.ccr.enabled = "true";
+		property test.name.skip.portal.instance = "Elasticsearch7EE#CrossClusterReplicationSmoke";
+
+		JSONDocument.addFile(
+			dmDocumentDescription = "DM Description",
+			dmDocumentTitle = "DM Title 1",
+			groupName = "Guest");
+
+		OSGiConfig.deployOSGiConfigs(
+			OSGiConfigFileName = "com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConnectionConfiguration-default_ccr.config",
+			OSGiConfigs = "connectionId=&quot;ccr&quot;,networkHostAddresses=[&quot;http://localhost:9202&quot;]");
+
+		AntCommand(
+			locator1 = "build-test-elasticsearch7.xml",
+			value1 = "create-follower-indices");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "System Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Search",
+			configurationName = "Cross-Cluster Replication",
+			configurationScope = "System Scope");
+
+		SystemSettings.configureCrossClusterReplication(ccrLocalClusterConnectionID = "ccr");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Search");
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Search");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "SearchAdmin#REMOTE_CLUSTER_NAME",
+			value1 = "LiferayElasticsearchCluster");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "SearchAdmin#LOCAL_CLUSTER_NAME",
+			value1 = "LiferayElasticsearchClusterTwo");
+
+		Navigator.openURL();
+
+		SearchPortlets.searchEmbedded(searchTerm = "DM");
+
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "DM Title 1",
+			searchAssetType = "Document");
+
+		AntCommand(
+			locator1 = "build-test-elasticsearch7.xml",
+			value1 = "stop-elasticsearch");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Search");
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Search");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "SearchAdmin#LOCAL_CLUSTER_NAME",
+			value1 = "LiferayElasticsearchClusterTwo");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#ERROR",
+			value1 = "Connection refused");
+
+		AssertElementNotPresent(locator1 = "SearchAdmin#REMOTE_CLUSTER_NAME");
+
+		Navigator.openURL();
+
+		SearchPortlets.searchEmbedded(searchTerm = "DM");
+
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "DM Title 1",
+			searchAssetType = "Document");
+
+		AntCommand(
+			locator1 = "build-test-elasticsearch7.xml",
+			value1 = "start-elasticsearch-node -Dremote.elasticsearch.cluster.size=1");
+
+		Pause(locator1 = "20000");
+
+		AntCommand(
+			locator1 = "build-test-elasticsearch7.xml",
+			value1 = "stop-elasticsearch-local-cluster");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Search");
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Search");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "SearchAdmin#REMOTE_CLUSTER_NAME",
+			value1 = "LiferayElasticsearchCluster");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#ERROR",
+			value1 = "Connection refused");
+
+		AssertElementNotPresent(locator1 = "SearchAdmin#LOCAL_CLUSTER_NAME");
+
+		// Workaround for LPS-109038
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Gogo Shell");
+
+		GogoShell.executeCommand(commandName = "stop com.liferay.portal.search.tuning.rankings.web");
+
+		Navigator.openURL();
+
+		SearchPortlets.searchEmbedded(searchTerm = "DM");
+
+		SearchResultPortlet.viewSearchResultNotPresent(searchTerm = "DM");
+	}
+
 	test HotDeployLearningToRankApp {
 		property hot.deploy.osgi.app.includes = "portal-search-learning-to-rank";
 		property test.assert.warning.exceptions = "true";

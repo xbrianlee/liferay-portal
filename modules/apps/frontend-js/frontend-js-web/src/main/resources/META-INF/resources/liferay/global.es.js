@@ -26,6 +26,14 @@ import {
 	getComponentCache,
 	initComponentCache
 } from './component.es';
+import {
+	getLayoutIcons,
+	hideLayoutPane,
+	proposeLayout,
+	publishToLive,
+	showLayoutPane,
+	toggleLayoutDetails
+} from './layout_exporter.es';
 import portlet from './portlet/portlet.es';
 import SideNavigation from './side_navigation.es';
 import getCountries from './util/address/get_countries.es';
@@ -49,6 +57,8 @@ import createResourceURL from './util/portlet_url/create_resource_url.es';
 import {getSessionValue, setSessionValue} from './util/session.es';
 import toCharCode from './util/to_char_code.es';
 
+Liferay = window.Liferay || {};
+
 Liferay.component = component;
 Liferay.componentReady = componentReady;
 Liferay.destroyComponent = destroyComponent;
@@ -62,7 +72,18 @@ Liferay.Address = {
 	getRegions
 };
 
+Liferay.LayoutExporter = {
+	all: hideLayoutPane,
+	details: toggleLayoutDetails,
+	icons: getLayoutIcons(),
+	proposeLayout,
+	publishToLive,
+	selected: showLayoutPane
+};
+
 Liferay.SideNavigation = SideNavigation;
+
+Liferay.Util = Liferay.Util || {};
 
 Liferay.Util.escape = escape;
 Liferay.Util.fetch = fetch;

@@ -80,6 +80,17 @@ public class SiteNavigationMenuItemServiceUtil {
 		return getService().getSiteNavigationMenuItems(siteNavigationMenuId);
 	}
 
+	public static java.util.List
+		<com.liferay.site.navigation.model.SiteNavigationMenuItem>
+				getSiteNavigationMenuItems(
+					long siteNavigationMenuId,
+					long parentSiteNavigationMenuItemId)
+			throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getSiteNavigationMenuItems(
+			siteNavigationMenuId, parentSiteNavigationMenuItemId);
+	}
+
 	public static com.liferay.site.navigation.model.SiteNavigationMenuItem
 			updateSiteNavigationMenuItem(
 				long siteNavigationMenuId, long parentSiteNavigationMenuItemId,

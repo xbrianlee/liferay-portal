@@ -191,7 +191,7 @@ class AceEditor extends Component {
 	_getAutocompleteResults(match, callbackSuccess, callbackError) {
 		let matchDirectives = null;
 
-		const regex = new RegExp(match.content || '', 'gi');
+		const regex = new RegExp(match.content || '', 'i');
 
 		if (match.type === MATCH_TAG) {
 			matchDirectives = this.autocompleteTags.map(tag => tag.name);

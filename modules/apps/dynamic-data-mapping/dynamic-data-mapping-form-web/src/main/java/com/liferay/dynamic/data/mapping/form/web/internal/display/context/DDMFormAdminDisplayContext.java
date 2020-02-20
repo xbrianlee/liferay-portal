@@ -64,9 +64,9 @@ import com.liferay.frontend.js.loader.modules.extender.npm.NPMResolver;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItem;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemListBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
 import com.liferay.petra.function.UnsafeConsumer;
@@ -179,19 +179,16 @@ public class DDMFormAdminDisplayContext {
 	}
 
 	public List<DropdownItem> getActionItemsDropdownItems() {
-		return new DropdownItemList() {
-			{
-				add(
-					dropdownItem -> {
-						dropdownItem.putData("action", "deleteFormInstances");
-						dropdownItem.setIcon("times-circle");
-						dropdownItem.setLabel(
-							LanguageUtil.get(
-								formAdminRequestHelper.getRequest(), "delete"));
-						dropdownItem.setQuickAction(true);
-					});
+		return DropdownItemListBuilder.add(
+			dropdownItem -> {
+				dropdownItem.putData("action", "deleteFormInstances");
+				dropdownItem.setIcon("times-circle");
+				dropdownItem.setLabel(
+					LanguageUtil.get(
+						formAdminRequestHelper.getRequest(), "delete"));
+				dropdownItem.setQuickAction(true);
 			}
-		};
+		).build();
 	}
 
 	public int getAutosaveInterval() {
@@ -435,17 +432,14 @@ public class DDMFormAdminDisplayContext {
 		HttpServletRequest httpServletRequest =
 			formAdminRequestHelper.getRequest();
 
-		return new NavigationItemList() {
-			{
-				add(
-					navigationItem -> {
-						navigationItem.setActive(true);
-						navigationItem.setHref(StringPool.BLANK);
-						navigationItem.setLabel(
-							LanguageUtil.get(httpServletRequest, "builder"));
-					});
+		return NavigationItemListBuilder.add(
+			navigationItem -> {
+				navigationItem.setActive(true);
+				navigationItem.setHref(StringPool.BLANK);
+				navigationItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "builder"));
 			}
-		};
+		).build();
 	}
 
 	public String getFieldSetDefinitionURL() throws PortalException {
@@ -466,52 +460,43 @@ public class DDMFormAdminDisplayContext {
 		HttpServletRequest httpServletRequest =
 			formAdminRequestHelper.getRequest();
 
-		return new DropdownItemList() {
-			{
-				addGroup(
-					dropdownGroupItem -> {
-						dropdownGroupItem.setDropdownItems(
-							getFilterNavigationDropdownItems());
-						dropdownGroupItem.setLabel(
-							LanguageUtil.get(
-								httpServletRequest, "filter-by-navigation"));
-					});
-
-				addGroup(
-					dropdownGroupItem -> {
-						dropdownGroupItem.setDropdownItems(
-							getOrderByDropdownItems());
-						dropdownGroupItem.setLabel(
-							LanguageUtil.get(httpServletRequest, "order-by"));
-					});
+		return DropdownItemListBuilder.addGroup(
+			dropdownGroupItem -> {
+				dropdownGroupItem.setDropdownItems(
+					getFilterNavigationDropdownItems());
+				dropdownGroupItem.setLabel(
+					LanguageUtil.get(
+						httpServletRequest, "filter-by-navigation"));
 			}
-		};
+		).addGroup(
+			dropdownGroupItem -> {
+				dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
+				dropdownGroupItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "order-by"));
+			}
+		).build();
 	}
 
 	public List<NavigationItem> getFormBuilderNavigationItems() {
 		HttpServletRequest httpServletRequest =
 			formAdminRequestHelper.getRequest();
 
-		return new NavigationItemList() {
-			{
-				add(
-					navigationItem -> {
-						navigationItem.putData("action", "showForm");
-						navigationItem.setActive(true);
-						navigationItem.setHref(StringPool.BLANK);
-						navigationItem.setLabel(
-							LanguageUtil.get(httpServletRequest, "form"));
-					});
-
-				add(
-					navigationItem -> {
-						navigationItem.putData("action", "showRules");
-						navigationItem.setHref(StringPool.BLANK);
-						navigationItem.setLabel(
-							LanguageUtil.get(httpServletRequest, "rules"));
-					});
+		return NavigationItemListBuilder.add(
+			navigationItem -> {
+				navigationItem.putData("action", "showForm");
+				navigationItem.setActive(true);
+				navigationItem.setHref(StringPool.BLANK);
+				navigationItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "form"));
 			}
-		};
+		).add(
+			navigationItem -> {
+				navigationItem.putData("action", "showRules");
+				navigationItem.setHref(StringPool.BLANK);
+				navigationItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "rules"));
+			}
+		).build();
 	}
 
 	public String getFormDescription() throws PortalException {
@@ -680,35 +665,27 @@ public class DDMFormAdminDisplayContext {
 		String currentTab = ParamUtil.getString(
 			httpServletRequest, "currentTab", "forms");
 
-		return new NavigationItemList() {
-			{
-				add(
-					navigationItem -> {
-						navigationItem.setActive(currentTab.equals("forms"));
-						navigationItem.setHref(
-							renderResponse.createRenderURL(), "currentTab",
-							"forms");
-						navigationItem.setLabel(
-							LanguageUtil.get(httpServletRequest, "forms"));
-					});
-
-				add(
-					navigationItem -> {
-						navigationItem.setActive(
-							currentTab.equals("element-set"));
-						navigationItem.setHref(
-							renderResponse.createRenderURL(), "currentTab",
-							"element-set");
-						navigationItem.setLabel(
-							LanguageUtil.get(
-								httpServletRequest, "element-sets"));
-					});
-
-				add(
-					navigationItem -> _populateDDMDataProviderNavigationItem(
-						navigationItem));
+		return NavigationItemListBuilder.add(
+			navigationItem -> {
+				navigationItem.setActive(currentTab.equals("forms"));
+				navigationItem.setHref(
+					renderResponse.createRenderURL(), "currentTab", "forms");
+				navigationItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "forms"));
 			}
-		};
+		).add(
+			navigationItem -> {
+				navigationItem.setActive(currentTab.equals("element-set"));
+				navigationItem.setHref(
+					renderResponse.createRenderURL(), "currentTab",
+					"element-set");
+				navigationItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "element-sets"));
+			}
+		).add(
+			navigationItem -> _populateDDMDataProviderNavigationItem(
+				navigationItem)
+		).build();
 	}
 
 	public String getOrderByCol() {
@@ -1152,19 +1129,15 @@ public class DDMFormAdminDisplayContext {
 	}
 
 	protected List<DropdownItem> getFilterNavigationDropdownItems() {
-		return new DropdownItemList() {
-			{
-				add(
-					dropdownItem -> {
-						dropdownItem.setActive(true);
-						dropdownItem.setHref(
-							getPortletURL(), "navigation", "all");
-						dropdownItem.setLabel(
-							LanguageUtil.get(
-								formAdminRequestHelper.getRequest(), "all"));
-					});
+		return DropdownItemListBuilder.add(
+			dropdownItem -> {
+				dropdownItem.setActive(true);
+				dropdownItem.setHref(getPortletURL(), "navigation", "all");
+				dropdownItem.setLabel(
+					LanguageUtil.get(
+						formAdminRequestHelper.getRequest(), "all"));
 			}
-		};
+		).build();
 	}
 
 	protected Locale[] getFormAvailableLocales() {
@@ -1310,12 +1283,11 @@ public class DDMFormAdminDisplayContext {
 	}
 
 	protected List<DropdownItem> getOrderByDropdownItems() {
-		return new DropdownItemList() {
-			{
-				add(getOrderByDropdownItem("modified-date"));
-				add(getOrderByDropdownItem("name"));
-			}
-		};
+		return DropdownItemListBuilder.add(
+			getOrderByDropdownItem("modified-date")
+		).add(
+			getOrderByDropdownItem("name")
+		).build();
 	}
 
 	protected boolean hasResults() {

@@ -93,6 +93,7 @@ const InstanceListPage = ({routeParams}) => {
 	const {
 		filterState: {timeRange},
 		filterValues: {assigneeUserIds, slaStatuses, statuses = [], taskKeys},
+		filtersError,
 		prefixedKeys,
 		selectedFilters
 	} = useFilter({filterKeys});
@@ -140,12 +141,12 @@ const InstanceListPage = ({routeParams}) => {
 			return [fetchData()];
 		}
 
-		return [];
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		return [new Promise((_, reject) => reject(filtersError))];
 	}, [
 		bulkModal.visible,
 		completedAndDate,
 		fetchData,
+		filtersError,
 		singleModal.visible,
 		singleTransition.visible,
 		updateDueDate.visible

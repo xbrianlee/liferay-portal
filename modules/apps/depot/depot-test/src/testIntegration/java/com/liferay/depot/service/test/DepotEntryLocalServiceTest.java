@@ -85,7 +85,7 @@ public class DepotEntryLocalServiceTest {
 		Assert.assertTrue(
 			_userGroupRoleLocalService.hasUserGroupRole(
 				depotEntry.getUserId(), group.getGroupId(),
-				DepotRolesConstants.DEPOT_OWNER, true));
+				DepotRolesConstants.ASSET_LIBRARY_OWNER, true));
 	}
 
 	@Test(expected = DuplicateGroupException.class)
@@ -262,7 +262,7 @@ public class DepotEntryLocalServiceTest {
 		Group group = _groupLocalService.getGroup(depotEntry.getGroupId());
 
 		Assert.assertEquals(
-			"Unnamed Repository", group.getName(LocaleUtil.getDefault()));
+			"Unnamed Asset Library", group.getName(LocaleUtil.getDefault()));
 	}
 
 	@Test

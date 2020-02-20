@@ -21,15 +21,25 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutPrototype;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutService;
+import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
 import com.liferay.sites.kernel.util.Sites;
 
 import java.util.Locale;
@@ -51,11 +61,70 @@ public class LayoutServiceTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new LiferayIntegrationTestRule();
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerMethodTestRule.INSTANCE);
 
 	@Before
 	public void setUp() throws Exception {
 		_group = GroupTestUtil.addGroup();
+	}
+
+	@Test
+	public void testFetchLayout() throws Exception {
+		Layout newLayout = LayoutTestUtil.addLayout(_group);
+
+		Layout layout = _layoutService.fetchLayout(
+			0L, newLayout.isPrivateLayout(), newLayout.getLayoutId());
+
+		Assert.assertNull(layout);
+
+		layout = _layoutService.fetchLayout(
+			_group.getGroupId(), !newLayout.isPrivateLayout(),
+			newLayout.getLayoutId());
+
+		Assert.assertNull(layout);
+
+		layout = _layoutService.fetchLayout(
+			_group.getGroupId(), newLayout.isPrivateLayout(), 0L);
+
+		Assert.assertNull(layout);
+
+		layout = _layoutService.fetchLayout(
+			_group.getGroupId(), newLayout.isPrivateLayout(),
+			newLayout.getLayoutId());
+
+		Assert.assertNotNull(layout);
+
+		Assert.assertEquals(layout.getPlid(), newLayout.getPlid());
+	}
+
+	@Test(expected = PrincipalException.MustHavePermission.class)
+	public void testFetchLayoutWithoutPermissions() throws Exception {
+		Layout newLayout = LayoutTestUtil.addLayout(_group, true);
+
+		PermissionChecker originalPermissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		try {
+			User user = UserTestUtil.addUser();
+
+			_roleLocalService.deleteUserRoles(
+				user.getUserId(), user.getRoleIds());
+
+			PermissionChecker permissionChecker =
+				PermissionCheckerFactoryUtil.create(user);
+
+			PermissionThreadLocal.setPermissionChecker(permissionChecker);
+
+			_layoutService.fetchLayout(
+				_group.getGroupId(), newLayout.isPrivateLayout(),
+				newLayout.getLayoutId());
+		}
+		finally {
+			PermissionThreadLocal.setPermissionChecker(
+				originalPermissionChecker);
+		}
 	}
 
 	@Test
@@ -139,5 +208,11 @@ public class LayoutServiceTest {
 
 	@DeleteAfterTestRun
 	private Group _group;
+
+	@Inject
+	private LayoutService _layoutService;
+
+	@Inject
+	private RoleLocalService _roleLocalService;
 
 }

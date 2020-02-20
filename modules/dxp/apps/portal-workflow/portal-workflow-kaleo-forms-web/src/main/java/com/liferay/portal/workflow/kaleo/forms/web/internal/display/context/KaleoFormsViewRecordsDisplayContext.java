@@ -26,9 +26,9 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItem;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemListBuilder;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
@@ -91,20 +91,16 @@ public class KaleoFormsViewRecordsDisplayContext {
 	}
 
 	public List<DropdownItem> getActionItemsDropdownItems() {
-		return new DropdownItemList() {
-			{
-				add(
-					dropdownItem -> {
-						dropdownItem.putData("action", "deleteRecords");
-						dropdownItem.setIcon("trash");
-						dropdownItem.setLabel(
-							LanguageUtil.get(
-								_kaleoFormsAdminRequestHelper.getRequest(),
-								"delete"));
-						dropdownItem.setQuickAction(true);
-					});
+		return DropdownItemListBuilder.add(
+			dropdownItem -> {
+				dropdownItem.putData("action", "deleteRecords");
+				dropdownItem.setIcon("trash");
+				dropdownItem.setLabel(
+					LanguageUtil.get(
+						_kaleoFormsAdminRequestHelper.getRequest(), "delete"));
+				dropdownItem.setQuickAction(true);
 			}
-		};
+		).build();
 	}
 
 	public String getClearResultsURL() throws PortletException {
@@ -215,26 +211,21 @@ public class KaleoFormsViewRecordsDisplayContext {
 		HttpServletRequest httpServletRequest =
 			PortalUtil.getHttpServletRequest(_renderRequest);
 
-		return new DropdownItemList() {
-			{
-				addGroup(
-					dropdownGroupItem -> {
-						dropdownGroupItem.setDropdownItems(
-							getFilterNavigationDropdownItems());
-						dropdownGroupItem.setLabel(
-							LanguageUtil.get(
-								httpServletRequest, "filter-by-navigation"));
-					});
-
-				addGroup(
-					dropdownGroupItem -> {
-						dropdownGroupItem.setDropdownItems(
-							getOrderByDropdownItems());
-						dropdownGroupItem.setLabel(
-							LanguageUtil.get(httpServletRequest, "order-by"));
-					});
+		return DropdownItemListBuilder.addGroup(
+			dropdownGroupItem -> {
+				dropdownGroupItem.setDropdownItems(
+					getFilterNavigationDropdownItems());
+				dropdownGroupItem.setLabel(
+					LanguageUtil.get(
+						httpServletRequest, "filter-by-navigation"));
 			}
-		};
+		).addGroup(
+			dropdownGroupItem -> {
+				dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
+				dropdownGroupItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "order-by"));
+			}
+		).build();
 	}
 
 	public List<String> getHeaderNames() throws PortalException {
@@ -267,19 +258,15 @@ public class KaleoFormsViewRecordsDisplayContext {
 	public List<NavigationItem> getNavigationItems() {
 		ThemeDisplay themeDisplay = getThemeDisplay();
 
-		return new NavigationItemList() {
-			{
-				add(
-					navigationItem -> {
-						navigationItem.setActive(true);
-						navigationItem.setHref(StringPool.BLANK);
-						navigationItem.setLabel(
-							HtmlUtil.extractText(
-								_kaleoProcess.getName(
-									themeDisplay.getLocale())));
-					});
+		return NavigationItemListBuilder.add(
+			navigationItem -> {
+				navigationItem.setActive(true);
+				navigationItem.setHref(StringPool.BLANK);
+				navigationItem.setLabel(
+					HtmlUtil.extractText(
+						_kaleoProcess.getName(themeDisplay.getLocale())));
 			}
-		};
+		).build();
 	}
 
 	public String getOrderByCol() {
@@ -425,22 +412,17 @@ public class KaleoFormsViewRecordsDisplayContext {
 	}
 
 	protected List<DropdownItem> getFilterNavigationDropdownItems() {
-		return new DropdownItemList() {
-			{
-				add(
-					dropdownItem -> {
-						dropdownItem.setActive(true);
+		return DropdownItemListBuilder.add(
+			dropdownItem -> {
+				dropdownItem.setActive(true);
 
-						dropdownItem.setHref(
-							getPortletURL(), "navigation", "all");
+				dropdownItem.setHref(getPortletURL(), "navigation", "all");
 
-						dropdownItem.setLabel(
-							LanguageUtil.get(
-								_kaleoFormsAdminRequestHelper.getRequest(),
-								"all"));
-					});
+				dropdownItem.setLabel(
+					LanguageUtil.get(
+						_kaleoFormsAdminRequestHelper.getRequest(), "all"));
 			}
-		};
+		).build();
 	}
 
 	protected String getKeywords() {
@@ -448,36 +430,29 @@ public class KaleoFormsViewRecordsDisplayContext {
 	}
 
 	protected List<DropdownItem> getOrderByDropdownItems() {
-		return new DropdownItemList() {
-			{
-				add(
-					dropdownItem -> {
-						String orderByCol = "create-date";
+		return DropdownItemListBuilder.add(
+			dropdownItem -> {
+				String orderByCol = "create-date";
 
-						dropdownItem.setActive(
-							orderByCol.equals(getOrderByCol()));
-						dropdownItem.setHref(
-							getPortletURL(), "orderByCol", orderByCol);
-						dropdownItem.setLabel(
-							LanguageUtil.get(
-								_kaleoFormsAdminRequestHelper.getRequest(),
-								orderByCol));
-					});
-				add(
-					dropdownItem -> {
-						String orderByCol = "modified-date";
-
-						dropdownItem.setActive(
-							orderByCol.equals(getOrderByCol()));
-						dropdownItem.setHref(
-							getPortletURL(), "orderByCol", orderByCol);
-						dropdownItem.setLabel(
-							LanguageUtil.get(
-								_kaleoFormsAdminRequestHelper.getRequest(),
-								orderByCol));
-					});
+				dropdownItem.setActive(orderByCol.equals(getOrderByCol()));
+				dropdownItem.setHref(getPortletURL(), "orderByCol", orderByCol);
+				dropdownItem.setLabel(
+					LanguageUtil.get(
+						_kaleoFormsAdminRequestHelper.getRequest(),
+						orderByCol));
 			}
-		};
+		).add(
+			dropdownItem -> {
+				String orderByCol = "modified-date";
+
+				dropdownItem.setActive(orderByCol.equals(getOrderByCol()));
+				dropdownItem.setHref(getPortletURL(), "orderByCol", orderByCol);
+				dropdownItem.setLabel(
+					LanguageUtil.get(
+						_kaleoFormsAdminRequestHelper.getRequest(),
+						orderByCol));
+			}
+		).build();
 	}
 
 	protected SearchContext getSearchContext(

@@ -81,39 +81,29 @@ export default function serviceFetch(
 		.then(([response, body]) => {
 			if (typeof body === 'object') {
 				if ('exception' in body) {
-					onNetworkStatus(
-						updateNetwork({
-							error: body.exception,
-							status: SERVICE_NETWORK_STATUS_TYPES.error
-						})
-					);
-
-					return Promise.reject(
-						Liferay.Language.get('an-unexpected-error-occurred')
+					return handleErroredResponse(
+						Liferay.Language.get('an-unexpected-error-occurred'),
+						onNetworkStatus
 					);
 				}
 				else if ('error' in body) {
-					onNetworkStatus(
-						updateNetwork({
-							error: body.error,
-							status: SERVICE_NETWORK_STATUS_TYPES.error
-						})
+					return handleErroredResponse(
+						Liferay.Language.get(body.error),
+						onNetworkStatus
 					);
-
-					return Promise.reject(body.error);
 				}
+			}
+			else {
+				return handleErroredResponse(
+					Liferay.Language.get('an-unexpected-error-occurred'),
+					onNetworkStatus
+				);
 			}
 
 			if (response.status >= 400) {
-				onNetworkStatus(
-					updateNetwork({
-						error: `${response.status} ${body}`,
-						status: SERVICE_NETWORK_STATUS_TYPES.Error
-					})
-				);
-
-				return Promise.reject(
-					Liferay.Language.get('an-unexpected-error-occurred')
+				return handleErroredResponse(
+					Liferay.Language.get('an-unexpected-error-occurred'),
+					onNetworkStatus
 				);
 			}
 
@@ -129,4 +119,19 @@ export default function serviceFetch(
 
 			return body;
 		});
+}
+
+/**
+ * @param {string} error
+ * @param {function} onNetworkStatus
+ */
+function handleErroredResponse(error, onNetworkStatus) {
+	onNetworkStatus(
+		updateNetwork({
+			error,
+			status: SERVICE_NETWORK_STATUS_TYPES.error
+		})
+	);
+
+	return Promise.reject(error);
 }

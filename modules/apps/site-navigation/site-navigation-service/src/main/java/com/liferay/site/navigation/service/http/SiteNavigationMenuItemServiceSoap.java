@@ -142,6 +142,30 @@ public class SiteNavigationMenuItemServiceSoap {
 		}
 	}
 
+	public static com.liferay.site.navigation.model.SiteNavigationMenuItemSoap[]
+			getSiteNavigationMenuItems(
+				long siteNavigationMenuId, long parentSiteNavigationMenuItemId)
+		throws RemoteException {
+
+		try {
+			java.util.List
+				<com.liferay.site.navigation.model.SiteNavigationMenuItem>
+					returnValue =
+						SiteNavigationMenuItemServiceUtil.
+							getSiteNavigationMenuItems(
+								siteNavigationMenuId,
+								parentSiteNavigationMenuItemId);
+
+			return com.liferay.site.navigation.model.SiteNavigationMenuItemSoap.
+				toSoapModels(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	public static com.liferay.site.navigation.model.SiteNavigationMenuItemSoap
 			updateSiteNavigationMenuItem(
 				long siteNavigationMenuId, long parentSiteNavigationMenuItemId,

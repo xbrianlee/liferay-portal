@@ -15,10 +15,12 @@
 package com.liferay.asset.browser.web.internal.portlet;
 
 import com.liferay.asset.browser.web.internal.constants.AssetBrowserPortletKeys;
+import com.liferay.asset.browser.web.internal.display.context.AssetBrowserDisplayContext;
 import com.liferay.asset.constants.AssetWebKeys;
 import com.liferay.asset.util.AssetHelper;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.util.Portal;
 
 import java.io.IOException;
 
@@ -59,6 +61,13 @@ public class AssetBrowserPortlet extends MVCPortlet {
 			RenderRequest renderRequest, RenderResponse renderResponse)
 		throws IOException, PortletException {
 
+		renderRequest.setAttribute(
+			AssetBrowserDisplayContext.class.getName(),
+			new AssetBrowserDisplayContext(
+				_assetHelper, _portal.getHttpServletRequest(renderRequest),
+				renderResponse.createRenderURL(), renderRequest,
+				renderResponse));
+
 		renderRequest.setAttribute(AssetWebKeys.ASSET_HELPER, _assetHelper);
 
 		super.doDispatch(renderRequest, renderResponse);
@@ -66,6 +75,9 @@ public class AssetBrowserPortlet extends MVCPortlet {
 
 	@Reference
 	private AssetHelper _assetHelper;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference(
 		target = "(&(release.bundle.symbolic.name=com.liferay.asset.browser.web)(&(release.schema.version>=1.0.0)(!(release.schema.version>=2.0.0))))"

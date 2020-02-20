@@ -12,8 +12,6 @@
 		<permissions>
 			<supports>
 				<action-key>ADD_ARTICLE</action-key>
-				<action-key>ADD_DATA_DEFINITION</action-key>
-				<action-key>ADD_DATA_RECORD_COLLECTION</action-key>
 				<action-key>ADD_FEED</action-key>
 				<action-key>ADD_FOLDER</action-key>
 				<action-key>ADD_STRUCTURE</action-key>
@@ -30,8 +28,6 @@
 			</guest-defaults>
 			<guest-unsupported>
 				<action-key>ADD_ARTICLE</action-key>
-				<action-key>ADD_DATA_DEFINITION</action-key>
-				<action-key>ADD_DATA_RECORD_COLLECTION</action-key>
 				<action-key>ADD_FEED</action-key>
 				<action-key>ADD_FOLDER</action-key>
 				<action-key>ADD_STRUCTURE</action-key>

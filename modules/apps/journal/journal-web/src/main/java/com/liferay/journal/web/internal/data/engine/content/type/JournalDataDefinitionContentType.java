@@ -15,7 +15,11 @@
 package com.liferay.journal.web.internal.data.engine.content.type;
 
 import com.liferay.data.engine.content.type.DataDefinitionContentType;
+import com.liferay.journal.constants.JournalConstants;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
 import com.liferay.portal.kernel.util.Portal;
 
 import org.osgi.service.component.annotations.Component;
@@ -43,10 +47,31 @@ public class JournalDataDefinitionContentType
 
 	@Override
 	public String getPortletResourceName() {
-		return "com.liferay.journal";
+		return JournalConstants.RESOURCE_NAME;
+	}
+
+	@Override
+	public boolean hasPortletPermission(
+			PermissionChecker permissionChecker, long groupId, String actionId)
+		throws PortalException {
+
+		if (actionId.equals("ADD_DATA_DEFINITION") ||
+			actionId.equals("ADD_DATA_RECORD_COLLECTION")) {
+
+			return _portletResourcePermission.contains(
+				permissionChecker, groupId, "ADD_STRUCTURE");
+		}
+
+		return _portletResourcePermission.contains(
+			permissionChecker, groupId, actionId);
 	}
 
 	@Reference
 	private Portal _portal;
+
+	@Reference(
+		target = "(resource.name=" + JournalConstants.RESOURCE_NAME + ")"
+	)
+	private PortletResourcePermission _portletResourcePermission;
 
 }

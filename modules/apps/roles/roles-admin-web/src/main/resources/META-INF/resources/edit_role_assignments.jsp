@@ -179,11 +179,11 @@ renderResponse.setTitle(role.getTitle(locale));
 			assignmentsRedirect: '<%= portletURL.toString() %>'
 		};
 
-		if (assigneeType === 'users') {
-			data.removeUserIds = ids;
-		}
-		else if (assigneeType == 'segments') {
+		if (assigneeType == 'segments') {
 			data.removeSegmentsEntryIds = ids;
+		}
+		else if (assigneeType === 'users') {
+			data.removeUserIds = ids;
 		}
 		else {
 			data.removeGroupIds = ids;
