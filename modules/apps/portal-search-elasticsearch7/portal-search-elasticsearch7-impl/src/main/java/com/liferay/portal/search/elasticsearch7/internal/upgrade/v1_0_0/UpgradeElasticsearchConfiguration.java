@@ -15,6 +15,7 @@
 package com.liferay.portal.search.elasticsearch7.internal.upgrade.v1_0_0;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -52,28 +53,56 @@ public class UpgradeElasticsearchConfiguration extends UpgradeProcess {
 			return;
 		}
 
+		Configuration elasticsearchConnectionConfiguration =
+			_getDefaultConfiguration(
+				ElasticsearchConnectionConfiguration.class.getName());
+
+		if (elasticsearchConnectionConfiguration == null) {
+			return;
+		}
+
 		Dictionary<String, Object> elasticsearchConfigurationProperties =
 			elasticsearchConfiguration.getProperties();
 
-		Configuration elasticsearchConnectionConfiguration = _getConfiguration(
-			ElasticsearchConnectionConfiguration.class.getName() + ".*");
+		String operationMode = GetterUtil.getString(
+			elasticsearchConfigurationProperties.get("operationMode"));
+		String remoteClusterConnectionId = GetterUtil.getString(
+			elasticsearchConfigurationProperties.get(
+				"remoteClusterConnectionId"));
 
 		Dictionary<String, Object>
 			elasticsearchConnectionConfigurationProperties =
 				elasticsearchConnectionConfiguration.getProperties();
 
-		elasticsearchConnectionConfigurationProperties.put("active", true);
+		String connectionId = GetterUtil.getString(
+			elasticsearchConnectionConfigurationProperties.get("connectionId"));
 
-		elasticsearchConnectionConfigurationProperties.put(
-			"authenticationEnabled",
-			GetterUtil.getBoolean(
-				elasticsearchConfigurationProperties.get(
-					"authenticationEnabled")));
+		if (operationMode.equals("REMOTE") &&
+			(remoteClusterConnectionId.equals(StringPool.BLANK) ||
+			 remoteClusterConnectionId.equals(connectionId))) {
 
-		elasticsearchConnectionConfigurationProperties.put(
-			"httpSSLEnabled",
-			GetterUtil.getBoolean(
-				elasticsearchConfigurationProperties.get("httpSSLEnabled")));
+			elasticsearchConnectionConfigurationProperties.put("active", true);
+		}
+
+		if (elasticsearchConfigurationProperties.get("authenticationEnabled") !=
+				null) {
+
+			elasticsearchConnectionConfigurationProperties.put(
+				"authenticationEnabled",
+				GetterUtil.getBoolean(
+					elasticsearchConfigurationProperties.get(
+						"authenticationEnabled")));
+		}
+
+		if (elasticsearchConfigurationProperties.get("httpSSLEnabled") !=
+				null) {
+
+			elasticsearchConnectionConfigurationProperties.put(
+				"httpSSLEnabled",
+				GetterUtil.getBoolean(
+					elasticsearchConfigurationProperties.get(
+						"httpSSLEnabled")));
+		}
 
 		String[] networkHostAddresses = GetterUtil.getStringValues(
 			elasticsearchConfigurationProperties.get("networkHostAddresses"));
@@ -136,6 +165,30 @@ public class UpgradeElasticsearchConfiguration extends UpgradeProcess {
 
 		if (configurations != null) {
 			return configurations[0];
+		}
+
+		return null;
+	}
+
+	private Configuration _getDefaultConfiguration(String className)
+		throws Exception {
+
+		String filterString = StringBundler.concat(
+			"(", Constants.SERVICE_PID, "=", className, ".*)");
+
+		Configuration[] configurations = _configurationAdmin.listConfigurations(
+			filterString);
+
+		for (Configuration configuration : configurations) {
+			Dictionary<String, Object> properties =
+				configuration.getProperties();
+
+			String fileName = GetterUtil.getString(
+				properties.get("felix.fileinstall.filename"));
+
+			if (fileName.endsWith("-default.config")) {
+				return configuration;
+			}
 		}
 
 		return null;
