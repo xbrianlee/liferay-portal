@@ -29,8 +29,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "4"
@@ -42,8 +40,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "4"
@@ -55,8 +51,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "4"
@@ -68,8 +62,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "4"
@@ -81,8 +73,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "5"
@@ -93,8 +83,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "5"
@@ -106,8 +94,6 @@ definition {
 		property test.run.environment = "EE";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "5"
@@ -118,8 +104,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@description = "This is a use case for LPS-105035."
@@ -131,8 +115,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "4"
@@ -144,8 +126,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "5"
@@ -157,8 +137,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@priority = "4"
@@ -172,8 +150,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@ignore = "true"
@@ -187,8 +163,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@ignore = "true"
@@ -203,8 +177,6 @@ definition {
 		property test.run.environment = "EE";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@ignore = "true"
@@ -218,8 +190,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@ignore = "true"
@@ -233,8 +203,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 	@ignore = "true"
@@ -249,8 +217,6 @@ definition {
 		property test.assert.warning.exceptions = "true";
 
 		Upgrade.viewUpgrade();
-
-		Upgrade.searchForAssetsAfterUpgrade();
 	}
 
 }
