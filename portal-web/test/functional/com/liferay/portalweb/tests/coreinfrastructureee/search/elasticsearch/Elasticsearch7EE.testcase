@@ -1042,12 +1042,7 @@ definition {
 
 		SearchPortlets.searchEmbedded(searchTerm = "alien");
 
-		if (IsTextEqual(locator1 = "SearchResults#ASSET_ENTRY_TABLE_TITLE_SPECIFIC_ORDER", resultOrder = "1", value1 = "Alien³")) {
-			SearchResultPortlet.viewSearchResultsSpecificOrder(resultsList = "Alien³,Alien,Alien Nation");
-		}
-		else {
-			SearchResultPortlet.viewSearchResultsSpecificOrder(resultsList = "Alien,Alien³,Alien Nation");
-		}
+		SearchResultPortlet.viewSearchResultsSpecificOrder(resultsList = "Alien,Alien³,Alien: Resurrection");
 	}
 
 	@priority = "5"
