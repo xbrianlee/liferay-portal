@@ -163,11 +163,6 @@ public class DDMPermissionSupportImpl implements DDMPermissionSupport {
 				_ddmPermissionSupportTracker.
 					getDDMStructurePermissionSupportServiceWrapper(className);
 
-		if (structurePermissionSupportServiceWrapper == null) {
-			return ResourceActionsUtil.getCompositeModelName(
-				className, DDMStructure.class.getName());
-		}
-
 		boolean defaultModelResourceName = MapUtil.getBoolean(
 			structurePermissionSupportServiceWrapper.getProperties(),
 			"default.model.resource.name");
