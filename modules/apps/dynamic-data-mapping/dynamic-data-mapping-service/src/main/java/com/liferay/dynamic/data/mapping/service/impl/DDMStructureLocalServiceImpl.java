@@ -17,7 +17,6 @@ package com.liferay.dynamic.data.mapping.service.impl;
 import com.liferay.dynamic.data.mapping.exception.InvalidParentStructureException;
 import com.liferay.dynamic.data.mapping.exception.InvalidStructureVersionException;
 import com.liferay.dynamic.data.mapping.exception.NoSuchStructureException;
-import com.liferay.dynamic.data.mapping.exception.NoSuchStructureLayoutException;
 import com.liferay.dynamic.data.mapping.exception.RequiredStructureException;
 import com.liferay.dynamic.data.mapping.exception.StructureDefinitionException;
 import com.liferay.dynamic.data.mapping.exception.StructureDuplicateElementException;
@@ -467,15 +466,8 @@ public class DDMStructureLocalServiceImpl
 				structure.getStructureId());
 
 		for (DDMStructureVersion structureVersion : structureVersions) {
-			try {
-				ddmStructureLayoutPersistence.removeByStructureVersionId(
-					structureVersion.getStructureVersionId());
-			}
-			catch (NoSuchStructureLayoutException
-						noSuchStructureLayoutException) {
-
-				continue;
-			}
+			ddmStructureLayoutPersistence.removeByStructureVersionId(
+				structureVersion.getStructureVersionId());
 
 			ddmStructureVersionPersistence.remove(structureVersion);
 		}
