@@ -139,12 +139,13 @@ public class DataDefinitionResourceImpl
 		_ddlRecordSetLocalService.deleteDDMStructureRecordSets(
 			dataDefinitionId);
 
+
+		_ddmStructureLocalService.deleteStructure(dataDefinitionId);
+
 		_deDataDefinitionFieldLinkLocalService.deleteDEDataDefinitionFieldLinks(
 			dataDefinitionId);
 
 		_deDataListViewLocalService.deleteDEDataListViews(dataDefinitionId);
-
-		_ddmStructureLocalService.deleteStructure(dataDefinitionId);
 	}
 
 	@Override
