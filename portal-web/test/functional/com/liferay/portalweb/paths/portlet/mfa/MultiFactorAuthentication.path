@@ -8,6 +8,17 @@
 <tr><td rowspan="1" colspan="3">MultiFactorAuthentication</td></tr>
 </thead>
 <tbody>
+<!--EMAIL_OTP_CONFIGURATION-->
+<tr>
+	<td>EMAIL_OTP_CONFIG_FIELD</td>
+	<td>//div[contains(@data-field-name,'${key_fieldName}')]//input</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
 <!--EMAIL_OTP_SENDER-->
 <tr>
 	<td>EMAIL_OTP_SENDER_ADDRESS_FIELD</td>
@@ -33,6 +44,11 @@
 <tr>
 	<td>EMAIL_OTP_VERIFY_SEND_EMAIL_BUTTON</td>
 	<td>//button[contains(@id,'sendEmailButton')]//span[contains(.,'Send')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EMAIL_OTP_VERIFY_FAILED_MESSAGE</td>
+	<td>//div[contains(@class,'alert alert-dismissible alert-danger')]</td>
 	<td></td>
 </tr>
 <tr>
