@@ -25,7 +25,68 @@ definition {
 			locator1 = "MultiFactorAuthentication#EMAIL_OTP_SENDER_NAME_FIELD",
 			value1 = "${emailSenderName}");
 
-		PortletEntry.save();
+		if (IsElementPresent(locator1 = "Button#UPDATE")) {
+			PortletEntry.update();
+		}
+		else if (IsElementPresent(locator1 = "Button#SAVE")) {
+			PortletEntry.save();
+		}
+	}
+
+	macro emailOTPConfiguration {
+		var failedAttemptsAllowed = "${failedAttemptsAllowed}";
+		var retryTimeout = "${retryTimeout}";
+
+		if (isSet(failedAttemptsAllowed)) {
+			Type(
+				key_fieldName = "failedAttemptsAllowed",
+				locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_FIELD",
+				value1 = "${failedAttemptsAllowed}");
+		}
+
+		if (isSet(retryTimeout)) {
+			Type(
+				key_fieldName = "retryTimeout",
+				locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_FIELD",
+				value1 = "${retryTimeout}");
+		}
+
+		if (IsElementPresent(locator1 = "Button#UPDATE")) {
+			PortletEntry.update();
+		}
+		else if (IsElementPresent(locator1 = "Button#SAVE")) {
+			PortletEntry.save();
+		}
+	}
+
+	macro failedLoginWithValidOTP {
+		var bodySpecificText = MockMock.getBodySpecificText(
+			asset = "${portalURL}: Your One-Time Password",
+			content = "Your one-time password is:",
+			enableOTP = "true",
+			recipient = "${recipient}",
+			sender = "Joe Bloggs",
+			specificText = "Your one-time password is: <pre>",
+			subject = "${portalURL}: Your One-Time Password");
+
+		if (isSet(specificURL)) {
+			Navigator.openSpecificURL(url = "${specificURL}");
+		}
+		else {
+			Navigator.openURL();
+		}
+
+		SignIn._signIn(
+			userEmailAddress = "${userEmailAddress}",
+			userPassword = "${userPassword}");
+
+		Type(
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_VERIFY_FIELD",
+			value1 = "${bodySpecificText}");
+
+		Button.click(button = "Submit");
+
+		AssertElementPresent(locator1 = "MultiFactorAuthentication#EMAIL_OTP_VERIFY_FAILED_MESSAGE");
 	}
 
 	macro sendOTPEmailPG {
@@ -63,15 +124,26 @@ definition {
 			userEmailAddress = "${userEmailAddress}",
 			userPassword = "${userPassword}");
 
-		Type(
-			locator1 = "MultiFactorAuthentication#EMAIL_OTP_VERIFY_FIELD",
-			value1 = "${bodySpecificText}");
+		if ("${validOTP}" == "true") {
+			Type(
+				locator1 = "MultiFactorAuthentication#EMAIL_OTP_VERIFY_FIELD",
+				value1 = "${bodySpecificText}");
 
-		Button.click(button = "Submit");
+			Button.click(button = "Submit");
 
-		AssertElementNotPresent(locator1 = "MultiFactorAuthentication#EMAIL_OTP_VERIFY_FIELD");
+			AssertElementNotPresent(locator1 = "MultiFactorAuthentication#EMAIL_OTP_VERIFY_FIELD");
 
-		AssertElementPresent(locator1 = "UserBar#USER_AVATAR_IMAGE");
+			AssertElementPresent(locator1 = "UserBar#USER_AVATAR_IMAGE");
+		}
+		else if ("${validOTP}" == "false") {
+			Type(
+				locator1 = "MultiFactorAuthentication#EMAIL_OTP_VERIFY_FIELD",
+				value1 = "123456");
+
+			Button.click(button = "Submit");
+
+			AssertElementPresent(locator1 = "MultiFactorAuthentication#EMAIL_OTP_VERIFY_FAILED_MESSAGE");
+		}
 	}
 
 	macro viewOTPEmailSenderCP {
