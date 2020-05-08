@@ -1869,6 +1869,19 @@ definition {
 			User.answerPasswordReminder();
 		}
 
+		if (IsElementPresent(locator1 = "MultiFactorAuthentication#EMAIL_OTP_VERIFY_SEND_EMAIL_BUTTON",value1 = "Send")) {
+			MultiFactorAuthentication.sendOTPEmailPG();
+
+			var portalURL = PropsUtil.get("portal.url");
+
+			MultiFactorAuthentication.verifyOTP(
+				portalURL = "${portalURL}",
+				recipient = "Test Test",
+				userEmailAddress = "test@liferay.com",
+				userPassword = "test",
+				validOTP = "true");
+		}
+
 		AssertElementPresent(locator1 = "UserBar#USER_AVATAR_IMAGE");
 	}
 
