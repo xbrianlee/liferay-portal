@@ -31,6 +31,65 @@ definition {
 		}
 	}
 
+	@description = "This is a use case for LPS-92659"
+	test BlockedAfterReachAllowedFailedAttempts {
+		property database.types = "db2,hypersonic,mariadb,mysql,oracle,postgresql,sqlserver,sybase";
+		property test.name.skip.portal.instance = "MultiFactorAuthentication#BlockedAfterReachAllowedFailedAttempts";
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Multi-Factor Authentication",
+			configurationName = "Email One-Time Password Configuration",
+			configurationScope = "Virtual Instance Scope");
+
+		MultiFactorAuthentication.configureOTPEmailSender(
+			emailAddress = "test@liferay.com",
+			emailSenderName = "Joe Bloggs");
+
+		MultiFactorAuthentication.viewOTPEmailSenderCP(
+			emailAddress = "test@liferay.com",
+			emailSenderName = "Joe Bloggs");
+
+		MultiFactorAuthentication.configureOTP(enableOTP = "true");
+
+		MultiFactorAuthentication.emailOTPConfiguration(
+			failedAttemptsAllowed = "1",
+			retryTimeout = "120");
+
+		SignOut.signOut();
+
+		SignIn.signIn(userEmailAddress = "test@liferay.com");
+
+		MultiFactorAuthentication.sendOTPEmailPG();
+
+		var portalURL = PropsUtil.get("portal.url");
+
+		MultiFactorAuthentication.verifyOTP(
+			portalURL = "${portalURL}",
+			recipient = "test test",
+			userEmailAddress = "test@liferay.com",
+			userPassword = "test",
+			validOTP = "false");
+
+		MultiFactorAuthentication.failedLoginWithValidOTP(
+			portalURL = "${portalURL}",
+			recipient = "Test Test",
+			userEmailAddress = "test@liferay.com",
+			userPassword = "test");
+
+		MultiFactorAuthentication.sendOTPEmailPG();
+
+		MultiFactorAuthentication.failedLoginWithValidOTP(
+			portalURL = "${portalURL}",
+			recipient = "Test Test",
+			userEmailAddress = "test@liferay.com",
+			userPassword = "test");
+	}
+
 	@description = "This is a use case for LPS-101720"
 	@priority = "5"
 	test EnableOTPForInstanceAsInstanceAdminUser {
@@ -94,7 +153,8 @@ definition {
 			recipient = "test test",
 			specificURL = "http://www.able.com:8080",
 			userEmailAddress = "test@www.able.com",
-			userPassword = "test");
+			userPassword = "test",
+			validOTP = "true");
 
 		PortalSettings.gotoConfiguration(
 			configurationCategory = "Multi-Factor Authentication",
@@ -109,6 +169,60 @@ definition {
 			password = "test",
 			specificURL = "http://www.able.com:8080",
 			userEmailAddress = "test@www.able.com");
+	}
+
+	@description = "This is a use case for LPS-92659"
+	test LoginSuccessfulAfterRetryTimeout {
+		property database.types = "db2,hypersonic,mariadb,mysql,oracle,postgresql,sqlserver,sybase";
+		property test.name.skip.portal.instance = "MultiFactorAuthentication#LoginSuccessfulAfterRetryTimeout";
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Multi-Factor Authentication",
+			configurationName = "Email One-Time Password Configuration",
+			configurationScope = "Virtual Instance Scope");
+
+		MultiFactorAuthentication.configureOTPEmailSender(
+			emailAddress = "test@liferay.com",
+			emailSenderName = "Joe Bloggs");
+
+		MultiFactorAuthentication.viewOTPEmailSenderCP(
+			emailAddress = "test@liferay.com",
+			emailSenderName = "Joe Bloggs");
+
+		MultiFactorAuthentication.configureOTP(enableOTP = "true");
+
+		MultiFactorAuthentication.emailOTPConfiguration(
+			failedAttemptsAllowed = "1",
+			retryTimeout = "10");
+
+		SignOut.signOut();
+
+		SignIn.signIn(userEmailAddress = "test@liferay.com");
+
+		MultiFactorAuthentication.sendOTPEmailPG();
+
+		var portalURL = PropsUtil.get("portal.url");
+
+		MultiFactorAuthentication.verifyOTP(
+			portalURL = "${portalURL}",
+			recipient = "Test Test",
+			userEmailAddress = "test@liferay.com",
+			userPassword = "test",
+			validOTP = "false");
+
+		Pause(locator1 = "11000");
+
+		MultiFactorAuthentication.verifyOTP(
+			portalURL = "${portalURL}",
+			recipient = "Test Test",
+			userEmailAddress = "test@liferay.com",
+			userPassword = "test",
+			validOTP = "true");
 	}
 
 	@description = "This is a use case for LPS-101720"
@@ -155,7 +269,8 @@ definition {
 			portalURL = "${portalURL}",
 			recipient = "userfn userln",
 			userEmailAddress = "userea@liferay.com",
-			userPassword = "test");
+			userPassword = "test",
+			validOTP = "true");
 	}
 
 }
