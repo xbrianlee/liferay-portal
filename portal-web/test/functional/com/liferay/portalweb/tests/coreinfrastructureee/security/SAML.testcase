@@ -812,6 +812,51 @@ definition {
 			userScreenName = "ldapusercn");
 	}
 
+	@priority = "5"
+	test HotDeploySAML {
+		property hot.deploy.osgi.app.includes = "saml";
+		property osgi.app.includes = "";
+
+		AssertConsoleTextNotPresent(value1 = "The portal instance needs to be restarted");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "System Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "SSO",
+			configurationName = "SAML Configuration",
+			configurationScope = "System Scope");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "System Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "SSO",
+			configurationName = "SAML KeyStoreManager Implementation Configuration",
+			configurationScope = "System Scope");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "SSO",
+			configurationName = "SAML Provider Configuration",
+			configurationScope = "Virtual Instance Scope");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "SAML Admin");
+
+		SAML.configureLiferaySAMLAsIdP(samlEntityID = "samlidp");
+	}
+
 	@priority = "4"
 	test SPInitiatedSSOWithScreenNameIdentifier {
 		property test.name.skip.portal.instance = "SAML#SPInitiatedSSOWithScreenNameIdentifier";
