@@ -815,7 +815,7 @@ definition {
 	@priority = "5"
 	test HotDeploySAML {
 		property hot.deploy.osgi.app.includes = "saml";
-		property osgi.app.includes = "";
+        property osgi.app.includes = "saml";
 
 		AssertConsoleTextNotPresent(value1 = "The portal instance needs to be restarted");
 
