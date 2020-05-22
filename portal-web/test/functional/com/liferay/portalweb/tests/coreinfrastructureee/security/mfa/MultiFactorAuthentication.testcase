@@ -31,6 +31,105 @@ definition {
 		}
 	}
 
+	@description = "This is a use case for LPS-110309"
+	test AssertDescriptionsForConfigurationEntries {
+		property test.name.skip.portal.instance = "MultiFactorAuthentication#AssertDescriptionsForConfigurationEntries";
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "System Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Multi-Factor Authentication",
+			configurationName = "Email One-Time Password System Configuration",
+			configurationScope = "System Scope");
+
+		AssertTextEquals(
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_DISABLE",
+			value1 = "Disable multi-factor authentication system-wide.");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "System Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Multi-Factor Authentication",
+			configurationName = "Email One-Time Password Configuration",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertTextEquals(
+			key_fieldName = "otpSize",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the length of a one-time password.");
+
+		AssertTextEquals(
+			key_fieldName = "resendEmailTimeout",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the allowed time in seconds between one-time password requests.");
+
+		AssertTextEquals(
+			key_fieldName = "emailFromAddress",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the sender address on the one-time password email.");
+
+		AssertTextEquals(
+			key_fieldName = "failedAttemptsAllowed",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the number of verification attempts allowed before blocking for the retry timeout.");
+
+		AssertTextEquals(
+			key_fieldName = "retryTimeout",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the time in seconds to block requests after reaching the limit for failed attempts allowed.");
+
+		AssertTextEquals(
+			key_fieldName = "validationExpirationTime",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the time in seconds until session validations expire.");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Multi-Factor Authentication",
+			configurationName = "Email One-Time Password Configuration",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertTextEquals(
+			key_fieldName = "otpSize",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the length of a one-time password.");
+
+		AssertTextEquals(
+			key_fieldName = "resendEmailTimeout",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the allowed time in seconds between one-time password requests.");
+
+		AssertTextEquals(
+			key_fieldName = "emailFromAddress",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the sender address on the one-time password email.");
+
+		AssertTextEquals(
+			key_fieldName = "failedAttemptsAllowed",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the number of verification attempts allowed before blocking for the retry timeout.");
+
+		AssertTextEquals(
+			key_fieldName = "retryTimeout",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the time in seconds to block requests after reaching the limit for failed attempts allowed.");
+
+		AssertTextEquals(
+			key_fieldName = "validationExpirationTime",
+			locator1 = "MultiFactorAuthentication#EMAIL_OTP_CONFIG_TEXT",
+			value1 = "Set the time in seconds until session validations expire.");
+	}
+
 	@description = "This is a use case for LPS-92659"
 	test BlockedAfterReachAllowedFailedAttempts {
 		property database.types = "db2,hypersonic,mariadb,mysql,oracle,postgresql,sqlserver,sybase";
