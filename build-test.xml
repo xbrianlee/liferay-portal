@@ -7503,6 +7503,12 @@ go</echo>
 											<arg value="-Pliferay.home=${liferay.home}/osgi-temp" />
 										</gradle-execute>
 
+										<copy todir="${liferay.home}/osgi-temp/deploy">
+											<fileset dir="${liferay.home}/deploy">
+												<include name="*hook*.war" />
+											</fileset>
+										</copy>
+
 										<ant antfile="build.xml" dir="modules" target="build-app-lpkg">
 											<property name="app.name" value="${osgi.app.name}" />
 											<property name="output.dir" value="${liferay.home}/deploy-temp" />
