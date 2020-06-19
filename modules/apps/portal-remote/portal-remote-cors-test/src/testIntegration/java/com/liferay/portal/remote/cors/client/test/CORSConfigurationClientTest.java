@@ -60,9 +60,15 @@ public class CORSConfigurationClientTest extends BaseCORSClientTestCase {
 	}
 
 	@Test
-	public void testApplicationNoCorsWithoutOAuth2() throws Exception {
-		assertJaxRSUrl("/cors/cors-app", HttpMethod.OPTIONS, true);
-		assertJaxRSUrl("/cors/cors-app", HttpMethod.GET, false);
+	public void testApplicationCORSForGuestUser() throws Exception {
+		assertJaxRSUrl("/cors/cors-app", HttpMethod.OPTIONS, false, true);
+		assertJaxRSUrl("/cors/cors-app", HttpMethod.GET, false, true);
+	}
+
+	@Test
+	public void testApplicationNoCORSWithoutOAuth2() throws Exception {
+		assertJaxRSUrl("/cors/cors-app", HttpMethod.OPTIONS, true, true);
+		assertJaxRSUrl("/cors/cors-app", HttpMethod.GET, true, false);
 	}
 
 }

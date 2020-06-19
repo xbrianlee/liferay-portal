@@ -84,7 +84,8 @@ public abstract class BaseCORSClientTestCase {
 	}
 
 	protected void assertJaxRSUrl(
-			String urlString, String method, boolean allowOrigin)
+			String urlString, String method, boolean authenticate,
+			boolean allowOrigin)
 		throws Exception {
 
 		ProcessConfig.Builder builder = _generateTestBuilder();
@@ -95,7 +96,7 @@ public abstract class BaseCORSClientTestCase {
 			builder.build(),
 			new AllowRestrictedHeadersCallable(
 				"http://localhost:8080/o" + urlString, _TEST_CORS_URI, method,
-				false));
+				authenticate));
 
 		Future<String[]> future = processChannel.getProcessNoticeableFuture();
 
