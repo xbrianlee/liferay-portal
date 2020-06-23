@@ -578,13 +578,13 @@ public class Sidecar {
 				}
 			}
 
-			SidecarComponentUtil.disableSidecarElasticsearchConnectionManager();
+			SidecarComponentUtil.disableSidecarManager();
 
 			if (_log.isInfoEnabled()) {
 				_log.info("Restarting sidecar Elasticsearch process");
 			}
 
-			SidecarComponentUtil.enableSidecarElasticsearchConnectionManager();
+			SidecarComponentUtil.enableSidecarManager();
 		}
 
 	}
