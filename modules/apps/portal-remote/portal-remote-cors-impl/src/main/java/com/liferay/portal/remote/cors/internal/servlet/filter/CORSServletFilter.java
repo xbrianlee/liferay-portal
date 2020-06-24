@@ -17,6 +17,9 @@ package com.liferay.portal.remote.cors.internal.servlet.filter;
 import com.liferay.oauth2.provider.scope.liferay.OAuth2ProviderScopeLiferayAccessControlContext;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.servlet.BaseFilter;
 import com.liferay.portal.kernel.servlet.HttpMethods;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -65,11 +68,12 @@ public class CORSServletFilter extends BaseFilter {
 			return;
 		}
 
-		if (OAuth2ProviderScopeLiferayAccessControlContext.
-				isOAuth2AuthVerified() &&
-			corsSupport.isValidCORSRequest(
+		if (corsSupport.isValidCORSRequest(
 				httpServletRequest.getMethod(),
-				httpServletRequest::getHeader)) {
+				httpServletRequest::getHeader) &&
+			(OAuth2ProviderScopeLiferayAccessControlContext.
+				isOAuth2AuthVerified() ||
+			 _isGuest())) {
 
 			corsSupport.writeResponseHeaders(
 				httpServletRequest::getHeader, httpServletResponse::setHeader);
@@ -103,6 +107,19 @@ public class CORSServletFilter extends BaseFilter {
 	}
 
 	protected final CORSSupport corsSupport = new CORSSupport();
+
+	private boolean _isGuest() {
+		PermissionChecker permissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		if (permissionChecker == null) {
+			return true;
+		}
+
+		User user = permissionChecker.getUser();
+
+		return user.isDefaultUser();
+	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CORSServletFilter.class);

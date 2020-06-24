@@ -17,6 +17,9 @@ package com.liferay.portal.remote.cors.internal.jaxrs.feature;
 import com.liferay.oauth2.provider.scope.liferay.OAuth2ProviderScopeLiferayAccessControlContext;
 import com.liferay.petra.reflect.AnnotationLocator;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.remote.cors.annotation.CORS;
@@ -104,7 +107,7 @@ public class CORSAnnotationDynamicFeature implements DynamicFeature {
 	@Context
 	private ResourceInfo _resourceInfo;
 
-	private static class CORSContainerRequestFilter
+	private class CORSContainerRequestFilter
 		implements ContainerResponseFilter {
 
 		public CORSContainerRequestFilter(CORSSupport corsSupport) {
@@ -120,11 +123,12 @@ public class CORSAnnotationDynamicFeature implements DynamicFeature {
 			MultivaluedMap<String, String> headers =
 				containerRequestContext.getHeaders();
 
-			if (OAuth2ProviderScopeLiferayAccessControlContext.
-					isOAuth2AuthVerified() &&
-				_corsSupport.isCORSRequest(headers::getFirst) &&
+			if (_corsSupport.isCORSRequest(headers::getFirst) &&
 				_corsSupport.isValidCORSRequest(
-					containerRequestContext.getMethod(), headers::getFirst)) {
+					containerRequestContext.getMethod(), headers::getFirst) &&
+				(OAuth2ProviderScopeLiferayAccessControlContext.
+					isOAuth2AuthVerified() ||
+				 _isGuestUser())) {
 
 				MultivaluedMap<String, Object> responseHeaders =
 					containerResponseContext.getHeaders();
@@ -134,12 +138,25 @@ public class CORSAnnotationDynamicFeature implements DynamicFeature {
 			}
 		}
 
+		private boolean _isGuestUser() {
+			PermissionChecker permissionChecker =
+				PermissionThreadLocal.getPermissionChecker();
+
+			if (permissionChecker == null) {
+				return true;
+			}
+
+			User user = permissionChecker.getUser();
+
+			return user.isDefaultUser();
+		}
+
 		private final CORSSupport _corsSupport;
 
 	}
 
 	@PreMatching
-	private static class CORSPreflighContainerRequestFilter
+	private class CORSPreflighContainerRequestFilter
 		implements ContainerRequestFilter {
 
 		public CORSPreflighContainerRequestFilter(CORSSupport corsSupport) {
