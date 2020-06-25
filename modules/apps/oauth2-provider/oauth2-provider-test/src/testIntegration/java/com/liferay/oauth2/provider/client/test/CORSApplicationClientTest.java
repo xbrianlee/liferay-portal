@@ -24,8 +24,11 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import java.util.Collections;
 
 import javax.ws.rs.HttpMethod;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.junit.Assert;
@@ -46,6 +49,29 @@ public class CORSApplicationClientTest extends BaseClientTestCase {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new LiferayIntegrationTestRule();
+
+	@Test
+	public void testCORSObtainingToken() throws Exception {
+		Invocation.Builder tokenInvocationBuilder = getTokenInvocationBuilder(
+			null);
+
+		MultivaluedMap<String, String> formData = new MultivaluedHashMap<>();
+
+		formData.add("client_id", "oauthTestApplicationRO");
+		formData.add("client_secret", "oauthTestApplicationSecret");
+		formData.add("grant_type", "password");
+		formData.add("password", "test");
+		formData.add("username", "test@liferay.com");
+
+		tokenInvocationBuilder.header("Origin", _TEST_CORS_URI);
+
+		Response response = tokenInvocationBuilder.post(Entity.form(formData));
+
+		String corsHeaderString = response.getHeaderString(
+			"Access-Control-Allow-Origin");
+
+		Assert.assertEquals(_TEST_CORS_URI, corsHeaderString);
+	}
 
 	@Test
 	public void testInvalidCORSRequest() throws Exception {
