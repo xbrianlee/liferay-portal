@@ -28,71 +28,6 @@ definition {
 		}
 	}
 
-	test AssertReplicationAfterReindex {
-		property osgi.app.includes = "portal-search-elasticsearch-cross-cluster-replication";
-		property portal.upstream = "quarantine";
-		property remote.elasticsearch.clusters.enabled = "true";
-		property remote.elasticsearch.enabled = "true";
-		property test.name.skip.portal.instance = "Elasticsearch7EE#AssertReplicationAfterReindex";
-
-		JSONDocument.addFile(
-			dmDocumentDescription = "DM Description",
-			dmDocumentTitle = "Apple1",
-			groupName = "Guest");
-
-		OSGiConfig.deployOSGiConfigs(
-			OSGiConfigFileName = "com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config",
-			OSGiConfigs = "operationMode=&quot;REMOTE&quot;,logExceptionsOnly=&quot;true&quot;");
-
-		OSGiConfig.deployOSGiConfigs(
-			OSGiConfigFileName = "com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConnectionConfiguration-default_ccr.config",
-			OSGiConfigs = "active=&quot;true&quot;,connectionId=&quot;ccr&quot;,networkHostAddresses=[&quot;http://localhost:9202&quot;]");
-
-		AntCommand(
-			locator1 = "build-test-elasticsearch7.xml",
-			value1 = "create-follower-indices");
-
-		ApplicationsMenu.gotoPortlet(
-			category = "Configuration",
-			panel = "Control Panel",
-			portlet = "System Settings");
-
-		SystemSettings.gotoConfiguration(
-			configurationCategory = "Search",
-			configurationName = "Cross-Cluster Replication",
-			configurationScope = "System Scope");
-
-		SystemSettings.configureCrossClusterReplication(ccrLocalClusterConnectionID = "ccr");
-
-		Navigator.openURL();
-
-		SearchPortlets.searchEmbedded(searchTerm = "Apple");
-
-		SearchResultPortlet.viewSearchResults(
-			searchAssetTitle = "Apple1",
-			searchAssetType = "Document");
-
-		ApplicationsMenu.gotoPortlet(
-			category = "Configuration",
-			panel = "Control Panel",
-			portlet = "Search");
-
-		SearchAdministration.executeSearchActions(actionsDescription = "Reindex all search indexes.");
-
-		JSONDocument.addFile(
-			dmDocumentDescription = "DM Description",
-			dmDocumentTitle = "Apple2",
-			groupName = "Guest");
-
-		Navigator.openURL();
-
-		SearchPortlets.searchEmbedded(searchTerm = "Apple");
-
-		SearchResultPortlet.viewMultipleSearchResults(
-			resultsList = "Apple1/Document,Apple2/Document",
-			searchTerm = "Apple");
-	}
-
 	test AssertSimilarResultsDisplayTemplate {
 		property osgi.app.includes = "portal-search-similar-results";
 
@@ -764,6 +699,7 @@ definition {
 			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
 	}
 
+<<<<<<< HEAD
 	@priority = "5"
 	test CrossClusterReplicationSmoke {
 		property osgi.app.includes = "portal-search-elasticsearch-cross-cluster-replication";
@@ -942,6 +878,8 @@ definition {
 		AssertConsoleTextNotPresent(value1 = "The portal instance needs to be restarted");
 	}
 
+=======
+>>>>>>> c3c057c9bef5... LRQA-59761 Extract CCR tests
 	test HotDeployLearningToRankApp {
 		property hot.deploy.osgi.app.includes = "portal-search-learning-to-rank";
 		property test.assert.warning.exceptions = "true";
