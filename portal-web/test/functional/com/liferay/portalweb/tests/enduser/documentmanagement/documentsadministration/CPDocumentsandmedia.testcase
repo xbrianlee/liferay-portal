@@ -9,12 +9,27 @@ definition {
 		TestCase.setUpPortalInstance();
 
 		User.firstLoginPG();
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Content",
+			panel = "Applications",
+			portlet = "Settings");
+
+		ChangeList.enableChangeList();
+
+		ChangeList.createNewPublication(publicationName = "Publication Name");
 	}
 
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.publishPublication(publicationName = "Publication Name");
+
+			ChangeList.viewPublishedPublicationDetails(
+				publicationName = "Publication Name",
+				publicationPublishedBy = "Test Test");
+
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -433,6 +448,12 @@ definition {
 				key_dmDocumentVersionNumber = "${versionNumber}",
 				locator1 = "DocumentsAndMedia#DOCUMENT_VERSION_ANY");
 		}
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@description = "This test ensures that only the last two versions of a file are kept when the max version limit is set."
@@ -490,6 +511,12 @@ definition {
 		AssertElementNotPresent(
 			key_dmDocumentVersionNumber = "1.0",
 			locator1 = "DocumentsAndMedia#DOCUMENT_VERSION_ANY");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@description = "This case covers the folder name of a document can be viewed in the info panel and navigate to it."
@@ -652,6 +679,12 @@ definition {
 		AssertVisible(
 			key_title = "File too big to preview",
 			locator1 = "Header#H3_TITLE");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@description = "This test covers LPS-104957. It ensures that the JPG file can be previewed."

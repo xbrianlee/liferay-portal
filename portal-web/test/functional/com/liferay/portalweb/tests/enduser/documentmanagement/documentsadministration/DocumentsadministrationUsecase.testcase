@@ -10,12 +10,27 @@ definition {
 		TestCase.setUpPortalInstance();
 
 		User.firstLoginPG();
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Content",
+			panel = "Applications",
+			portlet = "Settings");
+
+		ChangeList.enableChangeList();
+
+		ChangeList.createNewPublication(publicationName = "Publication Name");
 	}
 
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.publishPublication(publicationName = "Publication Name");
+
+			ChangeList.viewPublishedPublicationDetails(
+				publicationName = "Publication Name",
+				publicationPublishedBy = "Test Test");
+
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -133,6 +148,12 @@ definition {
 			rowEntry = "DM Document Title");
 
 		DMDocument.viewCategories(categoryNameList = "category");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "5"
@@ -302,6 +323,12 @@ definition {
 			larFileName = "DM.portlet.lar");
 
 		SelectFrame(value1 = "relative=top");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "5"
@@ -584,6 +611,12 @@ definition {
 				dmDocumentTitle = "${dmDocumentTitle}",
 				validationError = "Please enter a file with a valid extension (.doc).");
 		}
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -762,6 +795,12 @@ definition {
 		AssertElementPresent.assertElementPresent(
 			key_videoGenerationThumbnailResolution = "480",
 			locator1 = "DocumentsAndMediaDocument#VIDEO_GENERATION_THUMBNAIL_RESOLUTION");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "5"
@@ -1171,6 +1210,12 @@ definition {
 			portlet = "Documents and Media");
 
 		DMDocumentType.viewNoAvailableActionsViaDocumentTypesPG();
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "5"

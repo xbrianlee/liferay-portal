@@ -12,6 +12,15 @@ definition {
 
 		User.firstLoginPG();
 
+		ApplicationsMenu.gotoPortlet(
+			category = "Content",
+			panel = "Applications",
+			portlet = "Settings");
+
+		ChangeList.enableChangeList();
+
+		ChangeList.createNewPublication(publicationName = "Publication Name");
+
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
 			portlet = "Pages");
@@ -37,6 +46,12 @@ definition {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.publishPublication(publicationName = "Publication Name");
+
+			ChangeList.viewPublishedPublicationDetails(
+				publicationName = "Publication Name",
+				publicationPublishedBy = "Test Test");
+
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -362,6 +377,12 @@ definition {
 		SelectFrame.selectFrameNoLoading(locator1 = "IFrame#SELECT_MEDIA_GALLERY_VIDEO");
 
 		AssertElementPresent(locator1 = "MediaGallery#ENTRY_VIDEO_PLAYED");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 }

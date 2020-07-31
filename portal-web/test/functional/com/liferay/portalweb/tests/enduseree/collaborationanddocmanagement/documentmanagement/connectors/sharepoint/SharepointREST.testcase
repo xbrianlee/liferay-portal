@@ -117,12 +117,29 @@ definition {
 			userPassword = "${userPassword}");
 
 		MicrosoftLogin.confirmSharepointApp(dmRepositoryName = "Collaboration Test Application");
+
+		Navigator.openURL();
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Content",
+			panel = "Applications",
+			portlet = "Settings");
+
+		ChangeList.enableChangeList();
+
+		ChangeList.createNewPublication(publicationName = "Publication Name");
 	}
 
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.publishPublication(publicationName = "Publication Name");
+
+			ChangeList.viewPublishedPublicationDetails(
+				publicationName = "Publication Name",
+				publicationPublishedBy = "Test Test");
+
 			PortalInstances.tearDownCP();
 		}
 	}
@@ -219,6 +236,12 @@ definition {
 		DMDocument.viewDefaultCP();
 
 		DMRepository.cleanRepository(dmFolderName = "DM Folder3 Name");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -293,6 +316,12 @@ definition {
 			metadataLabel = "Content Encoding");
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_3.doc");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -353,6 +382,12 @@ definition {
 		DMDocument.viewCheckedoutCP(dmRepositoryName = "true");
 
 		DMRepository.cleanRepository(dmFolderName = "Sharepoint Subfolder");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -380,6 +415,12 @@ definition {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
 		DMDocument.cannotViewCP(dmDocumentTitle = "Document_1.odt");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -401,6 +442,12 @@ definition {
 			dmRepositoryName = "Collaboration Test Application");
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_3.odt");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -470,6 +517,12 @@ definition {
 			userEmailAddress = "test@liferay.com");
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_1.doc");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -513,6 +566,12 @@ definition {
 		DMDocument.viewCheckedoutCP(dmRepositoryName = "true");
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_1_Edit.xls");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -548,6 +607,12 @@ definition {
 		DMDocument.viewCP(dmDocumentTitle = "Document_1.docx");
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_1.docx");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -583,6 +648,12 @@ definition {
 		DMDocument.viewCP(dmDocumentTitle = "Document_3.docx");
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_3.docx");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -594,6 +665,12 @@ definition {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
 		DMRepository.viewBreadcrumb(dmRepositoryName = "Collaboration Test Application");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 }
