@@ -21,6 +21,8 @@ definition {
 
 		ChangeList.createNewPublication(publicationName = "Publication Name");
 
+		Navigator.openURL();
+
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
 			portlet = "Pages");
