@@ -121,7 +121,7 @@ definition {
 		Navigator.openURL();
 
 		ApplicationsMenu.gotoPortlet(
-			category = "Content",
+			category = "Publications",
 			panel = "Applications",
 			portlet = "Settings");
 
