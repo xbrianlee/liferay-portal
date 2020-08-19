@@ -2,7 +2,7 @@
 definition {
 
 	property portal.release = "true";
-	property portal.upstream = "true";
+	property portal.upstream = "false";
 	property testray.main.component.name = "Site Pages Administration";
 
 	setUp {
