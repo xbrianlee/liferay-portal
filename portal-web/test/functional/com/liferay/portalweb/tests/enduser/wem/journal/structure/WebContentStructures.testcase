@@ -26,6 +26,8 @@ definition {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 			ChangeList.publishPublication(publicationName = "Publication Name");
 
 			ChangeList.viewPublishedPublicationDetails(
@@ -183,6 +185,8 @@ definition {
 			key_ddlDataDefinitionName = "WC Structure Name",
 			locator1 = "DDMSelectStructure#DDM_STRUCTURE_TABLE_NAME_2");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -288,6 +292,8 @@ definition {
 		WebContentStructures.viewTableEntryCP(
 			structureDescription = "Basic Web Content",
 			structureName = "Basic Web Content");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 

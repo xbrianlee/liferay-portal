@@ -45,6 +45,8 @@ definition {
 		else {
 			User.firstLoginPG();
 
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 			ChangeList.publishPublication(publicationName = "Publication Name");
 
 			ChangeList.viewPublishedPublicationDetails(
