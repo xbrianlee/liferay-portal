@@ -28,7 +28,7 @@ definition {
 
 		ApplicationsMenu.gotoPortlet(
 			category = "Content",
-			panel = "Applications",
+			panel = "Publications",
 			portlet = "Settings");
 
 		ChangeList.enableChangeList();

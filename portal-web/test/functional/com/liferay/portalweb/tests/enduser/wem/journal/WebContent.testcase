@@ -13,7 +13,7 @@ definition {
 		JSONGroup.addGroup(groupName = "Test Site Name");
 
 		ApplicationsMenu.gotoPortlet(
-			category = "Content",
+			category = "Publications",
 			panel = "Applications",
 			portlet = "Settings");
 
