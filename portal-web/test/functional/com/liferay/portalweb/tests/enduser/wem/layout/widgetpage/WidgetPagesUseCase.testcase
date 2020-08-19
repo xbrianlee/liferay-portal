@@ -24,6 +24,8 @@ definition {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 			ChangeList.publishPublication(publicationName = "Publication Name");
 
 			ChangeList.viewPublishedPublicationDetails(
@@ -392,6 +394,8 @@ definition {
 			password = "test",
 			userEmailAddress = "test@liferay.com");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -533,6 +537,8 @@ definition {
 		AssertTextEquals.assertPartialText(
 			locator1 = "Message#ERROR",
 			value1 = "You do not have the required permissions.");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -692,6 +698,8 @@ definition {
 			threadBody = "MB Thread Message Body",
 			threadSubject = "MB Thread Message Subject GMMB3");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -839,6 +847,8 @@ definition {
 		AssertTextEquals.assertPartialText(
 			locator1 = "Message#ERROR",
 			value1 = "You do not have the required permissions.");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 

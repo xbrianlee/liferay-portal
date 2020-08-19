@@ -36,6 +36,8 @@ definition {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 			ChangeList.publishPublication(publicationName = "Publication Name");
 
 			ChangeList.viewPublishedPublicationDetails(
@@ -349,6 +351,8 @@ definition {
 			AssertVisible(
 				key_status = "view",
 				locator1 = "ControlMenu#TOGGLE_CONTROLS");
+
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 			ChangeList.publishPublication(publicationName = "Publication Name");
 

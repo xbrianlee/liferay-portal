@@ -26,6 +26,8 @@ definition {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 			ChangeList.publishPublication(publicationName = "Publication Name");
 
 			ChangeList.viewPublishedPublicationDetails(
@@ -195,6 +197,8 @@ definition {
 
 		AssertElementPresent(locator1 = "//h1[contains(.,'Heading Example')]");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -354,6 +358,8 @@ definition {
 				key_pageType = "Content Page",
 				locator1 = "SitePages#LIST_GROUP_ITEM_PAGE_TYPE");
 		}
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -601,6 +607,8 @@ definition {
 			key_position = "1",
 			locator1 = "PageEditor#GRID_COLUMN_NESTED_ELEMENT");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -712,6 +720,8 @@ definition {
 			key_elementHeader = "//div[contains(@class,'page-editor')]//li[contains(.,'Profile')]",
 			key_position = "1",
 			locator1 = "PageEditor#GRID_COLUMN_NESTED_ELEMENT");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -852,6 +862,8 @@ definition {
 			key_elementHeader = "//div[contains(@class,'page-editor')]//li[contains(.,'Profile')]",
 			key_position = "1",
 			locator1 = "PageEditor#GRID_COLUMN_NESTED_ELEMENT");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
