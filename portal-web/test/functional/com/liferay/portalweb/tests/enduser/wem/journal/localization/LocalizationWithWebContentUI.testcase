@@ -17,8 +17,8 @@ definition {
 			layoutName = "Test Page Name");
 
 		ApplicationsMenu.gotoPortlet(
-			category = "Content",
-			panel = "Publications",
+			category = "Publications",
+			panel = "Applications",
 			portlet = "Settings");
 
 		ChangeList.enableChangeList();

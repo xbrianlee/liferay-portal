@@ -23,8 +23,8 @@ definition {
 			widgetName = "Web Content Search");
 
 		ApplicationsMenu.gotoPortlet(
-			category = "Content",
-			panel = "Publications",
+			category = "Publications",
+			panel = "Applications",
 			portlet = "Settings");
 
 		ChangeList.enableChangeList();

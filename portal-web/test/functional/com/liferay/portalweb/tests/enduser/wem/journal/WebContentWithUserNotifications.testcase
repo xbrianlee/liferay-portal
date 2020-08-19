@@ -27,8 +27,8 @@ definition {
 			userEmailAddress = "userea@liferay.com");
 
 		ApplicationsMenu.gotoPortlet(
-			category = "Content",
-			panel = "Publications",
+			category = "Publications",
+			panel = "Applications",
 			portlet = "Settings");
 
 		ChangeList.enableChangeList();
