@@ -449,6 +449,8 @@ definition {
 				locator1 = "DocumentsAndMedia#DOCUMENT_VERSION_ANY");
 		}
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -511,6 +513,8 @@ definition {
 		AssertElementNotPresent(
 			key_dmDocumentVersionNumber = "1.0",
 			locator1 = "DocumentsAndMedia#DOCUMENT_VERSION_ANY");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -679,6 +683,8 @@ definition {
 		AssertVisible(
 			key_title = "File too big to preview",
 			locator1 = "Header#H3_TITLE");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 

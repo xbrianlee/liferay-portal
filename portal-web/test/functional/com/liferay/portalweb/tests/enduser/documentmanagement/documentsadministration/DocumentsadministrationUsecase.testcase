@@ -25,6 +25,8 @@ definition {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 			ChangeList.publishPublication(publicationName = "Publication Name");
 
 			ChangeList.viewPublishedPublicationDetails(
@@ -148,6 +150,8 @@ definition {
 			rowEntry = "DM Document Title");
 
 		DMDocument.viewCategories(categoryNameList = "category");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -323,6 +327,8 @@ definition {
 			larFileName = "DM.portlet.lar");
 
 		SelectFrame(value1 = "relative=top");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -612,6 +618,8 @@ definition {
 				validationError = "Please enter a file with a valid extension (.doc).");
 		}
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -795,6 +803,8 @@ definition {
 		AssertElementPresent.assertElementPresent(
 			key_videoGenerationThumbnailResolution = "480",
 			locator1 = "DocumentsAndMediaDocument#VIDEO_GENERATION_THUMBNAIL_RESOLUTION");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -1210,6 +1220,8 @@ definition {
 			portlet = "Documents and Media");
 
 		DMDocumentType.viewNoAvailableActionsViaDocumentTypesPG();
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 

@@ -12,17 +12,6 @@ definition {
 
 		User.firstLoginPG();
 
-		ApplicationsMenu.gotoPortlet(
-			category = "Publications",
-			panel = "Applications",
-			portlet = "Settings");
-
-		ChangeList.enableChangeList();
-
-		ChangeList.createNewPublication(publicationName = "Publication Name");
-
-		Navigator.openURL();
-
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
 			portlet = "Pages");
@@ -42,12 +31,25 @@ definition {
 		Navigator.gotoPage(pageName = "Media Gallery Page");
 
 		MGPortlet.configureShowAllPG(pageName = "Media Gallery Page");
+
+		Navigator.openURL();
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Publications",
+			panel = "Applications",
+			portlet = "Settings");
+
+		ChangeList.enableChangeList();
+
+		ChangeList.createNewPublication(publicationName = "Publication Name");
 	}
 
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 			ChangeList.publishPublication(publicationName = "Publication Name");
 
 			ChangeList.viewPublishedPublicationDetails(
@@ -379,6 +381,8 @@ definition {
 		SelectFrame.selectFrameNoLoading(locator1 = "IFrame#SELECT_MEDIA_GALLERY_VIDEO");
 
 		AssertElementPresent(locator1 = "MediaGallery#ENTRY_VIDEO_PLAYED");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 

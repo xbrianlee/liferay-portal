@@ -28,12 +28,31 @@ definition {
 		DMDocument.enableActionsMenuOnPortlet();
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		Navigator.openURL();
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Publications",
+			panel = "Applications",
+			portlet = "Settings");
+
+		ChangeList.enableChangeList();
+
+		ChangeList.createNewPublication(publicationName = "Publication Name");
 	}
 
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
+
+			ChangeList.publishPublication(publicationName = "Publication Name");
+
+			ChangeList.viewPublishedPublicationDetails(
+				publicationName = "Publication Name",
+				publicationPublishedBy = "Test Test");
+
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -812,6 +831,14 @@ definition {
 		Navigator.gotoPage(pageName = "Documents and Media Page");
 
 		DMDocument.deletePG(dmDocumentTitle = "liferay.txt");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "5"
@@ -1148,6 +1175,14 @@ definition {
 		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
 
 		DMDocument.viewPG(dmDocumentTitle = "liferay.txt");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "5"
@@ -1813,6 +1848,14 @@ definition {
 		SearchPortlets.searchWidget(searchTerm = "DM Document Title");
 
 		SearchResultPortlet.viewNoSearchResults(searchTerm = "DM Document Title");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 }

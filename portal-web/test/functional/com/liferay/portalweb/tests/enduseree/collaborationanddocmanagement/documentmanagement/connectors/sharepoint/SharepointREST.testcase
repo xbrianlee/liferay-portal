@@ -134,6 +134,8 @@ definition {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
+			ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 			ChangeList.publishPublication(publicationName = "Publication Name");
 
 			ChangeList.viewPublishedPublicationDetails(
@@ -187,6 +189,14 @@ definition {
 		DMDocument.viewCheckedinCP(
 			dmDocumentVersionNumber = "2.0",
 			dmRepositoryName = "true");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -237,6 +247,8 @@ definition {
 
 		DMRepository.cleanRepository(dmFolderName = "DM Folder3 Name");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -265,6 +277,14 @@ definition {
 		DMFolder.cannotViewCP(dmFolderName = "DM Folder Name");
 
 		DMRepository.cleanRepository(dmFolderName = "DM Folder Name");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
+		ChangeList.publishPublication(publicationName = "Publication Name");
+
+		ChangeList.viewPublishedPublicationDetails(
+			publicationName = "Publication Name",
+			publicationPublishedBy = "Test Test");
 	}
 
 	@priority = "4"
@@ -316,6 +336,8 @@ definition {
 			metadataLabel = "Content Encoding");
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_3.doc");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -383,6 +405,8 @@ definition {
 
 		DMRepository.cleanRepository(dmFolderName = "Sharepoint Subfolder");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -416,6 +440,8 @@ definition {
 
 		DMDocument.cannotViewCP(dmDocumentTitle = "Document_1.odt");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -442,6 +468,8 @@ definition {
 			dmRepositoryName = "Collaboration Test Application");
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_3.odt");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -518,6 +546,8 @@ definition {
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_1.doc");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -567,6 +597,8 @@ definition {
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_1_Edit.xls");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -607,6 +639,8 @@ definition {
 		DMDocument.viewCP(dmDocumentTitle = "Document_1.docx");
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_1.docx");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
@@ -649,6 +683,8 @@ definition {
 
 		DMRepository.cleanRepository(dmDocumentTitle = "Document_3.docx");
 
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
+
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
 		ChangeList.viewPublishedPublicationDetails(
@@ -665,6 +701,8 @@ definition {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
 		DMRepository.viewBreadcrumb(dmRepositoryName = "Collaboration Test Application");
+
+		ChangeList.prepareToPublish(publicationName = "Publication Name");
 
 		ChangeList.publishPublication(publicationName = "Publication Name");
 
