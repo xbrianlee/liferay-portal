@@ -60,9 +60,32 @@ trustStorePath="${solr.dir}/server/etc/solr-ssl.keystore.jks"</echo>
 
 	<macrodef name="configure-solr-blacklist-osgi-configs">
 		<sequential>
-			<echo file="${liferay.home}/osgi/configs/com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config">blacklistBundleSymbolicNames=&quot;com.liferay.portal.search.elasticsearch7.api,com.liferay.portal.search.elasticsearch7.impl,com.liferay.portal.search.elasticsearch7.spi,com.liferay.portal.search.elasticsearch.monitoring.web</echo>
+			<echo file="${liferay.home}/osgi/configs/com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config">blacklistBundleSymbolicNames="com.liferay.portal.search.elasticsearch7.api,com.liferay.portal.search.elasticsearch7.impl,com.liferay.portal.search.elasticsearch7.spi,com.liferay.portal.search.elasticsearch.monitoring.web</echo>
 
-			<antcall target="blacklist-commerce" />
+			<pathconvert pathsep="," property="commerce.modules">
+				<path>
+					<fileset
+						dir="${liferay.home}/osgi/modules"
+					>
+						<include name="com.liferay.commerce.*" />
+						<include name="com.liferay.headless.commerce.*" />
+					</fileset>
+				</path>
+				<chainedmapper>
+					<mapper
+						from="^(.*)/(.*\.jar)"
+						to="\2"
+						type="regexp"
+					/>
+					<mapper
+						from="*.jar"
+						to="*"
+						type="glob"
+					/>
+				</chainedmapper>
+			</pathconvert>
+
+			<echo append="true" file="${liferay.home}/osgi/configs/com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config">,${commerce.modules}"</echo>
 		</sequential>
 	</macrodef>
 
