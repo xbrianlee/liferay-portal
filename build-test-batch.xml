@@ -934,6 +934,14 @@ mariadb.executable=${mariadb.executable}]]></echo>
 
 					<ant antfile="build-test-solr.xml" target="set-up-solr" />
 				</then>
+				<elseif>
+					<equals arg1="${suite.search.engine}" arg2="remote-elasticsearch7-jdk11" />
+					<then>
+						<ant antfile="build-test-elasticsearch7.xml" target="start-elasticsearch">
+							<property name="jdk.version" value="openjdk11" />
+						</ant>
+					</then>
+				</elseif>
 			</if>
 		</sequential>
 	</macrodef>
@@ -3409,6 +3417,12 @@ log.sanitizer.enabled=false</echo>
 				<then>
 					<ant antfile="build-test-solr.xml" target="stop-solr-core" />
 				</then>
+				<elseif>
+					<equals arg1="${suite.search.engine}" arg2="remote-elasticsearch7-jdk11" />
+					<then>
+						<ant antfile="build-test-elasticsearch7.xml" target="stop-elasticsearch" />
+					</then>
+				</elseif>
 			</if>
 		</sequential>
 	</macrodef>
