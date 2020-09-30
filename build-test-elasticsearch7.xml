@@ -422,6 +422,24 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 		</sequential>
 	</macrodef>
 
+	<macrodef name="set-jdk">
+		<attribute name="jdk.version" />
+
+		<sequential>
+			<if>
+				<equals arg1="@{jdk.version}" arg2="openjdk11" />
+				<then>
+					<replace
+						file="${elasticsearch.dir}/bin/elasticsearch-env"
+					>
+						<replacetoken><![CDATA[JAVA="$JAVA_HOME/bin/java"]]></replacetoken>
+						<replacevalue><![CDATA[JAVA="/opt/java/jdk11/bin/java"]]></replacevalue>
+					</replace>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="set-x-pack-user-passwords">
 		<sequential>
 			<if>
@@ -1031,6 +1049,8 @@ xpack.monitoring.collection.enabled: true</echo>
 		</if>
 
 		<unzip-elasticsearch />
+
+		<set-jdk jdk.version="${jdk.version}" />
 
 		<prepare-elasticsearch-analyzers />
 
