@@ -910,7 +910,7 @@ jdbc.counter.connectionProperties=oracle.jdbc.ReadTimeout=0;oracle.net.CONNECT_T
 				override="true"
 				property="poshi.java.jdk.opts"
 				regexp="(-Xmx)(\d*\w*)"
-				replace="\12048m"
+				replace="\14096m"
 			/>
 
 			<propertyregex
