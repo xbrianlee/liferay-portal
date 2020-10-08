@@ -1,7 +1,7 @@
 @component-name = "portal-search"
 definition {
 
-	property osgi.app.includes = "portal-search-solr7";
+	property osgi.app.includes = "portal-search-solr8";
 	property portal.release = "true";
 	property portal.suite.search.engine = "solr";
 	property portal.upstream = "true";

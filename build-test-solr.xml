@@ -68,14 +68,14 @@ CATALINA_OPTS=&quot;${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${solr.dir}/serv
 
 	<macrodef name="configure-liferay-solr-adapter-osgi-configs">
 		<sequential>
-			<echo file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr7.configuration.SolrConfiguration.config">readURL="http://localhost:8983/solr/liferay"
+			<echo file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr8.configuration.SolrConfiguration.config">readURL="http://localhost:8983/solr/liferay"
 writeURL="http://localhost:8983/solr/liferay"</echo>
 		</sequential>
 	</macrodef>
 
 	<macrodef name="configure-liferay-solr-solrcloud-osgi-configs">
 		<sequential>
-			<echo append="true" file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr7.configuration.SolrConfiguration.config">
+			<echo append="true" file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr8.configuration.SolrConfiguration.config">
 clientType="CLOUD"</echo>
 		</sequential>
 	</macrodef>
@@ -83,16 +83,16 @@ clientType="CLOUD"</echo>
 	<macrodef name="configure-liferay-solr-ssl-adapter-properties">
 		<sequential>
 			<replace
-				file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr7.configuration.SolrConfiguration.config"
+				file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr8.configuration.SolrConfiguration.config"
 			>
 				<replacetoken><![CDATA[http://]]></replacetoken>
 				<replacevalue><![CDATA[https://]]></replacevalue>
 			</replace>
 
-			<echo append="true" file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr7.configuration.SolrConfiguration.config">
+			<echo append="true" file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr8.configuration.SolrConfiguration.config">
 authenticationMode="CERT"</echo>
 
-			<echo file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr7.configuration.SolrSSLSocketFactoryConfiguration.config">keyStorePath="${solr.dir}/server/etc/solr-ssl.keystore.jks"
+			<echo file="${liferay.home}/osgi/configs/com.liferay.portal.search.solr8.configuration.SolrSSLSocketFactoryConfiguration.config">keyStorePath="${solr.dir}/server/etc/solr-ssl.keystore.jks"
 trustStorePath="${solr.dir}/server/etc/solr-ssl.keystore.jks"</echo>
 		</sequential>
 	</macrodef>
@@ -103,7 +103,9 @@ trustStorePath="${solr.dir}/server/etc/solr-ssl.keystore.jks"</echo>
 				<os family="unix" />
 				<then>
 					<echo append="true" file="${solr.dir}/bin/solr.in.sh">${line.separator}SOLR_SSL_KEY_STORE=${solr.dir}/server/etc/solr-ssl.keystore.jks
+SOLR_JAVA_HOME=/opt/java/jdk11
 SOLR_SSL_KEY_STORE_PASSWORD=secret
+SOLR_SSL_KEY_STORE_TYPE=JKS
 SOLR_SSL_TRUST_STORE=${solr.dir}/server/etc/solr-ssl.keystore.jks
 SOLR_SSL_TRUST_STORE_PASSWORD=secret
 SOLR_SSL_WANT_CLIENT_AUTH=true</echo>
@@ -112,7 +114,9 @@ SOLR_SSL_WANT_CLIENT_AUTH=true</echo>
 					<os family="windows" />
 					<then>
 						<echo append="true" file="${solr.dir}/bin/solr.in.cmd">${line.separator}SOLR_SSL_KEY_STORE=${solr.dir}/server/etc/solr-ssl.keystore.jks
+SOLR_JAVA_HOME=/opt/java/jdk11
 SOLR_SSL_KEY_STORE_PASSWORD=secret
+SOLR_SSL_KEY_STORE_TYPE=JKS
 SOLR_SSL_TRUST_STORE=${solr.dir}/server/etc/solr-ssl.keystore.jks
 SOLR_SSL_TRUST_STORE_PASSWORD=secret
 SOLR_SSL_WANT_CLIENT_AUTH=true</echo>
@@ -175,7 +179,7 @@ SOLR_SSL_WANT_CLIENT_AUTH=true</echo>
 				</fileset>
 
 				<fileset
-					dir="modules/apps/portal-search-solr7/portal-search-solr7-impl/src/main/resources/META-INF/resources"
+					dir="modules/apps/portal-search-solr8/portal-search-solr8-impl/src/main/resources/META-INF/resources"
 				>
 					<include name="schema.xml" />
 					<include name="solrconfig.xml" />
@@ -303,7 +307,7 @@ schema=schema.xml</echo>
 	</macrodef>
 
 	<target name="deploy-solr">
-		<gradle-execute dir="modules/apps/portal-search-solr7" task="deploy">
+		<gradle-execute dir="modules/apps/portal-search-solr8" task="deploy">
 			<arg value="clean" />
 		</gradle-execute>
 	</target>
