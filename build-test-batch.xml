@@ -934,6 +934,14 @@ mariadb.executable=${mariadb.executable}]]></echo>
 
 					<ant antfile="build-test-solr.xml" target="set-up-solr" />
 				</then>
+				<elseif>
+					<equals arg1="${suite.search.engine}" arg2="solr7" />
+					<then>
+						<property name="com.liferay.portal.search.solr7.test.unit.started" value="true" />
+
+						<ant antfile="build-test-solr7.xml" target="set-up-solr" />
+					</then>
+				</elseif>
 			</if>
 		</sequential>
 	</macrodef>
@@ -3414,6 +3422,12 @@ log.sanitizer.enabled=false</echo>
 				<then>
 					<ant antfile="build-test-solr.xml" target="stop-solr-core" />
 				</then>
+				<elseif>
+					<equals arg1="${suite.search.engine}" arg2="solr7" />
+					<then>
+						<ant antfile="build-test-solr7.xml" target="stop-solr-core" />
+					</then>
+				</elseif>
 			</if>
 		</sequential>
 	</macrodef>

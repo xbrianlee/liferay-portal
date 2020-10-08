@@ -1,9 +1,9 @@
 @component-name = "portal-search"
 definition {
 
-	property osgi.app.includes = "portal-search-solr8";
+	property osgi.app.includes = "portal-search-solr7";
 	property portal.release = "true";
-	property portal.suite.search.engine = "solr8";
+	property portal.suite.search.engine = "solr7";
 	property portal.upstream = "true";
 	property solr.enabled = "true";
 	property testray.main.component.name = "SOLR Impl";
@@ -37,9 +37,9 @@ definition {
 			portlet = "Search");
 
 		SearchAdministration.assertEngineVendorAndVersions(
-			clientVersion = "8.6.2",
+			clientVersion = "7.5.0",
 			engineVendor = "Solr",
-			serverVersion = "8.6.2");
+			serverVersion = "7.5.0");
 	}
 
 	@priority = "4"
