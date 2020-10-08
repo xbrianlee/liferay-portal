@@ -3975,6 +3975,7 @@ go</echo>
 				</then>
 			</if>
 
+			<get-testcase-property property.name="osgi.app.includes" />
 			<get-testcase-property property.name="solr.enabled" />
 			<propertycopy from="search.engine[${env.CI_TEST_SUITE}]" name="suite.search.engine" silent="true" />
 
@@ -3982,13 +3983,22 @@ go</echo>
 				<equals arg1="${solr.enabled}" arg2="true" />
 				<then>
 					<ant antfile="build-test-solr.xml" target="start-solr" />
+			<if>
+				<equals arg1="${osgi.app.includes}" arg2="portal-search-solr8" />
+				<then>
+					<if>
+						<equals arg1="${solr.enabled}" arg2="true" />
+						<then>
+							<ant antfile="build-test-solr.xml" target="start-solr" />
+						</then>
+						<elseif>
+							<equals arg1="${suite.search.engine}" arg2="solr" />
+							<then>
+								<ant antfile="build-test-solr.xml" target="set-up-solr" />
+							</then>
+						</elseif>
+					</if>
 				</then>
-				<elseif>
-					<equals arg1="${suite.search.engine}" arg2="solr" />
-					<then>
-						<ant antfile="build-test-solr.xml" target="set-up-solr" />
-					</then>
-				</elseif>
 			</if>
 
 			<get-testcase-property property.name="delete.sidecar.bundle" />

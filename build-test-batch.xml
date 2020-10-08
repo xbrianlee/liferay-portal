@@ -930,7 +930,7 @@ mariadb.executable=${mariadb.executable}]]></echo>
 			<if>
 				<equals arg1="${suite.search.engine}" arg2="solr" />
 				<then>
-					<property name="com.liferay.portal.search.solr7.test.unit.started" value="true" />
+					<property name="com.liferay.portal.search.solr8.test.unit.started" value="true" />
 
 					<ant antfile="build-test-solr.xml" target="set-up-solr" />
 				</then>
@@ -1742,9 +1742,14 @@ app.server.type=@{app.server.type}]]></echo>
 								<get-testcase-property property.name="osgi.app.includes" />
 
 								<if>
-									<not>
-										<contains string="${osgi.app.includes}" substring="portal-search-solr7" />
-									</not>
+									<or>
+										<not>
+											<contains string="${osgi.app.includes}" substring="portal-search-solr7" />
+										</not>
+										<not>
+											<contains string="${osgi.app.includes}" substring="portal-search-solr8" />
+										</not>
+									</or>
 									<then>
 										<prepare-suite-search-engine suite.name="${env.CI_TEST_SUITE}" />
 									</then>
@@ -5930,6 +5935,7 @@ log.sanitizer.enabled=false</echo>
 					<arg value="--continue" />
 					<arg value="-Dbuild.exclude.ant.plugin=true" />
 					<arg if:set="com.liferay.portal.search.solr7.test.unit.started" value="-Dcom.liferay.portal.search.solr7.test.unit.started=${com.liferay.portal.search.solr7.test.unit.started}" />
+					<arg if:set="com.liferay.portal.search.solr8.test.unit.started" value="-Dcom.liferay.portal.search.solr8.test.unit.started=${com.liferay.portal.search.solr8.test.unit.started}" />
 					<arg value="-Djunit.code.coverage=${test.batch.code.coverage}" />
 					<arg if:set="project.templates.test.builds" value="-Dproject.templates.test.builds=${project.templates.test.builds}" />
 					<arg value="-Dtest.class.group.index=${axis.variable}" />
