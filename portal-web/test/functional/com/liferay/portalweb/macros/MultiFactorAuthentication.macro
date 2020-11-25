@@ -98,6 +98,13 @@ definition {
 			FormFields.disableCheckbox(fieldName = "enabled");
 		}
 
+		if (isSet(order)) {
+			Type(
+				key_fieldName = "order",
+				locator1 = "MultiFactorAuthentication#ORDER_FIELD",
+				value1 = "${order}");
+		}
+
 		if (IsElementPresent(locator1 = "Button#UPDATE")) {
 			PortletEntry.update();
 		}
@@ -114,31 +121,6 @@ definition {
 		Type(
 			locator1 = "MultiFactorAuthentication#EMAIL_OTP_SENDER_NAME_FIELD",
 			value1 = "${emailSenderName}");
-
-		if (IsElementPresent(locator1 = "Button#UPDATE")) {
-			PortletEntry.update();
-		}
-		else if (IsElementPresent(locator1 = "Button#SAVE")) {
-			PortletEntry.save();
-		}
-	}
-
-	macro configureOTPwithOrderUpdate {
-		if ("${enableOTP}" == "true") {
-			FormFields.enableCheckbox(fieldName = "enabled");
-		}
-		else if ("${enableOTP}" == "false") {
-			FormFields.disableCheckbox(fieldName = "enabled");
-		}
-
-		var order = "${order}";
-
-		if (isSet(order)) {
-			Type(
-				key_fieldName = "order",
-				locator1 = "MultiFactorAuthentication#ORDER_FIELD",
-				value1 = "${order}");
-		}
 
 		if (IsElementPresent(locator1 = "Button#UPDATE")) {
 			PortletEntry.update();
@@ -266,7 +248,9 @@ definition {
 			userPassword = "${userPassword}");
 
 		AssertElementPresent(locator1 = "MultiFactorAuthentication#CUSTOM_MFA_TITLE");
+
 		AssertElementPresent(locator1 = "MultiFactorAuthentication#CUSTOM_MFA_DESCRIPTION");
+
 		AssertElementPresent(locator1 = "MultiFactorAuthentication#EMAIL_OTP_LINK");
 
 		Type(

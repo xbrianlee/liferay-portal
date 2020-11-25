@@ -105,7 +105,7 @@
 <!--CUSTOM_MFA_CONFIGURATION-->
 <tr>
 	<td>ORDER_FIELD</td>
-	<td>xpath=//input[contains(@name,'ranking')]</td>
+	<td>//input[contains(@name,'ranking')]</td>
 	<td></td>
 </tr>
 <!--IP_ADDRESS_CONFIGURATION-->

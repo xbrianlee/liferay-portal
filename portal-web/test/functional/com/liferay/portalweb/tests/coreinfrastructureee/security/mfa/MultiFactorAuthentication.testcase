@@ -1050,7 +1050,7 @@ definition {
 
 		FileInstall.deployFileOnServer(liferayDependencyJars = "com.liferay.multi.factor.authentication.poc.jar");
 
-		AssertConsoleTextPresent(value1 = "STARTED com.liferay.multi.factor.authentication.poc_1.0.0");
+		WaitForConsoleTextPresent(value1 = "STARTED com.liferay.multi.factor.authentication.poc_1.0.0");
 
 		PortalSettings.gotoConfiguration(
 			configurationCategory = "Multi-Factor Authentication",
@@ -1068,7 +1068,7 @@ definition {
 			locator1 = "MultiFactorAuthentication#ORDER_FIELD",
 			value1 = "400");
 
-		MultiFactorAuthentication.configureOTPwithOrderUpdate(
+		MultiFactorAuthentication.configureOTP(
 			enableOTP = "true",
 			order = "50");
 
