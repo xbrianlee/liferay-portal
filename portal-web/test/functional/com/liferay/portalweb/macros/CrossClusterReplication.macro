@@ -43,8 +43,17 @@ definition {
 
 		SystemSettings.saveConfiguration();
 
+		var followerIndexList = JSONCurlUtil.get("http://localhost:9202/_cat/indices?h=index");
 		var followerIndexStatusList = JSONCurlUtil.get("http://localhost:9202/_cat/indices?pretty");
+		var leaderIndexList = JSONCurlUtil.get("http://localhost:9200/_cat/indices?h=index");
+		var leaderIndexList = RegexUtil.replace("${leaderIndexList}", "\n", ",");
 		var localClusterStatus = JSONCurlUtil.get("http://localhost:9202/_cluster/health?pretty");
+
+		for (var indexName : list "${leaderIndexList}") {
+			if ((!(contains("${indexName}", "."))) && (!(contains("${indexName}", "ilm-history"))) && (!(contains("${followerIndexList}", "${indexName}")))) {
+				fail("Failed to create a follower index.");
+			}
+		}
 
 		if (contains("${localClusterStatus}", "red")) {
 			echo(${followerIndexStatusList});
