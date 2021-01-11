@@ -42,6 +42,15 @@ definition {
 			fieldValue = "localhost:8080,ccr");
 
 		SystemSettings.saveConfiguration();
+
+		var followerIndexStatusList = JSONCurlUtil.get("http://localhost:9202/_cat/indices?pretty");
+		var localClusterStatus = JSONCurlUtil.get("http://localhost:9202/_cluster/health?pretty");
+
+		if (contains("${localClusterStatus}", "red")) {
+			echo(${followerIndexStatusList});
+
+			fail("A follower index is in red status.");
+		}
 	}
 
 	macro setupWorkflow {
