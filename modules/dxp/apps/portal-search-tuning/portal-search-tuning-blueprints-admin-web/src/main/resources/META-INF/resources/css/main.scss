@@ -1,0 +1,72 @@
+@import '_variables';
+
+.blueprint-edit-title-modal .modal-body {
+	.form-check-card {
+		&.selected {
+			.card {
+				box-shadow: 0 0 0 2px $primaryL2;
+
+				.card-item-first {
+					background-color: $primaryL4;
+				}
+			}
+		}
+
+		.card-item-first {
+			background-color: $lightBackground;
+		}
+
+		.card-subtitle {
+			line-height: 1.2rem;
+		}
+	}
+
+	.form-group:last-of-type {
+		margin-bottom: 0;
+	}
+}
+
+.codemirror-editor-wrapper {
+	border: 1px solid $mainLighten74;
+	border-radius: 4px;
+}
+
+.portlet-blueprints-admin {
+	@import '_config_fragment';
+	@import '_page_toolbar';
+
+	.edit-blueprint-root {
+		@import '_builder';
+		@import '_sidebar';
+
+		.bold {
+			font-weight: 700;
+		}
+
+		.icon {
+			background-color: $secondaryHover;
+		}
+
+		.italic {
+			font-style: italic;
+		}
+
+		.secondary {
+			color: $secondaryL1;
+		}
+	}
+
+	.id-text {
+		margin-right: 16px;
+	}
+
+	.edit-fragment-root {
+		height: calc(100vh - 96px);
+
+		@import '_fragment_form';
+
+		.cursor-pointer {
+			cursor: pointer;
+		}
+	}
+}

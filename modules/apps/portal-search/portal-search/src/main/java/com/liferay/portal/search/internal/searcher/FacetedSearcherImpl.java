@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.search.BaseSearcher;
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
-import com.liferay.portal.kernel.search.ExpandoQueryContributor;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.HitsImpl;
@@ -32,13 +31,13 @@ import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcher;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.search.generic.MatchAllQuery;
-import com.liferay.portal.kernel.search.generic.StringQuery;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.asset.SearchableAssetClassNamesProvider;
 import com.liferay.portal.search.constants.SearchContextAttributes;
+import com.liferay.portal.search.internal.indexer.FullQueryContributorHelper;
 import com.liferay.portal.search.internal.indexer.PreFilterContributorHelper;
 
 import java.util.LinkedHashMap;
@@ -51,13 +50,13 @@ public class FacetedSearcherImpl
 	extends BaseSearcher implements FacetedSearcher {
 
 	public FacetedSearcherImpl(
-		ExpandoQueryContributor expandoQueryContributor,
+		FullQueryContributorHelper fullQueryContributorHelper,
 		IndexerRegistry indexerRegistry,
 		IndexSearcherHelper indexSearcherHelper,
 		PreFilterContributorHelper preFilterContributorHelper,
 		SearchableAssetClassNamesProvider searchableAssetClassNamesProvider) {
 
-		_expandoQueryContributor = expandoQueryContributor;
+		_fullQueryContributorHelper = fullQueryContributorHelper;
 		_indexerRegistry = indexerRegistry;
 		_indexSearcherHelper = indexSearcherHelper;
 		_preFilterContributorHelper = preFilterContributorHelper;
@@ -71,21 +70,14 @@ public class FacetedSearcherImpl
 
 		BooleanQuery searchQuery = new BooleanQueryImpl();
 
-		boolean luceneSyntax = GetterUtil.getBoolean(
-			searchContext.getAttribute(
-				SearchContextAttributes.ATTRIBUTE_KEY_LUCENE_SYNTAX));
-
 		Map<String, Indexer<?>> entryClassNameIndexerMap =
 			_getEntryClassNameIndexerMap(
 				_getEntryClassNames(searchContext),
 				searchContext.getSearchEngineId());
 
-		_addSearchKeywords(
-			searchQuery, luceneSyntax, entryClassNameIndexerMap, searchContext);
-
-		_addSearchTerms(
-			searchQuery, fullQueryBooleanFilter, luceneSyntax,
-			entryClassNameIndexerMap, searchContext);
+		_addFullQueryClauses(
+			searchQuery, fullQueryBooleanFilter, entryClassNameIndexerMap,
+			searchContext);
 
 		_addPreFilters(
 			fullQueryBooleanFilter, entryClassNameIndexerMap, searchContext);
@@ -176,23 +168,15 @@ public class FacetedSearcherImpl
 		return super.isFilterSearch();
 	}
 
-	private void _addIndexerProvidedSearchTerms(
-			BooleanQuery searchQuery, Indexer<?> indexer,
-			BooleanFilter booleanFilter, boolean luceneSyntax,
-			SearchContext searchContext)
-		throws Exception {
+	private void _addFullQueryClauses(
+		BooleanQuery booleanQuery, BooleanFilter booleanFilter,
+		Map<String, Indexer<?>> entryClassNameIndexerMap,
+		SearchContext searchContext) {
 
-		if (!luceneSyntax) {
-			indexer.postProcessSearchQuery(
-				searchQuery, booleanFilter, searchContext);
-		}
-
-		for (IndexerPostProcessor indexerPostProcessor :
-				indexer.getIndexerPostProcessors()) {
-
-			indexerPostProcessor.postProcessSearchQuery(
-				searchQuery, booleanFilter, searchContext);
-		}
+		_fullQueryContributorHelper.contribute(
+			booleanQuery, booleanFilter,
+			ArrayUtil.toStringArray(entryClassNameIndexerMap.keySet()),
+			entryClassNameIndexerMap.values(), searchContext);
 	}
 
 	private void _addPreFilters(
@@ -202,42 +186,6 @@ public class FacetedSearcherImpl
 
 		_preFilterContributorHelper.contribute(
 			booleanFilter, entryClassNameIndexerMap, searchContext);
-	}
-
-	private void _addSearchKeywords(
-			BooleanQuery booleanQuery, boolean luceneSyntax,
-			Map<String, Indexer<?>> entryClassNameIndexerMap,
-			SearchContext searchContext)
-		throws Exception {
-
-		String keywords = searchContext.getKeywords();
-
-		if (luceneSyntax) {
-			if (!Validator.isBlank(keywords)) {
-				booleanQuery.add(
-					new StringQuery(keywords), BooleanClauseOccur.MUST);
-			}
-		}
-		else {
-			_expandoQueryContributor.contribute(
-				keywords, booleanQuery,
-				ArrayUtil.toStringArray(entryClassNameIndexerMap.keySet()),
-				searchContext);
-		}
-	}
-
-	private void _addSearchTerms(
-			BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter,
-			boolean luceneSyntax,
-			Map<String, Indexer<?>> entryClassNameIndexerMap,
-			SearchContext searchContext)
-		throws Exception {
-
-		for (Indexer<?> indexer : entryClassNameIndexerMap.values()) {
-			_addIndexerProvidedSearchTerms(
-				searchQuery, indexer, fullQueryBooleanFilter, luceneSyntax,
-				searchContext);
-		}
 	}
 
 	private Map<String, Indexer<?>> _getEntryClassNameIndexerMap(
@@ -302,7 +250,7 @@ public class FacetedSearcherImpl
 		}
 	}
 
-	private final ExpandoQueryContributor _expandoQueryContributor;
+	private final FullQueryContributorHelper _fullQueryContributorHelper;
 	private final IndexerRegistry _indexerRegistry;
 	private final IndexSearcherHelper _indexSearcherHelper;
 	private final PreFilterContributorHelper _preFilterContributorHelper;

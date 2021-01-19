@@ -15,6 +15,7 @@
 package com.liferay.portal.search.searcher.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
@@ -250,7 +251,7 @@ public class SearchRequestBuilderTest {
 			).groupIds(
 				_group.getGroupId()
 			).modelIndexerClassNames(
-				User.class.getCanonicalName()
+				User.class.getCanonicalName(), DLFileEntry.class.getName()
 			).queryString(
 				queryString
 			);

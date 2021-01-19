@@ -14,13 +14,13 @@
 
 package com.liferay.portal.search.internal.searcher;
 
-import com.liferay.portal.kernel.search.ExpandoQueryContributor;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcher;
 import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcherManager;
 import com.liferay.portal.kernel.util.Localization;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.search.asset.SearchableAssetClassNamesProvider;
+import com.liferay.portal.search.internal.indexer.FullQueryContributorHelper;
 import com.liferay.portal.search.internal.indexer.PreFilterContributorHelper;
 
 import org.osgi.service.component.annotations.Component;
@@ -35,7 +35,7 @@ public class FacetedSearcherManagerImpl implements FacetedSearcherManager {
 	@Override
 	public FacetedSearcher createFacetedSearcher() {
 		return new FacetedSearcherImpl(
-			expandoQueryContributor, indexerRegistry, indexSearcherHelper,
+			fullQueryContributorHelper, indexerRegistry, indexSearcherHelper,
 			preFilterContributorHelper, searchableAssetClassNamesProvider);
 	}
 
@@ -51,7 +51,7 @@ public class FacetedSearcherManagerImpl implements FacetedSearcherManager {
 	}
 
 	@Reference
-	protected ExpandoQueryContributor expandoQueryContributor;
+	protected FullQueryContributorHelper fullQueryContributorHelper;
 
 	@Reference
 	protected IndexerRegistry indexerRegistry;

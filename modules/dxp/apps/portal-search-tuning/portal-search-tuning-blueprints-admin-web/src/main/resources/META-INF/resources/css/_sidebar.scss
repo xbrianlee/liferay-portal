@@ -1,0 +1,88 @@
+.sidebar {
+	background-color: $white;
+	height: 100%;
+	min-width: 380px;
+	position: fixed;
+	right: 0;
+	transform: translateX(100%);
+	transition: transform ease 0.2s;
+	width: 20%;
+	z-index: 972;
+
+	&.open {
+		transform: translateX(0);
+		transition: transform ease 0.2s;
+	}
+
+	.empty-list-message {
+		padding: 16px;
+		text-align: center;
+	}
+
+	.list-group {
+		margin-bottom: 0;
+
+		.list-group-item {
+			border: 0;
+
+			&.hover {
+				background-color: $primaryL4;
+			}
+
+			.sticker {
+				background-color: $lightBackground;
+				color: $mainLighten28;
+			}
+
+			.autofit-col:first-of-type {
+				padding-right: 0.5rem;
+			}
+
+			.button-wrapper {
+				background-color: $primaryL4;
+				display: table;
+				height: 100%;
+				padding-left: 1rem;
+				position: absolute;
+				right: 0.5rem;
+
+				.add-fragment-button {
+					display: table-cell;
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+
+	.sidebar-header {
+		display: flex;
+		justify-content: space-between;
+
+		button {
+			color: $mainLighten28;
+		}
+
+		.component-title {
+			font-size: 1rem;
+		}
+	}
+
+	.sidebar-dt {
+		margin: 0;
+
+		&.btn:focus {
+			box-shadow: 0 0;
+		}
+
+		.sidebar-arrow {
+			position: absolute;
+			right: 12px;
+		}
+	}
+
+	.query-fragment-list {
+		height: calc(100% - 120px);
+		overflow-y: scroll;
+		padding-bottom: 45px;
+	}
+}

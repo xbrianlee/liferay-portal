@@ -67,6 +67,7 @@ import com.liferay.registry.collections.ServiceTrackerCollections;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -554,8 +555,6 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 	@Override
 	public Hits search(SearchContext searchContext) throws SearchException {
 		try {
-			Hits hits = null;
-
 			QueryConfig queryConfig = searchContext.getQueryConfig();
 
 			addDefaultHighlightFieldNames(queryConfig);
@@ -566,25 +565,7 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 
 			addFacetSelectedFieldNames(searchContext, queryConfig);
 
-			PermissionChecker permissionChecker =
-				PermissionThreadLocal.getPermissionChecker();
-
-			if ((permissionChecker != null) &&
-				isUseSearchResultPermissionFilter(searchContext)) {
-
-				if (searchContext.getUserId() == 0) {
-					searchContext.setUserId(permissionChecker.getUserId());
-				}
-
-				SearchResultPermissionFilter searchResultPermissionFilter =
-					_searchResultPermissionFilterFactory.create(
-						this::doSearch, permissionChecker);
-
-				hits = searchResultPermissionFilter.search(searchContext);
-			}
-			else {
-				hits = doSearch(searchContext);
-			}
+			Hits hits = _search(searchContext);
 
 			processHits(searchContext, hits);
 
@@ -1047,9 +1028,17 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 
 		BooleanQuery searchQuery = new BooleanQueryImpl();
 
+		if (false) {
+			
 		addSearchKeywords(searchQuery, searchContext);
 
 		_addSearchTerms(searchQuery, fullQueryBooleanFilter, searchContext);
+		
+		}
+		else
+		{
+		_addFullQueryClauses(searchQuery, fullQueryBooleanFilter, searchContext);
+		}
 
 		doPostProcessSearchQuery(this, searchQuery, searchContext);
 
@@ -1095,6 +1084,29 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 		}
 
 		return fullBooleanQuery;
+	}
+
+	private void _addFullQueryClauses(
+			BooleanQuery searchQuery, BooleanFilter booleanFilter,
+			SearchContext searchContext)
+		throws Exception {
+
+		searchContext.setAttribute(
+			"search.full.query.boolean.filter",
+			(Serializable)Arrays.asList(booleanFilter));
+		searchContext.setAttribute(
+			"search.full.query.post.process.indexers",
+			(Serializable)Arrays.asList(this));
+
+		try {
+			addSearchKeywords(searchQuery, searchContext);
+		}
+		finally {
+			searchContext.setAttribute(
+				"search.full.query.boolean.filter", null);
+			searchContext.setAttribute(
+				"search.full.query.post.process.indexers", null);
+		}
 	}
 
 	protected Summary createSummary(Document document) {
@@ -1586,6 +1598,42 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 		}
 
 		return entryClassNameIndexerMap;
+	}
+
+	private SearchResultPermissionFilter _getSearchResultPermissionFilter(
+		SearchContext searchContext,
+		SearchResultPermissionFilterSearcher
+			searchResultPermissionFilterSearcher) {
+
+		PermissionChecker permissionChecker =
+				PermissionThreadLocal.getPermissionChecker();
+
+		if (permissionChecker == null) {
+			return null;
+		}
+
+		if (searchContext.getUserId() == 0) {
+			searchContext.setUserId(permissionChecker.getUserId());
+		}
+
+		return _searchResultPermissionFilterFactory.create(
+			searchResultPermissionFilterSearcher, permissionChecker);
+	}
+
+	private Hits _search(SearchContext searchContext)
+		throws SearchException {
+
+		if (isUseSearchResultPermissionFilter(searchContext)) {
+			SearchResultPermissionFilter searchResultPermissionFilter =
+				_getSearchResultPermissionFilter(
+					searchContext, this::doSearch);
+
+			if (searchResultPermissionFilter != null) {
+				return searchResultPermissionFilter.search(searchContext);
+			}
+		}
+
+		return doSearch(searchContext);
 	}
 
 	private static final long _DEFAULT_FOLDER_ID = 0L;

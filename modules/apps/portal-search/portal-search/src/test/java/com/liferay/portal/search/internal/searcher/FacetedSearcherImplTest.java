@@ -15,7 +15,6 @@
 package com.liferay.portal.search.internal.searcher;
 
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.search.ExpandoQueryContributor;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.SearchContext;
@@ -24,6 +23,7 @@ import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcher;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.asset.SearchableAssetClassNamesProvider;
 import com.liferay.portal.search.constants.SearchContextAttributes;
+import com.liferay.portal.search.internal.indexer.FullQueryContributorHelper;
 import com.liferay.portal.search.internal.indexer.PreFilterContributorHelper;
 import com.liferay.portal.search.internal.test.util.DocumentFixture;
 import com.liferay.registry.BasicRegistryImpl;
@@ -131,14 +131,14 @@ public class FacetedSearcherImplTest {
 
 	protected FacetedSearcherImpl createFacetedSearcher() {
 		return new FacetedSearcherImpl(
-			expandoQueryContributor, indexerRegistry, indexSearcherHelper,
+			fullQueryContributorHelper, indexerRegistry, indexSearcherHelper,
 			preFilterContributorHelper, searchableAssetClassNamesProvider);
 	}
 
-	@Mock
-	protected ExpandoQueryContributor expandoQueryContributor;
-
 	protected FacetedSearcher facetedSearcher;
+
+	@Mock
+	protected FullQueryContributorHelper fullQueryContributorHelper;
 
 	@Mock
 	protected IndexerRegistry indexerRegistry;
