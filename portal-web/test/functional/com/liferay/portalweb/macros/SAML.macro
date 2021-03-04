@@ -1,5 +1,125 @@
 definition {
 
+	@description = "Add new IDP Connection data for SP."
+	macro addNewIDPConnection {
+		Navigator.openSpecificURL(url = "${spURL}");
+
+		if (IsElementNotPresent(locator1 = "UserBar#USER_AVATAR_IMAGE")) {
+			if (isSet(spAdminEmailAddress)) {
+				User.loginPG(
+					password = "test",
+					specificURL = "${spURL}",
+					userEmailAddress = "${spAdminEmailAddress}");
+			}
+			else {
+				User.loginPG(
+					password = "test",
+					specificURL = "${spURL}",
+					userEmailAddress = "test@liferay.com");
+			}
+		}
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Security",
+			panel = "Control Panel",
+			portlet = "SAML Admin");
+
+		SAMLNavigation.gotoIdentityProviderConnections();
+
+		SAMLPortlet.addIdentityProviderConnection(
+			idpAttributes = "${idpAttributes}",
+			idpEntityID = "${idpEntityID}",
+			idpKeepAliveURL = "${idpKeepAliveURL}",
+			idpMetadataURL = "${idpMetadataURL}/c/portal/saml/metadata",
+			idpNameID = "${idpEntityID}",
+			nameIdentifierFormat = "${nameIdentifierFormat}");
+	}
+
+	@description = "Add new SP Connection data for IDP."
+	macro addNewSPConnection {
+		Navigator.openSpecificURL(url = "${idpURL}");
+
+		if (IsElementNotPresent(locator1 = "UserBar#USER_AVATAR_IMAGE")) {
+			User.loginPG(
+				password = "test",
+				specificURL = "${idpURL}",
+				userEmailAddress = "test@liferay.com");
+		}
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Security",
+			panel = "Control Panel",
+			portlet = "SAML Admin");
+
+		SAMLNavigation.gotoServiceProviderConnection();
+
+		spEntityID = "${spEntityID}";
+		spMetadataURL = "${spURL}/c/portal/saml/metadata";
+		spNameID = "${spEntityID}";
+
+		AssertClick(
+			locator1 = "CPSAMLAdminServiceProviderConnections#ADD_SERVICE_PROVIDER_BUTTON",
+			value1 = "Add Service Provider");
+
+		Type(
+			locator1 = "TextInput#SAML_NAME_FIELD",
+			value1 = "${spNameID}");
+
+		Type(
+			locator1 = "CPSAMLAdminServiceProviderConnections#SERVICE_PROVIDER_CONNECTION_ENTITY_ID_FIELD",
+			value1 = "${spEntityID}");
+
+		Check(locator1 = "CPSAMLAdminServiceProviderConnections#SERVICE_PROVIDER_CONNECTION_ENABLED_CHECKBOX");
+
+		Type(
+			locator1 = "TextInput#SAML_METADATA_URL_FIELD",
+			value1 = "${spMetadataURL}");
+
+		if (!(isSet(nameIdentifierAttributeName))) {
+			var nameIdentifierAttributeName = "emailAddress";
+		}
+
+		Type(
+			locator1 = "CPSAMLAdminServiceProviderConnections#SERVICE_PROVIDER_CONNECTION_NAME_IDENTIFIER_ATTRIBUTE_NAME_FIELD",
+			value1 = "${nameIdentifierAttributeName}");
+
+		if (isSet(nameIdentifierFormat)) {
+			Select(
+				locator1 = "Select#SAML_NAME_IDENTIFIER_FORMAT_SELECT",
+				value1 = "${nameIdentifierFormat}");
+		}
+
+		if (isSet(spAttributes)) {
+			Check(locator1 = "CPSAMLAdminServiceProviderConnections#SERVICE_PROVIDER_CONNECTION_ATTRIBUTE_ENABLE");
+
+			Type(
+				locator1 = "CPSAMLAdminServiceProviderConnections#SERVICE_PROVIDER_CONNECTION_ATTRIBUTE_TEXTAREA",
+				value1 = "${spAttributes}");
+		}
+
+		if (isSet(spKeepAliveURL)) {
+			Type(
+				locator1 = "CPSAMLAdmin#SAML_KEEP_ALIVE_URL",
+				value1 = "${spKeepAliveURL}");
+		}
+
+		PortletEntry.save();
+	}
+
+	@description = "Verify how many times the user exists"
+	macro AssertUserCount {
+		ApplicationsMenu.gotoPortlet(
+			category = "Users",
+			panel = "Control Panel",
+			portlet = "Users and Organizations");
+
+		User.searchCP(searchTerm = "${userScreenName}");
+
+		AssertTextEquals(
+			locator1 = "AppBuilder#VALIDATE_SEARCH_RESULTS_BAR",
+			value1 = "${expectedUserCount} Results for ${userScreenName}");
+	}
+
 	@description = "Configures Liferay SAML as the IdP and Liferay SAML as the SP."
 	macro configureLiferaySAMLAsIdP {
 
@@ -149,6 +269,99 @@ definition {
 			spNameID = "${spEntityID}");
 	}
 
+	@description = "Create new test user for SAML authentication at IDP."
+	macro createNewSAMLUserForTest {
+		ApplicationsMenu.gotoPortlet(
+			category = "Users",
+			panel = "Control Panel",
+			portlet = "Users and Organizations");
+
+		User.addCP(
+			userEmailAddress = "${userEmailAddress}",
+			userFirstName = "${userFirstName}",
+			userLastName = "${userLastName}",
+			userScreenName = "${userScreenName}");
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Users",
+			panel = "Control Panel",
+			portlet = "Users and Organizations");
+
+		User.editPasswordCP(
+			userEmailAddress = "${userEmailAddress}",
+			userScreenName = "${userScreenName}");
+	}
+
+	@description = "Enable IDP SAML role."
+	macro enableIDPRoleForSite {
+		if (IsElementNotPresent(locator1 = "UserBar#USER_AVATAR_IMAGE")) {
+			User.loginPG(
+				password = "test",
+				specificURL = "${idpSiteUrl}",
+				userEmailAddress = "${adminUserEmail}");
+		}
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Security",
+			panel = "Control Panel",
+			portlet = "SAML Admin");
+
+		SAMLRole.configure(
+			samlEntityID = "${samlEntityID}",
+			samlRoleType = "${selectedSAMLRole}");
+
+		SAMLRole.configureCertificateAndPrivateKey(
+			certificateUsage = "SIGNING",
+			samlKeyPassword = "${samlEntityID}");
+
+		if ((isSet(idpSessionIdleTimeout)) || (isSet(idpSessionMaximumAge))) {
+			SAMLNavigation.gotoIdentityProvider();
+
+			SAMLRole.configureIdentityProvider(
+				idpSessionIdleTimeout = "${idpSessionIdleTimeout}",
+				idpSessionMaximumAge = "${idpSessionMaximumAge}");
+
+			SAMLNavigation.gotoGeneral();
+		}
+
+		SAMLRole.enable(samlEntityID = "${samlEntityID}");
+	}
+
+	@description = "Enable SP SAML role."
+	macro enableSPPRoleForSite {
+		Navigator.openSpecificURL(url = "${spSiteUrl}");
+
+		User.loginPG(
+			password = "test",
+			specificURL = "${spSiteUrl}",
+			userEmailAddress = "${adminUserEmail}");
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Security",
+			panel = "Control Panel",
+			portlet = "SAML Admin");
+
+		SAMLRole.configure(
+			samlEntityID = "${samlEntityID}",
+			samlRoleType = "${selectedSAMLRole}");
+
+		SAMLRole.configureCertificateAndPrivateKey(
+			certificateUsage = "SIGNING",
+			samlKeyPassword = "${samlEntityID}");
+
+		if ((isSet(idpSessionIdleTimeout)) || (isSet(idpSessionMaximumAge))) {
+			SAMLNavigation.gotoIdentityProvider();
+
+			SAMLRole.configureIdentityProvider(
+				idpSessionIdleTimeout = "${idpSessionIdleTimeout}",
+				idpSessionMaximumAge = "${idpSessionMaximumAge}");
+
+			SAMLNavigation.gotoGeneral();
+		}
+
+		SAMLRole.enable(samlEntityID = "${samlEntityID}");
+	}
+
 	@description = "Sign into portal by executing a IdP initiated SSO login. The IdP will redirect to the SP. If the same users with the same email address are present on both instances, it will authenticate and show the SP. SAML can authenticate across major portal versions, that is, the IdP can be Portal 6.1 EE GA3 and the SP can be Portal 6.2. EE GA1. For testing purposes, it is obvious if the authentication succeeds or fails if the IdP and SP are different portal versions."
 	macro executeIdPInitiatedSSO {
 		if ("${autoLogin}" == "true") {
@@ -189,6 +402,106 @@ definition {
 		Pause(locator1 = "1000");
 
 		AssertLocation.assertPartialLocation(value1 = "${specificURL}");
+	}
+
+	@description = "Execute login from SP."
+	macro SSOLoginToSP {
+		Navigator.openSpecificURL(url = "${url}");
+
+		if (IsElementPresent(locator1 = "UserBar#USER_AVATAR_IMAGE")) {
+			User.logoutPG();
+		}
+
+		User.loginPG(
+			password = "test",
+			specificURL = "${url}",
+			userEmailAddress = "${emailAddress}");
+	}
+
+	@description = "Update IDP Connection data at SP."
+	macro updateIDPConnectionConfiguration {
+		Navigator.openSpecificURL(url = "${url}");
+
+		User.loginPG(
+			password = "test",
+			specificURL = "${url}",
+			userEmailAddress = "${emailAddress}");
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Security",
+			panel = "Control Panel",
+			portlet = "SAML Admin");
+
+		SAMLNavigation.gotoIdentityProviderConnections();
+
+		Click.waitForMenuToggleJSClick(
+			key_samlEntityID = "${idpConnectionName}",
+			locator1 = "CPSAMLAdmin#SAML_CONNECTION_ACTION_BUTTON");
+
+		MenuItem.click(menuItem = "Edit");
+
+		if (isSet(nameIdentifierFormat)) {
+			Select(
+				locator1 = "Select#SAML_NAME_IDENTIFIER_FORMAT_SELECT",
+				value1 = "${nameIdentifierFormat}");
+		}
+
+		if (isSet(idpAttributesMapping)) {
+			Check(locator1 = "CPSAMLAdminIdentityProviderConnection#IDENTITY_PROVIDER_CONNECTION_ENABLED_CHECKBOX");
+
+			Type(
+				locator1 = "CPSAMLAdminIdentityProviderConnection#IDENTITY_PROVIDER_CONNECTION_ATTRIBUTE_TEXTAREA",
+				value1 = "${idpAttributesMapping}");
+		}
+
+		PortletEntry.save();
+	}
+
+	@description = "Update SP Connection data at IDP."
+	macro updateSPConnectionConfiguration {
+		Navigator.openSpecificURL(url = "${url}");
+
+		User.loginPG(
+			password = "test",
+			specificURL = "${url}",
+			userEmailAddress = "${emailAddress}");
+
+		ApplicationsMenu.gotoPortlet(
+			category = "Security",
+			panel = "Control Panel",
+			portlet = "SAML Admin");
+
+		SAMLNavigation.gotoServiceProviderConnection();
+
+		Click.waitForMenuToggleJSClick(
+			key_samlEntityID = "${spConnectionName}",
+			locator1 = "CPSAMLAdmin#SAML_CONNECTION_ACTION_BUTTON");
+
+		MenuItem.click(menuItem = "Edit");
+
+		if (!(isSet(nameIdentifierAttributeName))) {
+			var nameIdentifierAttributeName = "${nameIdentifierAttributeName}";
+		}
+
+		Type(
+			locator1 = "CPSAMLAdminServiceProviderConnections#SERVICE_PROVIDER_CONNECTION_NAME_IDENTIFIER_ATTRIBUTE_NAME_FIELD",
+			value1 = "${nameIdentifierAttributeName}");
+
+		if (isSet(nameIdentifierFormat)) {
+			Select(
+				locator1 = "Select#SAML_NAME_IDENTIFIER_FORMAT_SELECT",
+				value1 = "${nameIdentifierFormat}");
+		}
+
+		if (isSet(Attributes)) {
+			Check(locator1 = "CPSAMLAdminServiceProviderConnections#SERVICE_PROVIDER_CONNECTION_ATTRIBUTE_ENABLE");
+
+			Type(
+				locator1 = "CPSAMLAdminServiceProviderConnections#SERVICE_PROVIDER_CONNECTION_ATTRIBUTE_TEXTAREA",
+				value1 = "${Attributes}");
+		}
+
+		PortletEntry.save();
 	}
 
 }
