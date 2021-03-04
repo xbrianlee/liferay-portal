@@ -1522,4 +1522,196 @@ definition {
 			value1 = "No identity provider is available to sign you in.");
 	}
 
+	@description = "LPS-125272 User profile matchup when NameID is transient, and screenName is in SAML Attributes list"
+	@priority = "4"
+	test ViewSPInitiatedSSOWithTransientNameId {
+		property test.name.skip.portal.instance = "SAML#ViewSPInitiatedSSOWithTransientNameId";
+
+		// Create new user to match the admin at the SP site www.able.com:8080
+
+		SAML.createNewSAMLUserForTest(
+			userEmailAddress = "test@www.able.com",
+			userFirstName = "Test2",
+			userLastName = "Test2",
+			userScreenName = "test2");
+
+		// Create new dummy user for authenticate the SP twice
+
+		SAML.createNewSAMLUserForTest(
+			userEmailAddress = "dummy@www.able.com",
+			userFirstName = "Dummy",
+			userLastName = "Dummy",
+			userScreenName = "dummy");
+
+		// Enable SAML debug log level
+
+		ApplicationsMenu.gotoPortlet(
+			category = "System",
+			panel = "Control Panel",
+			portlet = "Server Administration");
+
+		ServerAdministration.addCategoryLogLevels(
+			categoryName = "com.liferay.saml.opensaml.integration",
+			categoryPriority = "DEBUG");
+
+		// Add new site as www.able.com to be the Service provider
+
+		ApplicationsMenu.gotoPortlet(
+			category = "System",
+			panel = "Control Panel",
+			portlet = "Virtual Instances");
+
+		PortalInstances.addCP(
+			mailDomain = "www.able.com",
+			virtualHost = "www.able.com",
+			webId = "www.able.com");
+
+		// Setup and enable Identity Provider role aka localhost
+
+		SAML.enableIDPRoleForSite(
+			adminUserEmail = "test@liferay.com",
+			enableSAMLRole = "yes",
+			idpSiteUrl = "localhost:8080",
+			samlEntityID = "samlidp",
+			selectedSAMLRole = "Identity Provider");
+
+		User.logoutPG();
+
+		User.viewLoggedOutPG();
+
+		// Setup and enable Service Provider role aka www.able.com
+
+		SAML.enableSPPRoleForSite(
+			adminUserEmail = "test@www.able.com",
+			enableSAMLRole = "yes",
+			samlEntityID = "samlsp",
+			selectedSAMLRole = "Service Provider",
+			spSiteUrl = "http://www.able.com:8080");
+
+		User.logoutPG(specificURL = "http://www.able.com:8080");
+
+		User.viewLoggedOutPG();
+
+		// Add SP connection to IdP
+
+		SAML.addNewSPConnection(
+			idpURL = "http://localhost:8080",
+			nameIdentifierAttributeName = "emailAddress",
+			nameIdentifierFormat = "Email Address",
+			spAttributes = '''screenName
+emailAddress
+firstName
+lastName
+uuid''',
+			spEntityID = "samlsp",
+			spURL = "http://www.able.com:8080",
+			useDefaultAttributes = "yes");
+
+		User.logoutPG();
+
+		User.viewLoggedOutPG();
+
+		// Add IDP connection to SP
+
+		SAML.addNewIDPConnection(
+			idpAttributes = '''emailAddress=emailAddress
+firstName=firstName
+lastName=lastName
+screenName=screenName
+uuid=uuid''',
+			idpEntityID = "samlidp",
+			idpMetadataURL = "http://localhost:8080",
+			nameIdentifierFormat = "Email Address",
+			spAdminEmailAddress = "test@www.able.com",
+			spURL = "http://www.able.com:8080",
+			useDefaultAttributeMapping = "yes");
+
+		User.logoutPG(specificURL = "http://www.able.com:8080");
+
+		User.viewLoggedOutPG();
+
+		// Trigger first login with dummy user to create profile at SP
+
+		SAML.SSOLoginToSP(
+			emailAddress = "test@www.able.com",
+			url = "http://www.able.com:8080");
+
+		// Verify successful login, then logout
+
+		//AssertConsoleTextPresent(value1 = "Importing user with identifier test@www.able.com of type emailAddress");
+
+		User.logoutPG(specificURL = "http://www.able.com:8080");
+
+		User.viewLoggedOutPG();
+
+		// Trigger second login with Dummy user to create profile at SP
+
+		SAML.SSOLoginToSP(
+			emailAddress = "dummy@www.able.com",
+			url = "http://www.able.com:8080");
+
+		// Verify successful login, then logout
+
+		//AssertConsoleTextPresent(value1 = "Importing user with identifier dummy@www.able.com of type emailAddress");
+
+		User.logoutPG(specificURL = "http://www.able.com:8080");
+
+		User.viewLoggedOutPG();
+
+		// Modify IDP Connection at www.able.com aka SP to new transient mapping
+
+		SAML.updateIDPConnectionConfiguration(
+			emailAddress = "test@www.able.com",
+			idpAttributesMapping = '''emailAddress=emailAddress
+firstName=firstName
+lastName=lastName
+screenName=screenName
+uuid=uuid''',
+			idpConnectionName = "samlidp",
+			nameIdentifierFormat = "Transient",
+			url = "http://www.able.com:8080");
+
+		User.logoutPG(specificURL = "http://www.able.com:8080");
+
+		User.viewLoggedOutPG();
+
+		// Modify SP Connection at localhost aka IDP to new transient mapping
+
+		SAML.updateSPConnectionConfiguration(
+			Attributes = '''emailAddress
+firstName
+lastName
+screenName
+uuid''',
+			emailAddress = "test@liferay.com",
+			nameIdentifierAttributeName = "static:Something",
+			nameIdentifierFormat = "Transient",
+			spConnectionName = "samlsp",
+			url = "http://localhost:8080");
+
+		User.logoutPG();
+
+		User.viewLoggedOutPG();
+
+		// Login again with Dummy user at Service Provider, login should work for non-admin user
+
+		SAML.SSOLoginToSP(
+			emailAddress = "dummy@www.able.com",
+			url = "http://www.able.com:8080");
+
+		User.logoutPG(specificURL = "http://www.able.com:8080");
+
+		User.viewLoggedOutPG();
+
+		// Validate that still one Dummy user profile registered at Service Provider
+
+		SAML.SSOLoginToSP(
+			emailAddress = "test@www.able.com",
+			url = "http://www.able.com:8080");
+
+		SAML.AssertUserCount(
+			expectedUserCount = "1",
+			userScreenName = "dummy");
+	}
+
 }
