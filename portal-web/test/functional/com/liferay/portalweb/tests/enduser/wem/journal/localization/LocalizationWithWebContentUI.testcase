@@ -10,6 +10,10 @@ definition {
 
 		User.firstLoginPG();
 
+		AntCommand(
+			locator1 = "build-test.xml",
+			value1 = "prepare-publications");
+
 		JSONGroup.addGroup(groupName = "Test Site Name");
 
 		JSONLayout.addPublicLayout(

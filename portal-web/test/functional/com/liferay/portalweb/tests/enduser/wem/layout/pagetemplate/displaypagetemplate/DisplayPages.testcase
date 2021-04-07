@@ -12,6 +12,12 @@ definition {
 			User.firstLoginPG();
 		}
 
+		task ("Enable and add Publication for Publications test suites") {
+			AntCommand(
+				locator1 = "build-test.xml",
+				value1 = "prepare-publications");
+		}
+
 		task ("Add a site via JSON") {
 			JSONGroup.addGroup(groupName = "Test Site Name");
 		}

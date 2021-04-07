@@ -12,6 +12,12 @@ definition {
 			User.firstLoginPG();
 		}
 
+		task ("Enable and add Publication for Publications test suites") {
+			AntCommand(
+				locator1 = "build-test.xml",
+				value1 = "prepare-publications");
+		}
+
 		task ("Execute Reindex all search indexes") {
 			ApplicationsMenu.gotoPortlet(
 				category = "Configuration",

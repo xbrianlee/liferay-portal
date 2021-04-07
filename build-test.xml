@@ -9867,6 +9867,121 @@ auto.deploy.dest.dir=C:/WINDOWS/system32/config/systemprofile/liferay/websphere-
 		</if>
 	</target>
 
+	<target name="prepare-publications">
+		<propertycopy from="publications.enabled[${env.CI_TEST_SUITE}]" name="suite.publications.enabled" silent="true" />
+
+		<if>
+			<equals arg1="${suite.publications.enabled}" arg2="true" />
+			<then>
+				<get-testcase-property property.name="test.name.skip.portal.instance" />
+
+				<if>
+					<isset property="test.name.skip.portal.instance" />
+					<then>
+						<property name="hostname" value="localhost" />
+					</then>
+					<else>
+						<property name="hostname" value="${env.HOSTNAME}" />
+					</else>
+				</if>
+
+				<get-test-url />
+
+				<echo>hostname: ${hostname}</echo>
+				<echo>test.url: ${test.url}</echo>
+
+				<exec executable="curl" outputproperty="curl.company.id.output">
+					<arg value="${test.url}/api/jsonws/company/get-company-by-virtual-host/virtual-host/${hostname}" />
+					<arg value="-u" />
+					<arg value="test@liferay.com:test" />
+				</exec>
+
+				<echo>curl.company.id.output: ${curl.company.id.output}</echo>
+
+				<propertyregex
+					input="${curl.company.id.output}"
+					property="company.id"
+					regexp="(?&lt;=companyId&quot;:&quot;)\d+"
+					select="\0"
+				/>
+
+				<echo>company.id: ${company.id}</echo>
+
+				<exec executable="curl" outputproperty="curl.user.id.output">
+					<arg value="${test.url}/api/jsonws/user/get-user-by-email-address/company-id/${company.id}/email-address/test@liferay.com" />
+					<arg value="-u" />
+					<arg value="test@liferay.com:test" />
+				</exec>
+
+				<echo>curl.user.id.output: ${curl.user.id.output}</echo>
+
+				<propertyregex
+					input="${curl.user.id.output}"
+					property="user.id"
+					regexp="(?&lt;=userId&quot;:&quot;)\d+"
+					select="\0"
+				/>
+
+				<echo>user.id: ${user.id}</echo>
+
+				<exec executable="curl" outputproperty="curl.enable.publications.output">
+					<arg value="${test.url}/api/jsonws/ct.ctpreferences/checkout-ct-collection" />
+					<arg value="-u" />
+					<arg value="test@liferay.com:test" />
+					<arg value="-d" />
+					<arg value="companyId=${company.id}" />
+					<arg value="-d" />
+					<arg value="ctCollectionId=0" />
+					<arg value="-d" />
+					<arg value="userId=0" />
+				</exec>
+
+				<echo>curl.enable.publications.output: ${curl.enable.publications.output}</echo>
+
+				<exec executable="curl" outputproperty="curl.add.publication.output">
+					<arg value="${test.url}/api/jsonws/ct.ctcollection/add-ct-collection" />
+					<arg value="-u" />
+					<arg value="test@liferay.com:test" />
+					<arg value="-d" />
+					<arg value="companyId=${company.id}" />
+					<arg value="-d" />
+					<arg value="userId=${user.id}" />
+					<arg value="-d" />
+					<arg value="name=P${company.id}" />
+					<arg value="-d" />
+					<arg value="description=" />
+				</exec>
+
+				<echo>curl.add.publication.output: ${curl.add.publication.output}</echo>
+
+				<propertyregex
+					input="${curl.add.publication.output}"
+					property="ct.collection.id"
+					regexp="(?&lt;=ctCollectionId&quot;:&quot;)\d+"
+					select="\0"
+				/>
+
+				<echo>ct.collection.id: ${ct.collection.id}</echo>
+
+				<exec executable="curl" outputproperty="curl.checkout.publication.output">
+					<arg value="${test.url}/api/jsonws/ct.ctpreferences/checkout-ct-collection" />
+					<arg value="-u" />
+					<arg value="test@liferay.com:test" />
+					<arg value="-d" />
+					<arg value="companyId=${company.id}" />
+					<arg value="-d" />
+					<arg value="ctCollectionId=${ct.collection.id}" />
+					<arg value="-d" />
+					<arg value="userId=${user.id}" />
+				</exec>
+
+				<echo>curl.checkout.publication.output: ${curl.checkout.publication.output}</echo>
+
+				<echo>Enabled publications and checked out P${company.id} (ctCollectionId:${ct.collection.id}).</echo>
+			</then>
+		</if>
+	</target>
+
 	<target name="prepare-release-bundle">
 		<ant antfile="build-release-slim.xml" dir="${release.tool.dir}" inheritAll="false" target="dist" useNativeBasedir="true">
 			<property name="override.decrement.module.bnd.versions" value="true" />

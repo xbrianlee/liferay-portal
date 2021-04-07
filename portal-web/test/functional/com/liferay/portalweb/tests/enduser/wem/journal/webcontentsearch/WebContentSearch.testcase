@@ -1,6 +1,7 @@
 @component-name = "portal-wcm"
 definition {
 
+	property change.tracking.enabled = "true";
 	property osgi.modules.includes = "journal-content-search-web";
 	property portal.release = "true";
 	property portal.upstream = "true";
@@ -13,6 +14,10 @@ definition {
 		TestCase.setUpPortalInstance();
 
 		User.firstLoginPG();
+
+		AntCommand(
+			locator1 = "build-test.xml",
+			value1 = "prepare-publications");
 
 		JSONLayout.addPublicLayout(
 			groupName = "Guest",
