@@ -1,6 +1,7 @@
 @component-name = "portal-web-forms-and-data-lists"
 definition {
 
+	property change.tracking.enabled = "true";
 	property custom.properties = "minifier.enabled=true";
 	property portal.release = "true";
 	property portal.upstream = "true";
@@ -10,6 +11,10 @@ definition {
 		TestCase.setUpPortalInstance();
 
 		User.firstLoginPG();
+
+		AntCommand(
+			locator1 = "build-test.xml",
+			value1 = "prepare-publications");
 	}
 
 	tearDown {
