@@ -22,145 +22,8 @@ definition {
 		}
 	}
 
-	@priority = "5"
-	test EnableAndDisableChatwoot {
-		property portal.acceptance = "true";
-
-		ApplicationsMenu.gotoPortlet(
-			category = "Configuration",
-			panel = "Control Panel",
-			portlet = "Instance Settings");
-
-		SystemSettings.gotoConfiguration(
-			configurationCategory = "Click to Chat",
-			configurationName = "Click to Chat Configuration",
-			configurationScope = "Virtual Instance Scope");
-
-		FormFields.enableCheckbox(fieldName = "enabled");
-
-		Select(
-			locator1 = "ClickToChatConfiguration#SITE_SETTINGS_STRATEGY",
-			value1 = "Always Inherit");
-
-		Select(
-			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ID",
-			value1 = "Chatwoot");
-
-		var clickToChatChatwootPassword = PropsUtil.get("click.to.chat.chatwoot.password");
-
-		Type(
-			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ACCOUNT_ID",
-			value1 = "${clickToChatChatwootPassword}");
-
-		SystemSettings.saveConfiguration();
-
-		Refresh();
-
-		AssertElementPresent(locator1 = "Providers#CHAT_CHATWOOT");
-
-		FormFields.disableCheckbox(fieldName = "enabled");
-
-		SystemSettings.saveConfiguration();
-
-		Refresh();
-
-		AssertElementNotPresent(locator1 = "Providers#CHAT_CHATWOOT");
-	}
-
-	@priority = "5"
-	test EnableAndDisableCrisp {
-		property portal.acceptance = "true";
-
-		ApplicationsMenu.gotoPortlet(
-			category = "Configuration",
-			panel = "Control Panel",
-			portlet = "Instance Settings");
-
-		SystemSettings.gotoConfiguration(
-			configurationCategory = "Click to Chat",
-			configurationName = "Click to Chat Configuration",
-			configurationScope = "Virtual Instance Scope");
-
-		FormFields.enableCheckbox(fieldName = "enabled");
-
-		Select(
-			locator1 = "ClickToChatConfiguration#SITE_SETTINGS_STRATEGY",
-			value1 = "Always Inherit");
-
-		Select(
-			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ID",
-			value1 = "Crisp");
-
-		var clickToChatCrispPassword = PropsUtil.get("click.to.chat.crisp.password");
-
-		Type(
-			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ACCOUNT_ID",
-			value1 = "${clickToChatCrispPassword}");
-
-		SystemSettings.saveConfiguration();
-
-		Refresh();
-
-		AssertElementPresent(locator1 = "Providers#CHAT_CRISP");
-
-		FormFields.disableCheckbox(fieldName = "enabled");
-
-		SystemSettings.saveConfiguration();
-
-		Refresh();
-
-		AssertElementNotPresent(locator1 = "Providers#CHAT_CRISP");
-	}
-
-	@priority = "5"
-	test EnableAndDisableHubspot {
-		property portal.acceptance = "true";
-
-		ApplicationsMenu.gotoPortlet(
-			category = "Configuration",
-			panel = "Control Panel",
-			portlet = "Instance Settings");
-
-		SystemSettings.gotoConfiguration(
-			configurationCategory = "Click to Chat",
-			configurationName = "Click to Chat Configuration",
-			configurationScope = "Virtual Instance Scope");
-
-		FormFields.enableCheckbox(fieldName = "enabled");
-
-		Select(
-			locator1 = "ClickToChatConfiguration#SITE_SETTINGS_STRATEGY",
-			value1 = "Always Inherit");
-
-		Select(
-			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ID",
-			value1 = "Hubspot");
-
-		var clickToChatHubspotPassword = PropsUtil.get("click.to.chat.hubspot.password");
-
-		Type(
-			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ACCOUNT_ID",
-			value1 = "${clickToChatHubspotPassword}");
-
-		SystemSettings.saveConfiguration();
-
-		Refresh();
-
-		AssertElementPresent(locator1 = "Providers#CHAT_HUBSPOT");
-
-		FormFields.disableCheckbox(fieldName = "enabled");
-
-		SystemSettings.saveConfiguration();
-
-		Refresh();
-
-		AssertElementNotPresent(locator1 = "Providers#CHAT_HUBSPOT");
-	}
-
-	@priority = "5"
+	@priority = "4"
 	test CheckHubspotErrorMessage {
-		property portal.acceptance = "true";
-
 		ApplicationsMenu.gotoPortlet(
 			category = "Configuration",
 			panel = "Control Panel",
@@ -213,6 +76,136 @@ definition {
 	}
 
 	@priority = "5"
+	test EnableAndDisableChatwoot {
+		ApplicationsMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Click to Chat",
+			configurationName = "Click to Chat Configuration",
+			configurationScope = "Virtual Instance Scope");
+
+		FormFields.enableCheckbox(fieldName = "enabled");
+
+		Select(
+			locator1 = "ClickToChatConfiguration#SITE_SETTINGS_STRATEGY",
+			value1 = "Always Inherit");
+
+		Select(
+			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ID",
+			value1 = "Chatwoot");
+
+		var clickToChatChatwootPassword = PropsUtil.get("click.to.chat.chatwoot.password");
+
+		Type(
+			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ACCOUNT_ID",
+			value1 = "${clickToChatChatwootPassword}");
+
+		SystemSettings.saveConfiguration();
+
+		Refresh();
+
+		AssertElementPresent(locator1 = "Providers#CHAT_CHATWOOT");
+
+		FormFields.disableCheckbox(fieldName = "enabled");
+
+		SystemSettings.saveConfiguration();
+
+		Refresh();
+
+		AssertElementNotPresent(locator1 = "Providers#CHAT_CHATWOOT");
+	}
+
+	@ignore = "true"
+	@priority = "5"
+	test EnableAndDisableCrisp {
+		ApplicationsMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Click to Chat",
+			configurationName = "Click to Chat Configuration",
+			configurationScope = "Virtual Instance Scope");
+
+		FormFields.enableCheckbox(fieldName = "enabled");
+
+		Select(
+			locator1 = "ClickToChatConfiguration#SITE_SETTINGS_STRATEGY",
+			value1 = "Always Inherit");
+
+		Select(
+			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ID",
+			value1 = "Crisp");
+
+		var clickToChatCrispPassword = PropsUtil.get("click.to.chat.crisp.password");
+
+		Type(
+			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ACCOUNT_ID",
+			value1 = "${clickToChatCrispPassword}");
+
+		SystemSettings.saveConfiguration();
+
+		Refresh();
+
+		AssertElementPresent(locator1 = "Providers#CHAT_CRISP");
+
+		FormFields.disableCheckbox(fieldName = "enabled");
+
+		SystemSettings.saveConfiguration();
+
+		Refresh();
+
+		AssertElementNotPresent(locator1 = "Providers#CHAT_CRISP");
+	}
+
+	@priority = "5"
+	test EnableAndDisableHubspot {
+		ApplicationsMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Click to Chat",
+			configurationName = "Click to Chat Configuration",
+			configurationScope = "Virtual Instance Scope");
+
+		FormFields.enableCheckbox(fieldName = "enabled");
+
+		Select(
+			locator1 = "ClickToChatConfiguration#SITE_SETTINGS_STRATEGY",
+			value1 = "Always Inherit");
+
+		Select(
+			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ID",
+			value1 = "Hubspot");
+
+		var clickToChatHubspotPassword = PropsUtil.get("click.to.chat.hubspot.password");
+
+		Type(
+			locator1 = "ClickToChatConfiguration#CHAT_PROVIDER_ACCOUNT_ID",
+			value1 = "${clickToChatHubspotPassword}");
+
+		SystemSettings.saveConfiguration();
+
+		Refresh();
+
+		AssertElementPresent(locator1 = "Providers#CHAT_HUBSPOT");
+
+		FormFields.disableCheckbox(fieldName = "enabled");
+
+		SystemSettings.saveConfiguration();
+
+		Refresh();
+
+		AssertElementNotPresent(locator1 = "Providers#CHAT_HUBSPOT");
+	}
+
+	@priority = "5"
 	test EnableAndDisableJivoChat {
 		property portal.acceptance = "true";
 
@@ -257,10 +250,9 @@ definition {
 		AssertElementNotPresent(locator1 = "Providers#CHAT_JIVOCHAT");
 	}
 
+	@ignore = "true"
 	@priority = "5"
 	test EnableAndDisableLiveChat {
-		property portal.acceptance = "true";
-
 		ApplicationsMenu.gotoPortlet(
 			category = "Configuration",
 			panel = "Control Panel",
@@ -349,8 +341,6 @@ definition {
 
 	@priority = "5"
 	test EnableAndDisableSmartsupp {
-		property portal.acceptance = "true";
-
 		ApplicationsMenu.gotoPortlet(
 			category = "Configuration",
 			panel = "Control Panel",
@@ -394,8 +384,6 @@ definition {
 
 	@priority = "5"
 	test EnableAndDisableTawkTo {
-		property portal.acceptance = "true";
-
 		ApplicationsMenu.gotoPortlet(
 			category = "Configuration",
 			panel = "Control Panel",
@@ -437,10 +425,9 @@ definition {
 		AssertElementNotPresent(locator1 = "Providers#CHAT_TAWKTO");
 	}
 
+	@ignore = "true"
 	@priority = "5"
 	test EnableAndDisableTidio {
-		property portal.acceptance = "true";
-
 		ApplicationsMenu.gotoPortlet(
 			category = "Configuration",
 			panel = "Control Panel",
@@ -484,8 +471,6 @@ definition {
 
 	@priority = "5"
 	test EnableAndDisableTolvnow {
-		property portal.acceptance = "true";
-
 		ApplicationsMenu.gotoPortlet(
 			category = "Configuration",
 			panel = "Control Panel",
@@ -529,8 +514,6 @@ definition {
 
 	@priority = "5"
 	test EnableAndDisableZendesk {
-		property portal.acceptance = "true";
-
 		ApplicationsMenu.gotoPortlet(
 			category = "Configuration",
 			panel = "Control Panel",

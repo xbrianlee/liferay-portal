@@ -10,12 +10,12 @@
 <tbody>
 <tr>
 	<td>CHAT_CHATWOOT</td>
-	<td>//div[contains(@class, 'woot--bubble-holder')]</td>
+	<td>//div[contains(@class,'woot--bubble-holder')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CHAT_CRISP</td>
-	<td>//div[contains(@id, 'crisp-chatbox')]</td>
+	<td>//div[contains(@id,'crisp-chatbox')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -30,7 +30,7 @@
 </tr>
 <tr>
 	<td>CHAT_LIVECHAT</td>
-	<td>//div[contains(@id, 'chat-widget-container')]</td>
+	<td>//div[contains(@id,'chat-widget-container')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -40,22 +40,22 @@
 </tr>
 <tr>
 	<td>CHAT_SMARTSUPP</td>
-	<td>//iframe[contains(@title, 'Smartsupp')]</td>
+	<td>//iframe[contains(@title,'Smartsupp')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CHAT_TAWKTO</td>
-	<td>//div[contains(@id,'tawkchat')and contains(@class,'roundWidget')]</td>
+	<td>//iframe[contains(@title, 'chat widget')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CHAT_TIDIO</td>
-	<td>//body[contains(@class, 'awesome-iframe')]</td>
+	<td>//body[contains(@class,'awesome-iframe')]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>CHAT_TOLVNOW</td>
-	<td>//span[contains(@id, 'tolvnow')]</td>
+	<td>//span[contains(@id,'tolvnow')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -65,7 +65,7 @@
 </tr>
 <tr>
 	<td>CHAT_PROVIDERS_HIDE</td>
-	<td>//div[contains(@class, 'position-relative row')]//div[contains(@data-field-name, 'chatProviderId')]/div[contains(@class, 'hide')]</td>
+	<td>//div[contains(@class,'position-relative row')]//div[contains(@data-field-name,'chatProviderId')]/div[contains(@class,'hide')]</td>
 	<td></td>
 </tr>
 <tr>
