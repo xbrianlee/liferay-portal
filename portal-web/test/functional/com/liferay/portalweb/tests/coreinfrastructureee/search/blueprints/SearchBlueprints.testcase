@@ -32,6 +32,8 @@ definition {
 	}
 
 	test AssertAddCopyAndDeleteSearchBlueprint {
+		property test.name.skip.portal.instance = "SearchBlueprints#AssertAddCopyAndDeleteSearchBlueprint";
+
 		for (var title : list "Blueprint 1,Blueprint 2") {
 			SearchBlueprints.addBlueprint(name = "${title}");
 		}
@@ -52,6 +54,8 @@ definition {
 	}
 
 	test AssertNonAdminsCannotSeeSearchExperience {
+		property test.name.skip.portal.instance = "SearchBlueprints#AssertNonAdminsCannotSeeSearchExperience";
+
 		JSONWebcontent.addWebContent(
 			content = "Los Angeles",
 			groupName = "Guest",
@@ -130,6 +134,8 @@ definition {
 	}
 
 	test AssertSearchResultsScore {
+		property test.name.skip.portal.instance = "SearchBlueprints#AssertSearchResultsScore";
+
 		JSONWebcontent.addWebContent(
 			content = "WC Content",
 			groupName = "Guest",
@@ -296,6 +302,8 @@ definition {
 	}
 
 	test CreateBoostAssetType {
+		property test.name.skip.portal.instance = "SearchBlueprints#CreateBoostAssetType";
+
 		SearchBlueprints.addBlueprint(name = "My Blueprint");
 
 		var blueprintsID = SearchBlueprints.findBlueprintID(name = "My Blueprint");
@@ -343,6 +351,8 @@ definition {
 
 	@priority = "4"
 	test HideWebContentWithCustomElement {
+		property test.name.skip.portal.instance = "SearchBlueprints#HideWebContentWithCustomElement";
+
 		SearchBlueprints.addBlueprint(name = "Hide Test and Experimental Content");
 
 		var blueprintsID = SearchBlueprints.findBlueprintID(name = "Hide Test and Experimental Content");
@@ -488,6 +498,8 @@ definition {
 	}
 
 	test SearchBlueprintsByTitleOrDescription {
+		property test.name.skip.portal.instance = "SearchBlueprints#SearchBlueprintsByTitleOrDescription";
+
 		SearchBlueprints.addBlueprint(
 			description = "Blueprint Test Description",
 			name = "Test Blueprint - Adminicle");
@@ -510,6 +522,8 @@ definition {
 	}
 
 	test SortAndViewSearchBlueprints {
+		property test.name.skip.portal.instance = "SearchBlueprints#SortAndViewSearchBlueprints";
+
 		SearchBlueprints.tearDownCP();
 
 		for (var blueprintNumber : list "1,3,2") {
@@ -548,6 +562,8 @@ definition {
 	}
 
 	test ViewBlueprintsAssetDetails {
+		property test.name.skip.portal.instance = "SearchBlueprints#ViewBlueprintsAssetDetails";
+
 		JSONBlog.addEntry(
 			entryContent = "banana, red apple, blueberry!",
 			entryTitle = "Liferay Blogs Entry Apple");
