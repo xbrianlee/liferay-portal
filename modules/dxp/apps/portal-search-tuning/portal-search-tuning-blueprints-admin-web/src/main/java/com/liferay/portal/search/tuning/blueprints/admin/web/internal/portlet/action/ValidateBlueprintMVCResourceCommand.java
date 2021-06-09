@@ -1,0 +1,114 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of the Liferay Enterprise
+ * Subscription License ("License"). You may not use this file except in
+ * compliance with the License. You can obtain a copy of the License by
+ * contacting Liferay, Inc. See the License for the specific language governing
+ * permissions and limitations under the License, including but not limited to
+ * distribution rights of the Software.
+ *
+ *
+ *
+ */
+
+package com.liferay.portal.search.tuning.blueprints.admin.web.internal.portlet.action;
+
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.JSONPortletResponseUtil;
+import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCResourceCommand;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.search.tuning.blueprints.admin.web.internal.constants.BlueprintsAdminMVCCommandNames;
+import com.liferay.portal.search.tuning.blueprints.admin.web.internal.util.BlueprintsAdminRequestUtil;
+import com.liferay.portal.search.tuning.blueprints.constants.BlueprintsPortletKeys;
+import com.liferay.portal.search.tuning.blueprints.exception.BlueprintValidationException;
+import com.liferay.portal.search.tuning.blueprints.model.Blueprint;
+import com.liferay.portal.search.tuning.blueprints.searchresponse.json.translator.SearchResponseJSONTranslator;
+import com.liferay.portal.search.tuning.blueprints.service.BlueprintLocalService;
+import com.liferay.portal.search.tuning.blueprints.validator.BlueprintValidator;
+
+import java.util.ResourceBundle;
+
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+/**
+ * @author Petteri Karttunen
+ */
+@Component(
+	immediate = true,
+	property = {
+		"javax.portlet.name=" + BlueprintsPortletKeys.BLUEPRINTS_ADMIN,
+		"mvc.command.name=" + BlueprintsAdminMVCCommandNames.VALIDATE_BLUEPRINT
+	},
+	service = MVCResourceCommand.class
+)
+public class ValidateBlueprintMVCResourceCommand
+	extends BaseMVCResourceCommand {
+
+	@Override
+	protected void doServeResource(
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+		throws Exception {
+
+		JSONObject responseJSONObject = null;
+
+		try {
+			Blueprint blueprint = _getBlueprint(resourceRequest);
+
+			_blueprintValidator.validateConfiguration(
+				blueprint.getConfiguration());
+		}
+		catch (BlueprintValidationException blueprintValidationException) {
+			_log.error(
+				blueprintValidationException.getMessage(),
+				blueprintValidationException);
+
+			responseJSONObject =
+				_blueprintsJSONResponseBuilder.translateErrorMessages(
+					blueprintValidationException.getMessages(),
+					_getResourceBundle(resourceRequest));
+		}
+
+		JSONPortletResponseUtil.writeJSON(
+			resourceRequest, resourceResponse, responseJSONObject);
+	}
+
+	private Blueprint _getBlueprint(ResourceRequest resourceRequest) {
+		Blueprint blueprint = _blueprintLocalService.createBlueprint(0L);
+
+		blueprint.setConfiguration(
+			BlueprintsAdminRequestUtil.getConfiguration(resourceRequest));
+
+		return blueprint;
+	}
+
+	private ResourceBundle _getResourceBundle(ResourceRequest resourceRequest) {
+		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		return ResourceBundleUtil.getBundle(
+			"content.Language", themeDisplay.getLocale(), getClass());
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ValidateBlueprintMVCResourceCommand.class);
+
+	@Reference
+	private BlueprintLocalService _blueprintLocalService;
+
+	@Reference
+	private SearchResponseJSONTranslator _blueprintsJSONResponseBuilder;
+
+	@Reference
+	private BlueprintValidator _blueprintValidator;
+
+}
