@@ -77,7 +77,7 @@ definition {
 		var portalURL = JSONCompany.getPortalURL();
 
 		var curl = '''
-				${portalURL}/api/jsonws/commerce.commerceaccountgroup/search-commerce-account-groups \
+				${portalURL}/api/jsonws/commerce.commerceaccountgroup/search \
 					-u test@liferay.com:test \
 					-d companyId=${companyId} \
 					-d keywords=${accountGroupName} \
