@@ -1803,6 +1803,34 @@ war.path=${app.server.portal.dir}/</echo>
 		</sequential>
 	</macrodef>
 
+	<target name="set-sidecar-permissions">
+		<echo>Dir: ${liferay.home}-1/elasticsearch-sidecar/7.14.0/modules/x-pack-ml/platform/linux-x86_64/bin</echo>
+
+		<exec dir="${liferay.home}-1/elasticsearch-sidecar/7.14.0/modules/x-pack-ml/platform/linux-x86_64/bin" executable="/bin/bash" osfamily="unix" outputproperty="permissions.check">
+			<arg value="-c" />
+			<arg value="ls -la" />
+		</exec>
+
+		<echo>Permissions Check: ${permissions.check}</echo>
+
+		<chmod
+			maxparallel="10"
+			perm="a+rwx"
+			type="both"
+		>
+			<fileset
+				dir="${liferay.home}-1/elasticsearch-sidecar"
+			/>
+		</chmod>
+
+		<exec dir="${liferay.home}-1/elasticsearch-sidecar/7.14.0/modules/x-pack-ml/platform/linux-x86_64/bin" executable="/bin/bash" osfamily="unix" outputproperty="permissions.check">
+			<arg value="-c" />
+			<arg value="ls -la" />
+		</exec>
+
+		<echo>Permissions Check: ${permissions.check}</echo>
+	</target>
+
 	<macrodef name="prepare-additional-bundles">
 		<sequential>
 			<if>
@@ -13810,6 +13838,8 @@ module.framework.properties.blacklist.portal.profile.names=${blacklist.portal.pr
 				</move>
 			</then>
 		</if>
+
+		<antcall target="set-sidecar-permissions" />
 
 		<antcall target="start-app-server-preserve-liferay-home" />
 
