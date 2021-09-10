@@ -1804,9 +1804,9 @@ war.path=${app.server.portal.dir}/</echo>
 	</macrodef>
 
 	<target name="set-sidecar-permissions">
-		<echo>Dir: ${liferay.home}-1/elasticsearch-sidecar/7.14.0/modules/x-pack-ml/platform/linux-x86_64/bin</echo>
+		<echo>test.app.server.parent.dir: ${test.app.server.parent.dir}</echo>
 
-		<exec dir="${liferay.home}-1/elasticsearch-sidecar/7.14.0/modules/x-pack-ml/platform/linux-x86_64/bin" executable="/bin/bash" osfamily="unix" outputproperty="permissions.check">
+		<exec dir="${test.app.server.parent.dir}/elasticsearch-sidecar/7.14.0/modules/x-pack-ml/platform/linux-x86_64/bin" executable="/bin/bash" osfamily="unix" outputproperty="permissions.check">
 			<arg value="-c" />
 			<arg value="ls -la" />
 		</exec>
@@ -1819,11 +1819,11 @@ war.path=${app.server.portal.dir}/</echo>
 			type="both"
 		>
 			<fileset
-				dir="${liferay.home}-1/elasticsearch-sidecar"
+				dir="${test.app.server.parent.dir}/elasticsearch-sidecar"
 			/>
 		</chmod>
 
-		<exec dir="${liferay.home}-1/elasticsearch-sidecar/7.14.0/modules/x-pack-ml/platform/linux-x86_64/bin" executable="/bin/bash" osfamily="unix" outputproperty="permissions.check">
+		<exec dir="${test.app.server.parent.dir}/elasticsearch-sidecar/7.14.0/modules/x-pack-ml/platform/linux-x86_64/bin" executable="/bin/bash" osfamily="unix" outputproperty="permissions.check">
 			<arg value="-c" />
 			<arg value="ls -la" />
 		</exec>
@@ -1871,6 +1871,8 @@ war.path=${app.server.portal.dir}/</echo>
 								<include name="*.sh" />
 							</fileset>
 						</chmod>
+
+						<antcall target="set-sidecar-permissions" />
 
 						<local name="jmx.remote.port.overwrite" />
 
@@ -13838,8 +13840,6 @@ module.framework.properties.blacklist.portal.profile.names=${blacklist.portal.pr
 				</move>
 			</then>
 		</if>
-
-		<antcall target="set-sidecar-permissions" />
 
 		<antcall target="start-app-server-preserve-liferay-home" />
 
