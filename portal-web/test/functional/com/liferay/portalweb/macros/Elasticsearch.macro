@@ -12,6 +12,22 @@ definition {
 		return "${clientVersion}";
 	}
 
+	macro getServerHealth {
+		if (!(isSet(port))) {
+			var port = Elasticsearch.getServerPort();
+		}
+
+		var curl = "http://localhost:${port}/_cluster/health";
+
+		var serverHealth = JSONCurlUtil.get("${curl}");
+
+		var serverHealth = RegexUtil.replace("${serverHealth}", "status&quot;:&quot;(.*)&quot;,", "1");
+
+		echo("Server Health: ${serverHealth}");
+
+		return "${serverHealth}";
+	}
+
 	macro getServerPort {
 		var remoteEnabled = Elasticsearch.isRemoteMode();
 
@@ -57,6 +73,23 @@ definition {
 			else {
 				return "false";
 			}
+		}
+		else {
+			return "false";
+		}
+	}
+
+	macro waitForServerHealthGreen {
+		if (!(isSet(port))) {
+			var port = Elasticsearch.getServerPort();
+		}
+
+		var curl = "http://localhost:${port}/_cluster/health";
+
+		var serverHealth = JSONCurlUtil.get("${curl}");
+
+		if (contains("${serverHealth}", "&quot;status&quot;:&quot;green&quot;")) {
+			return "true";
 		}
 		else {
 			return "false";

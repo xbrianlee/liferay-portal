@@ -596,6 +596,14 @@ definition {
 
 		WaitForConsoleTextPresent(value1 = "Stopping sidecar Elasticsearch");
 
+		var serverHealth = Elasticsearch.getServerHealth();
+
+		while (!(contains("${serverHealth}", "green"))) {
+			Pause.pauseNoSPARefresh(locator1 = "10000");
+
+			var serverHealth = Elasticsearch.getServerHealth();
+		}
+
 		// LRCI-2401
 
 		//Navigator.openSpecificURL(url = "http://localhost:9201");
