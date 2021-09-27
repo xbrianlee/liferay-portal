@@ -581,6 +581,7 @@ definition {
 
 	test SwitchSidecarToRemote {
 		property embedded.elasticsearch.only = "true";
+		property minimum.slave.ram = "24";
 		property test.name.skip.portal.instance = "Elasticsearch7#SwitchSidecarToRemote";
 
 		JSONWebcontent.addWebContent(
