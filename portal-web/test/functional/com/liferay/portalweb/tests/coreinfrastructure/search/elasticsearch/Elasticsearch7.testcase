@@ -584,11 +584,6 @@ definition {
 		property minimum.slave.ram = "24";
 		property test.name.skip.portal.instance = "Elasticsearch7#SwitchSidecarToRemote";
 
-		JSONWebcontent.addWebContent(
-			content = "WC WebContent Content",
-			groupName = "Guest",
-			title = "WC WebContent Title");
-
 		AntCommand(
 			locator1 = "build-test-elasticsearch7.xml",
 			value1 = "start-elasticsearch");
@@ -601,7 +596,10 @@ definition {
 
 		//AssertTextNotPresent(value1 = "cluster_name");
 
-		Navigator.openURL();
+		JSONWebcontent.addWebContent(
+			content = "WC WebContent Content",
+			groupName = "Guest",
+			title = "WC WebContent Title");
 
 		ApplicationsMenu.gotoPortlet(
 			category = "Configuration",
