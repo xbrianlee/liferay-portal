@@ -20,12 +20,18 @@ definition {
 			PortalInstances.tearDownCP();
 		}
 		else {
+			User.firstLoginPG();
+
+			JSONUser.tearDownNonAdminUsers();
+
 			ApplicationsMenu.gotoPortlet(
 				category = "Publications",
 				panel = "Applications",
 				portlet = "Settings");
 
 			Publications.disablePublications();
+
+			Click(locator1 = "Button#SUBMIT");
 		}
 	}
 
