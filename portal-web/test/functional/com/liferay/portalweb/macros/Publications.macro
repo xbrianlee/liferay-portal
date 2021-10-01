@@ -305,6 +305,16 @@ definition {
 			key_menuItem = "Invite Users",
 			locator1 = "MenuItem#ANY_MENU_ITEM");
 
+		if (isSet(userType)) {
+			Click(
+				key_text = "Viewer",
+				locator1 = "Button#ANY");
+
+			Click(
+				key_menuItem = "${userType}",
+				locator1 = "MenuItem#ANY_MENU_ITEM");
+		}
+
 		for (var keyword : list "${userInvite}") {
 			Type(
 				locator1 = "Publications#KEYWORD_TEXTFIELD",
@@ -317,7 +327,9 @@ definition {
 
 		Button.clickNoError(button = "Send");
 
-		AssertConfirm(value1 = "You are inviting user ${userInvite} who does not have access to Publications. This user will be assigned the Publications User role to gain access to Publications.");
+		if (!(isSet(userType))) {
+			AssertConfirm(value1 = "You are inviting user ${userInvite} who does not have access to Publications. This user will be assigned the Publications User role to gain access to Publications.");
+		}
 
 		Alert.viewSuccessMessage();
 	}
