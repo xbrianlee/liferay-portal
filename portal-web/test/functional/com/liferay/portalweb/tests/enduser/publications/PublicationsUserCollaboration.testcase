@@ -61,6 +61,11 @@ definition {
 			roleTitle = "Publications User",
 			userEmailAddress = "userea@liferay.com");
 
+		Permissions.definePermissionViaJSONAPI(
+			resourceAction = "UPDATE",
+			resourceName = "com.liferay.change.tracking.model.CTCollection",
+			roleTitle = "Publications User");
+
 		JSONPublications.addPublication(publicationName = "Publication Name");
 
 		JSONPublications.selectPublication(publicationName = "Publication Name");
