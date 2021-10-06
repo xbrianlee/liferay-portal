@@ -220,6 +220,13 @@ definition {
 				userEmailAddress = "userea${userNumber}@liferay.com");
 		}
 
+		for (var resourceActionIndex : list "PERMISSIONS,PUBLISH,VIEW") {
+			Permissions.definePermissionViaJSONAPI(
+				resourceAction = "${resourceActionIndex}",
+				resourceName = "com.liferay.change.tracking.model.CTCollection",
+				roleTitle = "Publications User");
+		}
+
 		JSONPublications.addPublication(publicationName = "Publication Name");
 
 		JSONPublications.selectPublication(publicationName = "Publication Name");
