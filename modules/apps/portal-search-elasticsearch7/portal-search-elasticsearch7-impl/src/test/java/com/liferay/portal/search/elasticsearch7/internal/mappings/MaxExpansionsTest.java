@@ -14,6 +14,7 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.mappings;
 
+import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.search.elasticsearch7.internal.ElasticsearchIndexingFixture;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchFixture;
 import com.liferay.portal.search.test.util.indexing.IndexingFixture;
@@ -27,6 +28,8 @@ import org.junit.Test;
 /**
  * @author Wade Cao
  */
+@NewEnv(type = NewEnv.Type.JVM)
+@NewEnv.JVMArgsLine("-Xms1024m -Xmx8192m")
 public class MaxExpansionsTest extends BaseMaxExpansionsTestCase {
 
 	@ClassRule
