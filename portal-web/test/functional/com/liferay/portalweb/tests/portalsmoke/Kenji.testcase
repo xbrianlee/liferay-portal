@@ -25,9 +25,9 @@ definition {
 	test HostnamePort9201 {
 		property portal.smoke="kenji";
 
-		var portalURL = PropsUtil.get("portal.url");
+		var hostnameURL = PropsUtil.get("hostname.url");
 
-		var elasticSearchURL = StringUtil.replace("${portalURL}", "8080", "9201");
+		var elasticSearchURL = StringUtil.replace("${hostnameURL}", "8080", "9201");
 
 		var curl = "${elasticSearchURL}/_tasks";
 
