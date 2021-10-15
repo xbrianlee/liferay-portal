@@ -18,7 +18,7 @@ definition {
 
 		var elasticsearchTasks = JSONCurlUtil.get("${curl}");
 
-		echo ("${elasticsearchTasks}");
+		echo("${elasticsearchTasks}");
 	}
 
 	@priority = "5"
@@ -33,7 +33,7 @@ definition {
 
 		var elasticsearchTasks = JSONCurlUtil.get("${curl}");
 
-		echo ("${elasticsearchTasks}");
+		echo("${elasticsearchTasks}");
 	}
 
 }
