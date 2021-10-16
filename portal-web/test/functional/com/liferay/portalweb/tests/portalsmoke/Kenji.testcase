@@ -55,7 +55,7 @@ definition {
 
 		var osContainerName = StringUtil.replace("${portalURL}", "8080", "9201");
 
-		var curl = "http://${osContainerName}/_tasks";
+		var curl = "${osContainerName}/_tasks";
 
 		var elasticsearchTasks = JSONCurlUtil.get("${curl}");
 
