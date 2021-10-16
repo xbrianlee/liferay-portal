@@ -47,4 +47,19 @@ definition {
 		echo("${elasticsearchTasks}");
 	}
 
+	@priority = "5"
+	test OSContainerNamePort9201 {
+		property portal.smoke="kenji";
+
+		var portalURL = PropsUtil.get("portal.url");
+
+		var osContainerName = StringUtil.replace("${portalURL}", "8080", "9201");
+
+		var curl = "http://${osContainerName}/_tasks";
+
+		var elasticsearchTasks = JSONCurlUtil.get("${curl}");
+
+		echo("${elasticsearchTasks}");
+	}
+
 }

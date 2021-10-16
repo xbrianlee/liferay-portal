@@ -5056,6 +5056,7 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 						\
 						${operating.system.docker.network.run.option} \
 						${operating.system.docker.run.options} \
+						--expose=9201 \
 						\
 						${operating.system.docker.image} \
 						\
