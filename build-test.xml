@@ -10725,6 +10725,7 @@ tokenLocation="REQUEST"</echo>
 		<echo append="true" file="${test.ext.properties.file}">
 			portal.url=${test.url}
 			hostname.url=http://${env.HOSTNAME}
+			node.name=${env.NODE_NAME}
 			selenium.executable.dir=${basedir.unix}/tools/selenium/
 			test.class.command.name=${test.class}
 		</echo>

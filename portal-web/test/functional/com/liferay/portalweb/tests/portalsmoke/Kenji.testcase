@@ -27,9 +27,20 @@ definition {
 
 		var hostnameURL = PropsUtil.get("hostname.url");
 
-		var elasticSearchURL = StringUtil.replace("${hostnameURL}", "8080", "9201");
+		var curl = "${hostnameURL}:9201/_tasks";
 
-		var curl = "${elasticSearchURL}/_tasks";
+		var elasticsearchTasks = JSONCurlUtil.get("${curl}");
+
+		echo("${elasticsearchTasks}");
+	}
+
+	@priority = "5"
+	test NodeNamePort9201 {
+		property portal.smoke="kenji";
+
+		var nodeName = PropsUtil.get("node.name");
+
+		var curl = "http://${nodeName}:9201/_tasks";
 
 		var elasticsearchTasks = JSONCurlUtil.get("${curl}");
 
