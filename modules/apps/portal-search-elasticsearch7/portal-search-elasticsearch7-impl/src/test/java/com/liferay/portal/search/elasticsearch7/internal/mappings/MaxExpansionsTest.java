@@ -20,6 +20,8 @@ import com.liferay.portal.search.test.util.indexing.IndexingFixture;
 import com.liferay.portal.search.test.util.mappings.BaseMaxExpansionsTestCase;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
+import java.util.Map;
+
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -65,7 +67,17 @@ public class MaxExpansionsTest extends BaseMaxExpansionsTestCase {
 	protected IndexingFixture createIndexingFixture() throws Exception {
 		return new ElasticsearchIndexingFixture() {
 			{
-				setElasticsearchFixture(new ElasticsearchFixture(getClass()));
+				ElasticsearchFixture elasticsearchFixture =
+					new ElasticsearchFixture(getClass());
+
+				Map<String, Object> elasticsearchConfigurationProperties =
+					elasticsearchFixture.
+						getElasticsearchConfigurationProperties();
+
+				elasticsearchConfigurationProperties.put(
+					"sidecarJVMOptions", "-Xmx1024m");
+
+				setElasticsearchFixture(elasticsearchFixture);
 				setLiferayMappingsAddedToIndex(true);
 			}
 		};
