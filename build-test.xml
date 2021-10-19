@@ -2743,7 +2743,9 @@ include-and-override=portal-liferay-online-limit.properties</echo>
 
 	<macrodef name="prepare-portal-elasticsearch-osgi-configuration">
 		<sequential>
-			<echo file="${liferay.home}/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config">logExceptionsOnly=B"false"${line.separator}sidecarShutdownTimeout=L"20000"${line.separator}sidecarHttpPort="AUTO"${line.separator}sidecarJVMOptions=["-Xms256m","-Xmx512m"]</echo>
+			<echo file="${liferay.home}/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config">httpCORSAllowOrigin="*"${line.separator}httpCORSEnabled=B"true"${line.separator}logExceptionsOnly=B"false"${line.separator}networkHost="http://${env.HOSTNAME}:9201"${line.separator}sidecarShutdownTimeout=L"20000"${line.separator}sidecarHttpPort="AUTO"${line.separator}sidecarJVMOptions=["-Xms256m","-Xmx512m"]</echo>
+
+			<print-file file.name="${liferay.home}/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config" />
 		</sequential>
 	</macrodef>
 
@@ -5056,12 +5058,35 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 						\
 						${operating.system.docker.network.run.option} \
 						${operating.system.docker.run.options} \
+						--expose=9201 \
 						\
 						${operating.system.docker.image} \
 						\
 						${operating.system.docker.os.options}
 				]]>
 			</echo>
+
+			<echo>
+				<![CDATA[
+					docker run \
+						--detach \
+						--hostname=${operating.system.host} \
+						--interactive \
+						--mount type=bind,source=${host.git.dir}/${portal.dir.name},target=${portal.dir} \
+						--name=${operating.system.host} \
+						--tty \
+						\
+						${operating.system.docker.network.run.option} \
+						${operating.system.docker.run.options} \
+						--expose=9201 \
+						\
+						${operating.system.docker.image} \
+						\
+						${operating.system.docker.os.options}
+				]]>
+			</echo>
+
+			<print-file file.name="${docker.os.start.script}" />
 
 			<chmod
 				perm="a+x"
@@ -10724,6 +10749,8 @@ tokenLocation="REQUEST"</echo>
 
 		<echo append="true" file="${test.ext.properties.file}">
 			portal.url=${test.url}
+			hostname.url=http://${env.HOSTNAME}
+			node.name=${env.NODE_NAME}
 			selenium.executable.dir=${basedir.unix}/tools/selenium/
 			test.class.command.name=${test.class}
 		</echo>
