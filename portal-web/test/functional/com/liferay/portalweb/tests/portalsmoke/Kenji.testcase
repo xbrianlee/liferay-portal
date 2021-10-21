@@ -1,0 +1,41 @@
+@component-name = "portal-smoke"
+definition {
+	property testray.main.component.name = "Smoke";
+
+	setUp {
+		Open(locator1 = "http://www.google.com");
+	}
+
+	tearDown {
+		Open(locator1 = "http://www.google.com");
+	}
+
+	@priority = "5"
+	test PortalHostnamePort9201 {
+		property portal.smoke="kenji";
+
+		var portalHostname = PropsUtil.get("portal.hostname");
+
+		var curl = "${portalHostname}:9201/_tasks";
+
+		var elasticsearchTasks = JSONCurlUtil.get("${curl}");
+
+		echo("${elasticsearchTasks}");
+	}
+
+	@priority = "5"
+	test OSContainerNamePort9201 {
+		property portal.smoke="kenji";
+
+		var portalURL = PropsUtil.get("portal.url");
+
+		var osContainerName = StringUtil.replace("${portalURL}", "8080", "9201");
+
+		var curl = "${osContainerName}/_tasks";
+
+		var elasticsearchTasks = JSONCurlUtil.get("${curl}");
+
+		echo("${elasticsearchTasks}");
+	}
+
+}
