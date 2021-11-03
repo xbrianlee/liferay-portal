@@ -80,9 +80,21 @@ definition {
 				assigneeType = "Segments",
 				roleTitle = "Roles Regrole Name");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 	}
 
 	tearDown {
+		PublicationsNavigator.gotoPublish(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication Name");
+
+		Publications.publishPublication(publicationName = "Publication Name");
+
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {

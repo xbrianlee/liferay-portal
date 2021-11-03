@@ -62,6 +62,12 @@ definition {
 	}
 
 	tearDown {
+		PublicationsNavigator.gotoPublish(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication Name");
+
+		Publications.publishPublication(publicationName = "Publication Name");
+
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
@@ -76,6 +82,12 @@ definition {
 	@priority = "5"
 	test AddNewAnyoneExperience {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name/experience-content-page");
 
@@ -137,6 +149,12 @@ definition {
 	test AddNewExperienceAfterCancelEdit {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name/experience-content-page");
 
 		ContentPages.gotoPageEditor();
@@ -182,6 +200,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceBasedOtherSegmentsSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		for (var num : list "1,2") {
 			JSONSegmentsentry.addSegment(
@@ -275,6 +299,12 @@ definition {
 
 		PortletEntry.save();
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -341,6 +371,12 @@ definition {
 	test AddNewExperienceOrganizationDateModifiedSegment {
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		LexiconEntry.gotoAdd();
 
 		Segmentation.gotoSidebar(fieldType = "Organization");
@@ -402,6 +438,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceOrganizationHierarchyPathSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -469,6 +511,12 @@ definition {
 	test AddNewExperienceOrganizationNameSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -534,6 +582,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceOrganizationOrganizationSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -612,6 +666,12 @@ definition {
 		Organization.selectParentOrganizationCP(
 			orgName = "Suborganization Name",
 			parentOrgName = "organization Name");
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -696,6 +756,12 @@ definition {
 
 		PortletEntry.save();
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -772,6 +838,12 @@ definition {
 		AssetCategorization.addTag(tagName = "tagName");
 
 		PortletEntry.save();
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -872,6 +944,12 @@ definition {
 			organizationName = "United States",
 			userEmailAddress = "userea2@liferay.com");
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -937,6 +1015,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceSessionBrowserSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name/experience-content-page");
 
@@ -1035,6 +1119,12 @@ definition {
 			userLastName = "userln",
 			userScreenName = "usersn");
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -1095,6 +1185,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceSessionDeviceBrandSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -1157,6 +1253,12 @@ definition {
 	test AddNewExperienceSessionDeviceModelSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -1218,6 +1320,12 @@ definition {
 	test AddNewExperienceSessionDeviceScreenResolutionHeightSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -1278,6 +1386,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceSessionDeviceScreenResolutionWidthSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -1441,6 +1555,12 @@ definition {
 	test AddNewExperienceSessionLastSignInDateSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -1500,6 +1620,12 @@ definition {
 	test AddNewExperienceSessionLocalDateSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -1558,6 +1684,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceSessionReferrerURLSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -1627,6 +1759,12 @@ definition {
 	test AddNewExperienceSessionRequestParametersSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -1689,6 +1827,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceSessionSignedInSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name/experience-content-page");
 
@@ -1771,6 +1915,12 @@ definition {
 	test AddNewExperienceSessionURLSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -1832,6 +1982,12 @@ definition {
 	test AddNewExperienceSessionUserAgentSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -1892,6 +2048,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceUserDateModifiedSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -1955,6 +2117,12 @@ definition {
 	test AddNewExperienceUserDateOfBirthSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -2016,6 +2184,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceUserEmailAddressSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -2081,6 +2255,12 @@ definition {
 	test AddNewExperienceUserFirstNameSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -2144,6 +2324,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceUserJobTitleSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -2209,6 +2395,12 @@ definition {
 	test AddNewExperienceUserLastNameSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -2272,6 +2464,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceUserNameSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -2337,6 +2535,12 @@ definition {
 	test AddNewExperienceUserRoleSegment {
 		property portal.acceptance = "false";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -2400,6 +2604,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceUserScreenNameSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -2486,6 +2696,12 @@ definition {
 
 		SearchAdministration.executeSearchActions(actionsDescription = "Reindex search indexes.");
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -2548,6 +2764,12 @@ definition {
 		JSONGroup.assignUserToGroup(
 			groupName = "Test Site Name",
 			userEmailAddress = "userea2@liferay.com");
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -2614,6 +2836,12 @@ definition {
 			userFirstName = "userfn",
 			userLastName = "userln",
 			userScreenName = "usersn");
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -2687,6 +2915,12 @@ definition {
 		Team.assignMembersCP(
 			teamName = "Site Team Name",
 			userScreenName = "usersn1");
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -2764,6 +2998,12 @@ definition {
 
 		SearchAdministration.executeSearchActions(actionsDescription = "Reindex search indexes.");
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
 		LexiconEntry.gotoAdd();
@@ -2822,6 +3062,12 @@ definition {
 	@priority = "5"
 	test AddNewExperienceUserUserSegment {
 		property portal.acceptance = "false";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -2882,6 +3128,12 @@ definition {
 	@uitest
 	test AddTwoExperiencesBelowDefault {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment for the user created") {
 			JSONSegmentsentry.addSegment(
@@ -2977,6 +3229,12 @@ definition {
 	@uitest
 	test AddTwoExperiencesOverDefault {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment for the user created") {
 			JSONSegmentsentry.addSegment(
@@ -3076,6 +3334,12 @@ definition {
 	test DuplicateExperience {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name/experience-content-page");
 
 		ContentPages.gotoPageEditor();
@@ -3147,6 +3411,12 @@ definition {
 	test EditAndDeleteExperience {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name/experience-content-page");
 
 		ContentPages.gotoPageEditor();
@@ -3167,6 +3437,12 @@ definition {
 	@description = "This is a test for LPS-132573. Assert no error occurs after switching back to default experience with fragment removed."
 	@priority = "4"
 	test RemoveFragmentAndChangeBackToDefaultExperience {
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		JSONWebcontent.addWebContent(
 			content = "Web Content Content",
 			groupName = "Test Site Name",

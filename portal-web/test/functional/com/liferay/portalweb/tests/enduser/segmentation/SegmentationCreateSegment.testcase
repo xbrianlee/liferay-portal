@@ -19,6 +19,12 @@ definition {
 	}
 
 	tearDown {
+		PublicationsNavigator.gotoPublish(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication Name");
+
+		Publications.publishPublication(publicationName = "Publication Name");
+
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		if ("${testPortalInstance}" == "true") {
@@ -83,6 +89,12 @@ definition {
 			PortletEntry.save();
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			Segmentation.openSegmentsAdmin(siteURLKey = "guest");
 
@@ -139,6 +151,12 @@ definition {
 				userEmailAddress = "userea@liferay.com");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -190,6 +208,12 @@ definition {
 				organizationName = "Organization Name",
 				userEmailAddress = "userea@liferay.com");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
@@ -243,6 +267,12 @@ definition {
 				userEmailAddress = "userea@liferay.com");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -293,6 +323,12 @@ definition {
 				organizationName = "Organization Name",
 				userEmailAddress = "userea@liferay.com");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
@@ -352,6 +388,12 @@ definition {
 				parentOrganizationName = "Parent Organization Name",
 				userEmailAddress = "userea@liferay.com");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
@@ -426,6 +468,12 @@ definition {
 			PortletEntry.save();
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			Segmentation.openSegmentsAdmin(siteURLKey = "guest");
 
@@ -495,6 +543,12 @@ definition {
 			PortletEntry.save();
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			Segmentation.openSegmentsAdmin(siteURLKey = "guest");
 
@@ -551,6 +605,12 @@ definition {
 				userEmailAddress = "userea@liferay.com");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -595,6 +655,12 @@ definition {
 				userLastName = "userln2",
 				userScreenName = "usersn2");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add 2 segments") {
 			JSONSegmentsentry.addSegment(
@@ -645,6 +711,12 @@ definition {
 	test AddSegmentByOtherSegmentsUnableToAddNewSegments {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Assert in the segment select that it's not possible to create new segments") {
 			LexiconEntry.gotoAdd();
 
@@ -685,6 +757,12 @@ definition {
 				userLastName = "userln2",
 				userScreenName = "usersn2");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add 2 segments") {
 			JSONSegmentsentry.addSegment(
@@ -743,6 +821,12 @@ definition {
 	test AddSegmentBySessionBrowser {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -771,6 +855,12 @@ definition {
 	@uitest
 	test AddSegmentBySessionCookies {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
@@ -805,6 +895,12 @@ definition {
 	test AddSegmentBySessionDeviceBrand {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -834,6 +930,12 @@ definition {
 	test AddSegmentBySessionDeviceModel {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -862,6 +964,12 @@ definition {
 	@uitest
 	test AddSegmentBySessionDeviceScreenResolutionHeight {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
@@ -894,6 +1002,12 @@ definition {
 	test AddSegmentBySessionDeviceScreenResolutionWidth {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -925,6 +1039,12 @@ definition {
 	test AddSegmentBySessionHostname {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -953,6 +1073,12 @@ definition {
 	@uitest
 	test AddSegmentBySessionLanguage {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
@@ -988,6 +1114,12 @@ definition {
 	test AddSegmentBySessionLastSignInDate {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1018,6 +1150,12 @@ definition {
 	@uitest
 	test AddSegmentBySessionLocalDate {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
@@ -1050,6 +1188,12 @@ definition {
 	test AddSegmentBySessionReferrerURL {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1078,6 +1222,12 @@ definition {
 	@uitest
 	test AddSegmentBySessionRequestParameters {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
@@ -1111,6 +1261,12 @@ definition {
 	@uitest
 	test AddSegmentBySessionSignedIn {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
@@ -1146,6 +1302,12 @@ definition {
 	test AddSegmentBySessionURL {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1174,6 +1336,12 @@ definition {
 	@uitest
 	test AddSegmentBySessionUserAgent {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
@@ -1221,6 +1389,12 @@ definition {
 				userEmailAddress = "userea@liferay.com");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1262,6 +1436,12 @@ definition {
 				requireReset = "false",
 				userEmailAddress = "userea@liferay.com");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
@@ -1307,6 +1487,12 @@ definition {
 				userEmailAddress = "userea@liferay.com");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1338,6 +1524,12 @@ definition {
 	test AddSegmentByUserEmailAddressEquals {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1361,6 +1553,12 @@ definition {
 	test AddSegmentByUserEmailAddressNotContains {
 		property portal.acceptance = "true";
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1383,6 +1581,12 @@ definition {
 	@uitest
 	test AddSegmentByUserEmailAddressNotEquals {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment") {
 			LexiconEntry.gotoAdd();
@@ -1419,6 +1623,12 @@ definition {
 				requireReset = "false",
 				userEmailAddress = "userea@liferay.com");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
@@ -1463,6 +1673,12 @@ definition {
 				userEmailAddress = "userea@liferay.com");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1505,6 +1721,12 @@ definition {
 				userEmailAddress = "userea@liferay.com");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1546,6 +1768,12 @@ definition {
 				requireReset = "false",
 				userEmailAddress = "userea@liferay.com");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
@@ -1594,6 +1822,12 @@ definition {
 				userEmailAddress = "userea@liferay.com");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1637,6 +1871,12 @@ definition {
 				requireReset = "false",
 				userEmailAddress = "userea@liferay.com");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
@@ -1682,6 +1922,12 @@ definition {
 				groupName = "Test Site Name",
 				userEmailAddress = "userea@liferay.com");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
@@ -1749,6 +1995,12 @@ definition {
 			SearchAdministration.executeSearchActions(actionsDescription = "Reindex search indexes.");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			Segmentation.openSegmentsAdmin(siteURLKey = "guest");
 
@@ -1790,6 +2042,12 @@ definition {
 				userLastName = "userln",
 				userScreenName = "usersn");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
@@ -1850,6 +2108,12 @@ definition {
 				userScreenName = "usersn");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			Segmentation.openSegmentsAdmin(siteURLKey = "test-site-name");
 
@@ -1891,6 +2155,12 @@ definition {
 				userScreenName = "usersn");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -1930,6 +2200,12 @@ definition {
 				userLastName = "userln",
 				userScreenName = "usersn");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Add group and assign to the user") {
 			JSONUserGroup.addUserGroup(
@@ -1980,6 +2256,12 @@ definition {
 	test CheckDefaultLanguageTag {
 		var defaultLanguage = Segmentation.getPortalInstanceDefaultLanguageId();
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Go to add segment screen") {
 			LexiconEntry.gotoAdd();
 		}
@@ -1994,6 +2276,12 @@ definition {
 	@description = "LPS-135495 Validate if, Input title values can only be changed in edit mode."
 	@priority = "3"
 	test CheckEditableTranslatedInputTitle {
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Create a segment") {
 			JSONSegmentsentry.addSegment(
 				fieldName = "Screen Name",
@@ -2033,6 +2321,12 @@ definition {
 	@description = "LPS-135495 Validate if, The title shown in the segments list shows the value for the current user language or the value for the criteria default language."
 	@priority = "3"
 	test CheckTitleLanguageInSegmentsList {
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Create new segment") {
 			JSONSegmentsentry.addSegment(
 				fieldName = "Screen Name",
@@ -2144,6 +2438,12 @@ definition {
 				userScreenName = "u1");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -2193,6 +2493,12 @@ definition {
 				userScreenName = "u1");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment and check the user Belongs To the segment") {
 			LexiconEntry.gotoAdd();
 
@@ -2237,6 +2543,12 @@ definition {
 			var organizationId = JSONOrganization.getOrganizationIdByName(organizationName = "Organization Name");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Create a segment using the property") {
 			LexiconEntry.gotoAdd();
 
@@ -2275,6 +2587,12 @@ definition {
 			var organizationId = JSONOrganization.getOrganizationIdByName(organizationName = "Parent Organization Name");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Create a segment using the property") {
 			LexiconEntry.gotoAdd();
 
@@ -2303,6 +2621,12 @@ definition {
 	@description = "LPS-135969 Validate if, on Segmentation, when the user clicks in a different Property section the contributor area of this section will be displayed."
 	@priority = "3"
 	test ValidatePropertyDisplayedInSection {
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Click on USER field type and asser if its properties are displayed.") {
 			LexiconEntry.gotoAdd();
 
@@ -2339,6 +2663,12 @@ definition {
 	@description = "LPS-135969 Validate if, on Segmentation, the user can't drag and drop fields into different Property section."
 	@priority = "3"
 	test ValidatePropertyDragAndDropToSections {
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Create a segment") {
 			JSONSegmentsentry.addSegment(
 				fieldName = "Screen Name",
@@ -2388,6 +2718,12 @@ definition {
 	@description = "LPS-135969 Validate if, on Segmentation, when the user clicks in a different Property section the contributor area of the others sections will be disabled."
 	@priority = "3"
 	test ValidatePropertyNotDisplayedDifferentSection {
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Click on USER field type and assert if other properties are not displayed") {
 			LexiconEntry.gotoAdd();
 
@@ -2436,6 +2772,12 @@ definition {
 			var roleId = JSONPermissionSetter.setRoleId(roleTitle = "Administrator");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Create a segment using the property") {
 			JSONSegmentsentry.addSegment(
 				fieldName = "Regular Role",
@@ -2464,6 +2806,12 @@ definition {
 
 			var siteID = JSONGroupSetter.setGroupId(groupName = "Test Site Name");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Create a segment using the property") {
 			JSONSegmentsentry.addSegment(
@@ -2495,6 +2843,12 @@ definition {
 				teamDescription = "Site Team Description",
 				teamName = "Site Team Name");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Create segment using the property") {
 			Segmentation.openSegmentsAdmin(siteURLKey = "guest");
@@ -2528,6 +2882,12 @@ definition {
 			var userId = JSONUserSetter.setUserId(userEmailAddress = "test@liferay.com");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Create a segment using the property") {
 			JSONSegmentsentry.addSegment(
 				fieldName = "User",
@@ -2557,6 +2917,12 @@ definition {
 			var userGroupId = JSONUserGroupSetter.setUserGroupId(userGroupName = "Test Group Name");
 		}
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Create a segment using the property") {
 			JSONSegmentsentry.addSegment(
 				fieldName = "User Group",
@@ -2582,6 +2948,12 @@ definition {
 	@uitest
 	test ViewSegmentFieldsType {
 		property portal.acceptance = "true";
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Check the field types appear in the segments editor") {
 			LexiconEntry.gotoAdd();
@@ -2620,6 +2992,12 @@ definition {
 
 			Button.click(button = "Add");
 		}
+
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
 
 		task ("Check if Vocabularies Created are being displayed") {
 			Click(locator1 = "Segmentation#SESSION_PROPERTY_SESSION_LINK_VOCABULARY");

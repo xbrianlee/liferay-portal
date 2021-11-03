@@ -13,6 +13,12 @@ definition {
 
 		JSONGroup.addGroup(groupName = "Test Site Name");
 
+		JSONPublications.enablePublications();
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
 		task ("Add segment in Test Site Name") {
 			JSONSegmentsentry.addSegment(
 				fieldName = "Email Address",
@@ -24,6 +30,12 @@ definition {
 	}
 
 	tearDown {
+		PublicationsNavigator.gotoPublish(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication Name");
+
+		Publications.publishPublication(publicationName = "Publication Name");
+
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
 		Navigator.openURL();
