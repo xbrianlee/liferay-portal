@@ -53,6 +53,8 @@ definition {
 			layoutName = "Experience Content Page",
 			type = "content");
 
+		Publications.createNewSegment();
+
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/experience-content-page");
 
 		ContentPages.gotoPageEditor();
