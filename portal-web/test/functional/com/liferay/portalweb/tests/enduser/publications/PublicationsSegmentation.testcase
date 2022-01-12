@@ -53,20 +53,6 @@ definition {
 			layoutName = "Experience Content Page",
 			type = "content");
 
-		Segmentation.openSegmentsAdmin(siteURLKey = "guest");
-
-		LexiconEntry.gotoAdd();
-
-		Segmentation.addProperties(propertyOption = "Regular Role");
-
-		Segmentation.fillTitle(titleField = "Segment Title");
-
-		Segmentation.changeCriterionInput(criterionInputOption = "Equals");
-
-		Segmentation.fillProperty(selectCheckbox = "Administrator");
-
-		Button.clickSave();
-
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/experience-content-page");
 
 		ContentPages.gotoPageEditor();

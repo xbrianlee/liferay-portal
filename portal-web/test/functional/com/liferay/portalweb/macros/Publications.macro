@@ -85,6 +85,22 @@ definition {
 		Alert.viewSuccessMessage();
 	}
 
+	macro createNewSegment {
+		Segmentation.openSegmentsAdmin(siteURLKey = "guest");
+
+		LexiconEntry.gotoAdd();
+
+		Segmentation.addProperties(propertyOption = "Regular Role");
+
+		Segmentation.fillTitle(titleField = "Segment Title");
+
+		Segmentation.changeCriterionInput(criterionInputOption = "Equals");
+
+		Segmentation.fillProperty(selectCheckbox = "Administrator");
+
+		Button.clickSave();
+	}
+
 	macro deletePublication {
 		PublicationsNavigator._gotoPublicationEllipsisItem(
 			menuItem = "Delete",
