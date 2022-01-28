@@ -586,14 +586,14 @@ definition {
 		property embedded.elasticsearch.only = "true";
 		property test.name.skip.portal.instance = "Elasticsearch7#SwitchSidecarToRemote";
 
+		AntCommand(
+			locator1 = "build-test-elasticsearch7.xml",
+			value1 = "start-elasticsearch");
+
 		JSONWebcontent.addWebContent(
 			content = "WC WebContent Content",
 			groupName = "Guest",
 			title = "WC WebContent Title");
-
-		AntCommand(
-			locator1 = "build-test-elasticsearch7.xml",
-			value1 = "start-elasticsearch");
 
 		WaitForConsoleTextPresent(value1 = "Stopping sidecar Elasticsearch");
 
