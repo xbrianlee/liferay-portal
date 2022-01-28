@@ -604,7 +604,10 @@ definition {
 
 		Navigator.openURL();
 
-		SearchAdministration.openSearchAdmin();
+		ApplicationsMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Search");
 
 		var clientVersion = Elasticsearch.getClientVersion();
 
