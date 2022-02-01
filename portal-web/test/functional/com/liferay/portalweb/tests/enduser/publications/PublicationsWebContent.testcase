@@ -110,9 +110,7 @@ definition {
 
 		PublicationsChanges.discardChanges(
 			changeCategory = "WC Folder Name",
-			changeTitle = "WC Folder Name Edited",
-			conflictingChanges = "true",
-			entryTitle = "WC Folder Name Edited");
+			changeTitle = "WC Folder Name Edited");
 
 		JSONPublications.publishPublication(publicationName = "Publication 1 Name");
 
