@@ -1,5 +1,23 @@
 definition {
 
+	macro changeLogLevels {
+		ApplicationsMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "System Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Search",
+			configurationName = "Elasticsearch 7",
+			configurationScope = "System Scope");
+
+		FormFields.selectSelectOption(
+			fieldName = "REST Client Logger Level",
+			selectOption = "${selectOption}");
+
+		SystemSettings.saveConfiguration();
+	}
+
 	macro getClientVersion {
 		var projectDir = PropsUtil.get("project.dir");
 		var fileContent = FileUtil.read("${projectDir}/modules/apps/portal-search-elasticsearch7/portal-search-elasticsearch7-impl/build.gradle");
