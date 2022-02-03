@@ -629,6 +629,8 @@ definition {
 			locator1 = "SearchAdmin#CONNECTION_ID",
 			value1 = "__SIDECAR__");
 
+		WaitForConsoleTextPresent(value1 = "Returning connection with ID: __REMOTE__");
+
 		SearchAdministration.executeReindex();
 
 		Navigator.openURL();
