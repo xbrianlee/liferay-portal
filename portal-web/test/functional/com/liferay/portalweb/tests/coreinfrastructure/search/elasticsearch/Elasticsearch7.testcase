@@ -591,6 +591,8 @@ definition {
 			groupName = "Guest",
 			title = "WC WebContent Title");
 
+		Elasticsearch.changeLogLevels(selectOption = "INFO");
+
 		AntCommand(
 			locator1 = "build-test-elasticsearch7.xml",
 			value1 = "start-elasticsearch");
