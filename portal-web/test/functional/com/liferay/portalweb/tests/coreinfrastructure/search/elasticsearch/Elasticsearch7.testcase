@@ -592,13 +592,21 @@ definition {
 			groupName = "Guest",
 			title = "WC WebContent Title");
 
-		Elasticsearch.changeLogLevels(selectOption = "INFO");
+		var baseURL = PropsUtil.get("portal.url");
+
+		ServerAdministration.openServerAdmin();
+
+		ServerAdministration.addCategoryLogLevels(
+			categoryLevel = "INFO",
+			categoryName = "com.liferay.portal.search.elasticsearch7.internal.connection");
 
 		AntCommand(
 			locator1 = "build-test-elasticsearch7.xml",
 			value1 = "start-elasticsearch");
 
 		WaitForConsoleTextPresent(value1 = "Stopping sidecar Elasticsearch");
+
+		WaitForConsoleTextPresent(value1 = "Returning connection with ID: __REMOTE__");
 
 		// LRCI-2401
 
@@ -629,8 +637,6 @@ definition {
 		AssertTextNotEquals.assertNotPartialText(
 			locator1 = "SearchAdmin#CONNECTION_ID",
 			value1 = "__SIDECAR__");
-
-		WaitForConsoleTextPresent(value1 = "Returning connection with ID: __REMOTE__");
 
 		SearchAdministration.executeReindex();
 
