@@ -51,6 +51,18 @@ definition {
 		Navigator.gotoNavItem(navItem = "Define Permissions");
 
 		Role.viewPermissionCP(
+			permissionDefinitionValue = "Access in Control Panel",
+			permissionNavigationValue = "Publications");
+
+		Role.viewPermissionCP(
+			permissionDefinitionValue = "Add Publication",
+			permissionNavigationValue = "Publications");
+
+		Role.viewPermissionCP(
+			permissionDefinitionValue = "View",
+			permissionNavigationValue = "Publications");
+
+		Role.viewPermissionCP(
 			permissionDefinitionValue = "View Control Panel Menu",
 			permissionNavigationValue = "Portal");
 	}
