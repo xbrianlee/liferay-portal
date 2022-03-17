@@ -4533,6 +4533,16 @@ go</echo>
 				<then>
 					<delete dir="${liferay.home}/elasticsearch7" failonerror="false" />
 				</then>
+				<else>
+					<replace
+						file="${liferay.home}/elasticsearch-sidecar/7.17.0/modules/x-pack-ml/plugin-descriptor.properties"
+					>
+						<replacetoken><![CDATA[has.native.controller=true]]></replacetoken>
+						<replacevalue><![CDATA[has.native.controller=false]]></replacevalue>
+					</replace>
+
+					<print-file file.name="${liferay.home}/elasticsearch-sidecar/7.17.0/modules/x-pack-ml/plugin-descriptor.properties" />
+				</else>
 			</if>
 		</sequential>
 	</macrodef>
