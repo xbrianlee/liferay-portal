@@ -216,6 +216,7 @@ definition {
 
 	@priority = "5"
 	test ConflictingPublicationsAutomaticallyResolved {
+		property portal.acceptance = "brian";
 
 		// Workaround LPS-140997
 
