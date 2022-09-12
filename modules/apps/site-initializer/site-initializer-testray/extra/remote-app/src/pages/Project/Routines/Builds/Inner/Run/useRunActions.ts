@@ -12,40 +12,40 @@
  * details.
  */
 
-import useFormModal from '../../../hooks/useFormModal';
-import useMutate from '../../../hooks/useMutate';
-import i18n from '../../../i18n';
-import {TestrayFactorOption, deleteResource} from '../../../services/rest';
-import {Action} from '../../../types';
+import useFormModal from '../../../../../../hooks/useFormModal';
+import useMutate from '../../../../../../hooks/useMutate';
+import i18n from '../../../../../../i18n';
+import {TestrayRun, testrayRunImpl} from '../../../../../../services/rest';
+import {Action} from '../../../../../../types';
 
-const useFactorOptionsActions = () => {
+const useRunActions = () => {
 	const {removeItemFromList} = useMutate();
 	const formModal = useFormModal();
 	const modal = formModal.modal;
 
-	const actions: Action<TestrayFactorOption>[] = [
+	const actions = [
 		{
-			action: (factorOption) => modal.open(factorOption),
-			icon: 'pencil',
-			name: i18n.translate('edit'),
+			action: (run) => modal.open(run),
+			icon: 'display',
+			name: i18n.translate('select-environment-factors'),
 			permission: 'UPDATE',
 		},
 		{
 			action: ({id}, mutate) =>
-				deleteResource(`/factoroptions/${id}`)
-					?.then(() => removeItemFromList(mutate, id))
+				testrayRunImpl
+					.remove(id)
+					.then(() => removeItemFromList(mutate, id))
 					.then(modal.onSave)
 					.catch(modal.onError),
 			icon: 'trash',
 			name: i18n.translate('delete'),
 			permission: 'DELETE',
 		},
-	];
+	] as Action<TestrayRun>[];
 
 	return {
 		actions,
 		formModal,
 	};
 };
-
-export default useFactorOptionsActions;
+export default useRunActions;

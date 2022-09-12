@@ -23,11 +23,8 @@ import com.liferay.commerce.exception.CommerceAddressTypeException;
 import com.liferay.commerce.exception.CommerceAddressZipException;
 import com.liferay.commerce.model.CommerceAddress;
 import com.liferay.commerce.model.CommerceGeocoder;
-import com.liferay.commerce.model.CommerceOrder;
 import com.liferay.commerce.model.impl.CommerceAddressImpl;
-import com.liferay.commerce.service.CommerceOrderLocalService;
 import com.liferay.commerce.service.base.CommerceAddressLocalServiceBaseImpl;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Group;
@@ -47,8 +44,6 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 import com.liferay.portal.vulcan.util.TransformUtil;
-
-import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -169,31 +164,7 @@ public class CommerceAddressLocalServiceImpl
 		_addressLocalService.deleteAddress(
 			commerceAddress.getCommerceAddressId());
 
-		// Commerce orders
-
-		List<CommerceOrder> commerceOrders =
-			_commerceOrderLocalService.getCommerceOrdersByBillingAddress(
-				commerceAddress.getCommerceAddressId());
-
-		removeCommerceOrderAddresses(
-			commerceOrders, commerceAddress.getCommerceAddressId());
-
-		commerceOrders =
-			_commerceOrderLocalService.getCommerceOrdersByShippingAddress(
-				commerceAddress.getCommerceAddressId());
-
-		removeCommerceOrderAddresses(
-			commerceOrders, commerceAddress.getCommerceAddressId());
-
 		return commerceAddress;
-	}
-
-	@Override
-	public CommerceAddress deleteCommerceAddress(long commerceAddressId)
-		throws PortalException {
-
-		return CommerceAddressImpl.fromAddress(
-			_addressLocalService.deleteAddress(commerceAddressId));
 	}
 
 	@Override
@@ -579,54 +550,7 @@ public class CommerceAddressLocalServiceImpl
 			CommerceAddressImpl.toAddressTypeId(type), address.isMailing(),
 			address.isPrimary(), phoneNumber);
 
-		// Commerce orders
-
-		List<CommerceOrder> commerceOrders =
-			_commerceOrderLocalService.getCommerceOrdersByShippingAddress(
-				commerceAddressId);
-
-		for (CommerceOrder commerceOrder : commerceOrders) {
-			_commerceOrderLocalService.resetCommerceOrderShipping(
-				commerceOrder.getCommerceOrderId());
-		}
-
 		return CommerceAddressImpl.fromAddress(address);
-	}
-
-	protected void removeCommerceOrderAddresses(
-			List<CommerceOrder> commerceOrders, long commerceAddressId)
-		throws PortalException {
-
-		for (CommerceOrder commerceOrder : commerceOrders) {
-			long billingAddressId = commerceOrder.getBillingAddressId();
-			long shippingAddressId = commerceOrder.getShippingAddressId();
-
-			long commerceShippingMethodId =
-				commerceOrder.getCommerceShippingMethodId();
-			String shippingOptionName = commerceOrder.getShippingOptionName();
-			BigDecimal shippingPrice = commerceOrder.getShippingAmount();
-
-			if (billingAddressId == commerceAddressId) {
-				billingAddressId = 0;
-			}
-
-			if (shippingAddressId == commerceAddressId) {
-				shippingAddressId = 0;
-
-				commerceShippingMethodId = 0;
-				shippingOptionName = null;
-				shippingPrice = BigDecimal.ZERO;
-			}
-
-			_commerceOrderLocalService.updateCommerceOrder(
-				null, commerceOrder.getCommerceOrderId(), billingAddressId,
-				commerceShippingMethodId, shippingAddressId,
-				commerceOrder.getAdvanceStatus(),
-				commerceOrder.getCommercePaymentMethodKey(),
-				commerceOrder.getPurchaseOrderNumber(), shippingPrice,
-				shippingOptionName, commerceOrder.getSubtotal(),
-				commerceOrder.getTotal(), null);
-		}
 	}
 
 	protected void validate(
@@ -683,9 +607,6 @@ public class CommerceAddressLocalServiceImpl
 
 	@ServiceReference(type = CommerceGeocoder.class)
 	private CommerceGeocoder _commerceGeocoder;
-
-	@BeanReference(type = CommerceOrderLocalService.class)
-	private CommerceOrderLocalService _commerceOrderLocalService;
 
 	@ServiceReference(type = GroupLocalService.class)
 	private GroupLocalService _groupLocalService;

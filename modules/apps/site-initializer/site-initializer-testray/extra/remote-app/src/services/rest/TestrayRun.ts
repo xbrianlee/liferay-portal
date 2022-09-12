@@ -16,9 +16,9 @@ import yupSchema from '../../schema/yup';
 import Rest from './Rest';
 import {TestrayRun} from './types';
 
-type RunForm = typeof yupSchema.run.__outputType;
+type RunForm = Omit<typeof yupSchema.run.__outputType, 'id'>;
 
-class TestrayRunRest extends Rest<RunForm, TestrayRun> {
+class TestrayRunImpl extends Rest<RunForm, TestrayRun> {
 	constructor() {
 		super({
 			adapter: ({
@@ -59,4 +59,4 @@ class TestrayRunRest extends Rest<RunForm, TestrayRun> {
 	}
 }
 
-export const testrayRunRest = new TestrayRunRest();
+export const testrayRunImpl = new TestrayRunImpl();

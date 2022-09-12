@@ -13,14 +13,14 @@
  */
 
 import i18n from '../../i18n';
-import {CategoryOptions} from '../../pages/Project/Routines/Builds/BuildForm/BuildFormRun';
+import {CategoryOptions} from '../../pages/Project/Routines/Builds/BuildForm/BuildFactorList';
 import yupSchema from '../../schema/yup';
 import {TEST_STATUS} from '../../util/constants';
 import {searchUtil} from '../../util/search';
 import Rest from './Rest';
 import {testrayCaseResultRest} from './TestrayCaseResult';
 import {testrayFactorRest} from './TestrayFactor';
-import {testrayRunRest} from './TestrayRun';
+import {testrayRunImpl} from './TestrayRun';
 
 import type {
 	APIResponse,
@@ -31,7 +31,7 @@ import type {
 
 type Build = typeof yupSchema.build.__outputType & {projectId: number};
 
-class TestrayBuildRest extends Rest<Build, TestrayBuild> {
+class TestrayBuildImpl extends Rest<Build, TestrayBuild> {
 	constructor() {
 		super({
 			adapter: ({
@@ -68,39 +68,46 @@ class TestrayBuildRest extends Rest<Build, TestrayBuild> {
 		const build = await super.create(data);
 
 		const caseIds = data.caseIds || [];
-		const runs = data.categories || [];
+		const runs = data.factorStacks || [];
 
 		let runIndex = 1;
 
 		for (const run of runs) {
-			const factorOptions = Object.values(run) as CategoryOptions[];
+			const factorOptions = (Object.values(
+				run
+			) as CategoryOptions[]).filter(Boolean);
 
-			const factorOptionsList = factorOptions.map(
-				({factorOption}) => factorOption
-			);
+			const factorOptionsList = factorOptions
+				.filter(({factorOption}) => Boolean(factorOption))
+				.map(({factorOption}) => factorOption);
 
 			const testrayRunName = factorOptionsList.join(' | ');
 
 			if (!testrayRunName) {
-				return build;
+				continue;
 			}
 
-			const testrayRun = await testrayRunRest.create({
+			const testrayRun = await testrayRunImpl.create({
 				buildId: build.id,
 				description: undefined,
-				environmentHash: undefined,
-				name: factorOptionsList.join(' | '),
+				environmentHash: testrayRunName,
+				name: testrayRunName,
 				number: runIndex,
 			});
 
 			for (const factorOption of factorOptions) {
-				await testrayFactorRest.create({
-					factorCategoryId: (factorOption.factorCategoryId as unknown) as string,
-					factorOptionId: (factorOption.factorOptionId as unknown) as string,
-					name: '',
-					routineId: undefined,
-					runId: testrayRun.id,
-				});
+				if (
+					factorOption.factorCategoryId &&
+					factorOption.factorOptionId
+				) {
+					await testrayFactorRest.create({
+						factorCategoryId: factorOption.factorCategoryId?.toString(),
+						factorOptionId: factorOption.factorOptionId?.toString(),
+						name: '',
+						routineId: undefined,
+						runId: testrayRun.id,
+					});
+				}
 			}
 
 			await testrayCaseResultRest.createBatch(
@@ -173,4 +180,4 @@ class TestrayBuildRest extends Rest<Build, TestrayBuild> {
 	}
 }
 
-export const testrayBuildRest = new TestrayBuildRest();
+export const testrayBuildImpl = new TestrayBuildImpl();

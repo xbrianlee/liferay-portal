@@ -61,8 +61,8 @@ const passwordRequiredStructure = {
 const yupSchema = {
 	build: yup.object({
 		caseIds: yup.array().of(yup.number()),
-		categories: yup.mixed(),
 		description: yup.string(),
+		factorStacks: yup.mixed(),
 		gitHash: yup.string(),
 		id: yup.string(),
 		name: yup.string().required(),
@@ -126,6 +126,11 @@ const yupSchema = {
 		id: yup.string(),
 		name: yup.string().required(i18n.translate('this-field-is-required')),
 	}),
+	factorToRun: yup.object({
+		buildId: yup.number(),
+		id: yup.string(),
+		number: yup.number(),
+	}),
 	option: yup.object({
 		name: yup.string(),
 	}),
@@ -160,6 +165,7 @@ const yupSchema = {
 		buildId: yup.number(),
 		description: yup.string(),
 		environmentHash: yup.string(),
+		id: yup.number().notRequired(),
 		name: yup.string().required(),
 		number: yup.number().required(),
 	}),

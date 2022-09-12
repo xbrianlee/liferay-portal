@@ -128,7 +128,7 @@ export type TestrayCaseType = {
 	status: string;
 };
 
-export type TestrayFactorOptions = {
+export type TestrayFactorOption = {
 	dateCreated: string;
 	dateModified: string;
 	factorCategory?: TestrayFactorCategory;
@@ -182,6 +182,7 @@ export type TestrayRun = {
 	externalReferenceCode: string;
 	externalReferencePK: string;
 	externalReferenceType: string;
+	factorOption?: TestrayFactorOption;
 	id: number;
 	jenkinsJobKey: string;
 	name: string;
@@ -271,8 +272,10 @@ export type TestrayFactor = {
 	dateCreated: string;
 	dateModified: string;
 	factorCategory?: TestrayFactorCategory;
-	factorOption?: TestrayFactorOptions;
+	factorOption?: TestrayFactorOption;
 	id: number;
 	r_factorCategoryToFactors_c_factorCategory?: TestrayFactorCategory;
-	r_factorOptionToFactors_c_factorOption?: TestrayFactorOptions;
+	r_factorOptionToFactors_c_factorOption?: TestrayFactorOption;
+	r_runToFactors_c_run?: TestrayRun;
+	run: TestrayRun;
 };
