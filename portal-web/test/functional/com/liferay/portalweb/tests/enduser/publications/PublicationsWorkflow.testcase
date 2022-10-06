@@ -245,6 +245,7 @@ definition {
 	@description = "This is a use case for LPS-163295."
 	@priority = "4"
 	test CanPublishWhenDatabaseIsPartitioned {
+		property portal.acceptance = "brian";
 		property app.server.types = "tomcat";
 		property custom.properties = "jsonws.web.service.paths.excludes=";
 		property database.partition.enabled = "true";
