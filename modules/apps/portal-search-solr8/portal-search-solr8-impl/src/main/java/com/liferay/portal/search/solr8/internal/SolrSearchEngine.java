@@ -38,6 +38,21 @@ public class SolrSearchEngine implements SearchEngine {
 	}
 
 	@Override
+	public IndexSearcher getIndexSearcher() {
+		return _indexSearcher;
+	}
+
+	@Override
+	public IndexWriter getIndexWriter() {
+		return _indexWriter;
+	}
+
+	@Override
+	public String getVendor() {
+		return "Solr";
+	}
+
+	@Override
 	public void initialize(long companyId) {
 	}
 
