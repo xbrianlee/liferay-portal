@@ -15,7 +15,6 @@
 package com.liferay.portal.search.solr8.internal;
 
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.search.BaseSearchEngine;
 import com.liferay.portal.kernel.search.IndexSearcher;
 import com.liferay.portal.kernel.search.IndexWriter;
 import com.liferay.portal.kernel.search.SearchEngine;
@@ -35,7 +34,7 @@ import org.osgi.service.component.annotations.Reference;
 	property = {"search.engine.id=SYSTEM_ENGINE", "search.engine.impl=Solr"},
 	service = {SearchEngine.class, SolrSearchEngine.class}
 )
-public class SolrSearchEngine extends BaseSearchEngine {
+public class SolrSearchEngine implements SearchEngine {
 
 	@Override
 	public synchronized String backup(long companyId, String backupName) {
@@ -44,7 +43,6 @@ public class SolrSearchEngine extends BaseSearchEngine {
 
 	@Override
 	public void initialize(long companyId) {
-		super.initialize(companyId);
 	}
 
 	@Override
@@ -53,7 +51,6 @@ public class SolrSearchEngine extends BaseSearchEngine {
 
 	@Override
 	public void removeCompany(long companyId) {
-		super.removeCompany(companyId);
 	}
 
 	@Override
