@@ -18,11 +18,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.IndexSearcher;
 import com.liferay.portal.kernel.search.IndexWriter;
 import com.liferay.portal.kernel.search.SearchEngine;
-import com.liferay.portal.kernel.util.MapUtil;
 
-import java.util.Map;
-
-import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -57,21 +53,10 @@ public class SolrSearchEngine implements SearchEngine {
 	public synchronized void restore(long companyId, String backupName) {
 	}
 
-	@Override
-	@Reference(target = "(search.engine.impl=Solr)", unbind = "-")
-	public void setIndexSearcher(IndexSearcher indexSearcher) {
-		super.setIndexSearcher(indexSearcher);
-	}
+	@Reference(target = "(search.engine.impl=Solr)")
+	private IndexSearcher _indexSearcher;
 
-	@Override
-	@Reference(target = "(search.engine.impl=Solr)", unbind = "-")
-	public void setIndexWriter(IndexWriter indexWriter) {
-		super.setIndexWriter(indexWriter);
-	}
-
-	@Activate
-	protected void activate(Map<String, Object> properties) {
-		setVendor(MapUtil.getString(properties, "search.engine.impl"));
-	}
+	@Reference(target = "(search.engine.impl=Solr)")
+	private IndexWriter _indexWriter;
 
 }
