@@ -135,6 +135,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -1178,6 +1179,7 @@ public class WorkflowTaskManagerImplTest extends BaseWorkflowManagerTestCase {
 		_deactivateWorkflow(BlogsEntry.class.getName(), 0, 0);
 	}
 
+	@Ignore
 	@Test
 	public void testSearchWorkflowTasksWhenThereIsAnUnregisteredHandler()
 		throws Exception {
