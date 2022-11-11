@@ -560,6 +560,7 @@ definition {
 	@description = "LPS-167308 - Assure that search is still functional after ElasticSearch is redeployed"
 	@priority = "3"
 	test SearchAfterRedeployElasticSearchConnector {
+		property portal.acceptance = "caio";
 		property test.assert.warning.exceptions = "true";
 		property test.name.skip.portal.instance = "Elasticsearch7#SearchAfterRedeployElasticSearchConnector";
 
@@ -581,8 +582,10 @@ definition {
 
 		SearchAdministration.openSearchAdmin();
 
-		while (IsElementPresent(locator1 = "Message#ERROR_3_ALT")) {
-			//Pause due the delay to redeploy ElasticSearch
+		while ((IsElementPresent(locator1 = "Message#ERROR_3_ALT")) && (maxIterations = "24")) {
+
+			// Pausing to allow Elasticsearch module to be ready. See LPS-167308 for details.
+
 			Pause(locator1 = "10000");
 
 			Refresh();
@@ -593,7 +596,7 @@ definition {
 		SearchPortlets.searchEmbedded(searchTerm = "test");
 
 		AssertElementPresent(
-			key_searchAssetTitle = "Test Test" ,
+			key_searchAssetTitle = "Test Test",
 			locator1 = "SearchResults#ASSET_ENTRY_TABLE_TITLE");
 	}
 
