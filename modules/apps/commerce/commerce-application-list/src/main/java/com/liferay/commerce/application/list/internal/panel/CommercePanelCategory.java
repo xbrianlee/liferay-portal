@@ -24,8 +24,10 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.permission.PortalPermission;
+import com.liferay.portal.search.engine.SearchEngineInformation;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -56,6 +58,12 @@ public class CommercePanelCategory extends BasePanelCategory {
 	public boolean isShow(PermissionChecker permissionChecker, Group group)
 		throws PortalException {
 
+		if (Objects.equals(
+				_searchEngineInformation.getVendorString(), "Solr")) {
+
+			return false;
+		}
+
 		if (_portalPermission.contains(
 				permissionChecker, ActionKeys.VIEW_CONTROL_PANEL)) {
 
@@ -70,5 +78,8 @@ public class CommercePanelCategory extends BasePanelCategory {
 
 	@Reference
 	private PortalPermission _portalPermission;
+
+	@Reference
+	private SearchEngineInformation _searchEngineInformation;
 
 }
