@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.search.engine.SearchEngineInformation;
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.document.UpdateByQueryDocumentRequest;
 import com.liferay.portal.search.query.BooleanQuery;
@@ -46,6 +47,12 @@ public class UserModelListener extends BaseModelListener<User> {
 	@Override
 	public void onBeforeUpdate(User originalUser, User user)
 		throws ModelListenerException {
+
+		if (Objects.equals(
+				_searchEngineInformation.getVendorString(), "Solr")) {
+
+			return;
+		}
 
 		User currentUser = _userLocalService.fetchUserById(user.getUserId());
 
@@ -101,8 +108,8 @@ public class UserModelListener extends BaseModelListener<User> {
 			});
 	}
 
-	@Reference(target = "(search.engine.impl=Elasticsearch)")
-	protected volatile SearchEngineAdapter searchEngineAdapter;
+	@Reference
+	protected SearchEngineAdapter searchEngineAdapter;
 
 	@Reference(target = "(workflow.metrics.index.entity.name=instance)")
 	private WorkflowMetricsIndex _instanceWorkflowMetricsIndex;
@@ -112,6 +119,9 @@ public class UserModelListener extends BaseModelListener<User> {
 
 	@Reference
 	private Scripts _scripts;
+
+	@Reference
+	private SearchEngineInformation _searchEngineInformation;
 
 	@Reference
 	private UserLocalService _userLocalService;

@@ -26,6 +26,8 @@ import com.liferay.portal.search.script.ScriptType;
 import com.liferay.portal.workflow.metrics.internal.sla.processor.WorkflowMetricsSLAInstanceResult;
 import com.liferay.portal.workflow.metrics.sla.processor.WorkflowMetricsSLAStatus;
 
+import java.util.Objects;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -154,6 +156,10 @@ public class SLAInstanceResultWorkflowMetricsIndexer
 	@Override
 	public void deleteDocuments(
 		long companyId, long processId, long slaDefinitionId) {
+
+		if (Objects.equals(searchEngineInformation.getVendorString(), "Solr")) {
+			return;
+		}
 
 		super.deleteDocuments(companyId, processId, slaDefinitionId);
 

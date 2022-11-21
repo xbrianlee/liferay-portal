@@ -30,6 +30,8 @@ import com.liferay.portal.workflow.metrics.model.DeleteProcessRequest;
 import com.liferay.portal.workflow.metrics.model.UpdateProcessRequest;
 import com.liferay.portal.workflow.metrics.search.index.ProcessWorkflowMetricsIndexer;
 
+import java.util.Objects;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -43,6 +45,10 @@ public class ProcessWorkflowMetricsIndexerImpl
 
 	@Override
 	public void addDocument(Document document) {
+		if (Objects.equals(searchEngineInformation.getVendorString(), "Solr")) {
+			return;
+		}
+
 		BulkDocumentRequest bulkDocumentRequest = new BulkDocumentRequest();
 
 		bulkDocumentRequest.addBulkableDocumentRequest(
@@ -166,6 +172,10 @@ public class ProcessWorkflowMetricsIndexerImpl
 	@Override
 	public Document updateProcess(UpdateProcessRequest updateProcessRequest) {
 		DocumentBuilder documentBuilder = documentBuilderFactory.builder();
+
+		if (Objects.equals(searchEngineInformation.getVendorString(), "Solr")) {
+			return documentBuilder.build();
+		}
 
 		if (updateProcessRequest.getActive() != null) {
 			documentBuilder.setValue(

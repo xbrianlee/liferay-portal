@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.util.PortalRunMode;
 import com.liferay.portal.search.document.Document;
 import com.liferay.portal.search.document.DocumentBuilder;
 import com.liferay.portal.search.document.DocumentBuilderFactory;
+import com.liferay.portal.search.engine.SearchEngineInformation;
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.document.BulkDocumentRequest;
 import com.liferay.portal.search.engine.adapter.document.IndexDocumentRequest;
@@ -48,6 +49,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -59,6 +61,10 @@ import org.osgi.service.component.annotations.Reference;
 public abstract class BaseWorkflowMetricsIndexer {
 
 	public void addDocuments(List<Document> documents) {
+		if (Objects.equals(searchEngineInformation.getVendorString(), "Solr")) {
+			return;
+		}
+
 		BulkDocumentRequest bulkDocumentRequest = new BulkDocumentRequest();
 
 		documents.forEach(
@@ -98,6 +104,10 @@ public abstract class BaseWorkflowMetricsIndexer {
 	}
 
 	protected void addDocument(Document document) {
+		if (Objects.equals(searchEngineInformation.getVendorString(), "Solr")) {
+			return;
+		}
+
 		IndexDocumentRequest indexDocumentRequest = new IndexDocumentRequest(
 			getIndexName(document.getLong("companyId")), document);
 
@@ -156,6 +166,10 @@ public abstract class BaseWorkflowMetricsIndexer {
 
 	protected void updateDocuments(
 		long companyId, Map<String, Object> fieldsMap, Query filterQuery) {
+
+		if (Objects.equals(searchEngineInformation.getVendorString(), "Solr")) {
+			return;
+		}
 
 		SearchSearchRequest searchSearchRequest = new SearchSearchRequest();
 
@@ -229,13 +243,20 @@ public abstract class BaseWorkflowMetricsIndexer {
 	@Reference
 	protected Scripts scripts;
 
-	@Reference(target = "(search.engine.impl=Elasticsearch)")
-	protected volatile SearchEngineAdapter searchEngineAdapter;
+	@Reference
+	protected SearchEngineAdapter searchEngineAdapter;
+
+	@Reference
+	protected SearchEngineInformation searchEngineInformation;
 
 	@Reference
 	protected WorkflowMetricsPortalExecutor workflowMetricsPortalExecutor;
 
 	private void _updateDocument(Document document) {
+		if (Objects.equals(searchEngineInformation.getVendorString(), "Solr")) {
+			return;
+		}
+
 		UpdateDocumentRequest updateDocumentRequest = new UpdateDocumentRequest(
 			getIndexName(document.getLong("companyId")),
 			document.getString("uid"), document);

@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.search.engine.SearchEngineInformation;
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.search.CountSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.CountSearchResponse;
@@ -30,6 +31,8 @@ import com.liferay.portal.workflow.metrics.internal.background.task.WorkflowMetr
 import com.liferay.portal.workflow.metrics.internal.search.index.WorkflowMetricsIndex;
 
 import java.io.Serializable;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -58,6 +61,12 @@ public class WorkflowMetricsIndexCreator {
 	}
 
 	public void reindex(Company company) {
+		if (Objects.equals(
+				_searchEngineInformation.getVendorString(), "Solr")) {
+
+			return;
+		}
+
 		TransactionCommitCallbackUtil.registerCallback(
 			() -> {
 				CountSearchRequest countSearchRequest =
@@ -133,8 +142,11 @@ public class WorkflowMetricsIndexCreator {
 	@Reference
 	private Queries _queries;
 
-	@Reference(target = "(search.engine.impl=Elasticsearch)")
-	private volatile SearchEngineAdapter _searchEngineAdapter;
+	@Reference
+	private SearchEngineAdapter _searchEngineAdapter;
+
+	@Reference
+	private SearchEngineInformation _searchEngineInformation;
 
 	@Reference(
 		target = "(workflow.metrics.index.entity.name=sla-instance-result)"

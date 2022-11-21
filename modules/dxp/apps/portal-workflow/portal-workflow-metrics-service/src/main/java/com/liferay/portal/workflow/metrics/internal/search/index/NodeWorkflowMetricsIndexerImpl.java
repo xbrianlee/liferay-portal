@@ -107,6 +107,10 @@ public class NodeWorkflowMetricsIndexerImpl
 
 	@Override
 	protected void addDocument(Document document) {
+		if (Objects.equals(searchEngineInformation.getVendorString(), "Solr")) {
+			return;
+		}
+
 		super.addDocument(document);
 
 		BulkDocumentRequest bulkDocumentRequest = new BulkDocumentRequest();
