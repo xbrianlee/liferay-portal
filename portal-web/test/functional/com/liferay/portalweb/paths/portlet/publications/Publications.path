@@ -97,7 +97,7 @@
 </tr>
 <tr>
 	<td>PUBLICATION_NAME</td>
-	<td>//input[contains(@name,'name')]</td>
+	<td>//input[contains(@aria-label,'Name')]</td>
 	<td></td>
 </tr>
 <tr>
