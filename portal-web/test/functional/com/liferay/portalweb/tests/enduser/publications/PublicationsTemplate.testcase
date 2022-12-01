@@ -76,6 +76,18 @@ definition {
 			publicationDescription = "Publications Description Test Test",
 			publicationName = "Publication Name Test Test",
 			templateName = "Template Name");
+
+		PublicationsNavigator._gotoPublicationEllipsisItem(
+			menuItem = "Invite Users",
+			publicationName = "Publication Name Test Test");
+
+		Publications.viewInvitedUser(
+			publicationRole = "Editor",
+			userInvite = "userea1@liferay.com");
+
+		Publications.viewInvitedUser(
+			publicationRole = "Viewer",
+			userInvite = "userea2@liferay.com");
 	}
 
 }
