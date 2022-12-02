@@ -117,6 +117,7 @@ definition {
 	@priority = "5"
 	test ViewPortalSmokeArchive7310 {
 		property data.archive.type = "data-archive-portal";
+		property portal.acceptance = "brian";
 		property portal.upgrades = "true";
 		property portal.version = "7.3.10";
 		property test.assert.warning.exceptions = "true";
@@ -128,6 +129,7 @@ definition {
 	@priority = "5"
 	test ViewPortalSmokeArchive7413 {
 		property data.archive.type = "data-archive-portal";
+		property portal.acceptance = "brian";
 		property portal.upgrades = "true";
 		property portal.version = "7.4.13";
 		property test.assert.warning.exceptions = "true";
