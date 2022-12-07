@@ -793,6 +793,7 @@ definition {
 
 	@description = "This is a use case for LRQA-48777. User can edit external applications to enable or disable permissions in both scopes."
 	test EditApplicationScopesAndViewLanguageKeys {
+		property portal.acceptance = "brian";
 		property osgi.module.configuration.file.names = "com.liferay.oauth2.provider.scope.internal.configuration.ConfigurableScopeMapperConfiguration~default.config";
 		property osgi.module.configurations = "mapping=[\"example-scope-1,example-scope-2\=everything\"]${line.separator}osgi.jaxrs.name=\"liferay-oauth2-scope-sample-qa-app\"${line.separator}passthrough=\"true\"";
 		property test.name.skip.portal.instance = "OAuth2#EditApplicationScopesAndViewLanguageKeys";
