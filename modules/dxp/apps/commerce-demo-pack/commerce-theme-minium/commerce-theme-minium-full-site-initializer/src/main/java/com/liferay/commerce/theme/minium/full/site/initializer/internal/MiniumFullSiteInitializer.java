@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.search.capabilities.SearchCapabilities;
 import com.liferay.site.exception.InitializationException;
 import com.liferay.site.initializer.SiteInitializer;
 
@@ -110,6 +111,10 @@ public class MiniumFullSiteInitializer implements SiteInitializer {
 
 	@Override
 	public boolean isActive(long companyId) {
+		if (!_searchCapabilities.isCommerceSupported()) {
+			return false;
+		}
+
 		return _siteInitializer.isActive(companyId);
 	}
 
@@ -192,6 +197,9 @@ public class MiniumFullSiteInitializer implements SiteInitializer {
 
 	@Reference
 	private RoleLocalService _roleLocalService;
+
+	@Reference
+	private SearchCapabilities _searchCapabilities;
 
 	@Reference(
 		target = "(osgi.web.symbolicname=com.liferay.commerce.theme.minium.full.site.initializer)"
