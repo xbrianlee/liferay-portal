@@ -265,6 +265,51 @@ definition {
 	}
 
 	@priority = "4"
+	test HonorLetUserChooseSiteScope {
+		SearchPortlets.configureEmbeddedSearchBar(searchScope = "Let the User Choose");
+
+		JSONWebcontent.addWebContent(
+			content = "Content",
+			description = "Apple WC Description",
+			groupName = "Guest",
+			title = "Apple Web Content");
+
+		JSONWebcontent.addWebContent(
+			content = "Content ",
+			description = "Banana WC Description",
+			groupName = "Global",
+			title = "Banana Web Content");
+
+		SearchPortlets.chooseEmbeddedScope(searchScope = "Everything");
+
+		Type(
+			locator1 = "Search#EMBEDDED_SEARCH_BAR",
+			value1 = "Web Content");
+
+		SearchBarSuggestions.viewSuggestions(
+			searchAssetDescription = "Apple WC Description",
+			searchAssetTitle = "Apple Web Content");
+
+		SearchBarSuggestions.viewSuggestions(
+			searchAssetDescription = "Banana WC Description",
+			searchAssetTitle = "Banana Web Content");
+
+		Refresh();
+
+		SearchPortlets.chooseEmbeddedScope(searchScope = "This Site");
+
+		Type(
+			locator1 = "Search#EMBEDDED_SEARCH_BAR",
+			value1 = "Web Content");
+
+		SearchBarSuggestions.viewNoResultAssetTitle(searchAssetTitle = "Banana Web Content");
+
+		SearchBarSuggestions.viewSuggestions(
+			searchAssetDescription = "Apple WC Description",
+			searchAssetTitle = "Apple Web Content");
+	}
+
+	@priority = "4"
 	test ShowHTMLAsPlainText {
 		Type(
 			locator1 = "Search#EMBEDDED_SEARCH_BAR",
