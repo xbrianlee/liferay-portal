@@ -16,7 +16,7 @@ definition {
 		}
 
 		if (isSet(publicationName)) {
-			PublicationsTemplate.expandPublicationInformation();
+			Panel.expandPanel(panel = "Publication Information");
 
 			Type(
 				locator1 = "Publications#PUBLICATION_NAME",
@@ -30,7 +30,7 @@ definition {
 		}
 
 		if (isSet(userInvite1)) {
-			PublicationsTemplate.expandPublicationCollaborators();
+			Panel.expandPanel(panel = "Publication Collaborators");
 
 			Click(locator1 = "PublicationsTemplate#INVITE_USERS_BUTTON");
 
@@ -60,22 +60,6 @@ definition {
 			locator1 = "Button#ANY");
 
 		Alert.viewSuccessMessage();
-	}
-
-	macro expandPublicationCollaborators {
-		if (IsElementPresent(locator1 = "PublicationsTemplate#PUBLICATION_COLLABORATORS_COLLAPSED")) {
-			Click(locator1 = "PublicationsTemplate#PUBLICATION_COLLABORATORS_COLLAPSED");
-
-			AssertElementPresent(locator1 = "PublicationsTemplate#PUBLICATION_COLLABORATORS_EXPANDED");
-		}
-	}
-
-	macro expandPublicationInformation {
-		if (IsElementPresent(locator1 = "PublicationsTemplate#PUBLICATION_INFORMATION_COLLAPSED")) {
-			Click(locator1 = "PublicationsTemplate#PUBLICATION_INFORMATION_COLLAPSED");
-
-			AssertElementPresent(locator1 = "PublicationsTemplate#PUBLICATION_INFORMATION_EXPANDED");
-		}
 	}
 
 	macro gotoPublicationTemplate {
