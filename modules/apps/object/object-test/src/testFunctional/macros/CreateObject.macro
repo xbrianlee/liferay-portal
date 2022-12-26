@@ -44,32 +44,6 @@ definition {
 			locator1 = "CreateObject#ENTRY_RELATIONSHIP_FIELD_OPTION");
 	}
 
-	macro assertCanCollapseAndExpandEntryField {
-		WaitForSPARefresh();
-
-		if (IsElementPresent(key_closedOrOpen = "open", locator1 = "CreateObject#VIEW_COLLAPSE_ICON")) {
-			Click(locator1 = "CreateObject#COLLAPSE_EXPAND_OBJECT_PORTLET_ENTRY_FIELD");
-
-			WaitForSPARefresh();
-
-			AssertNotVisible(
-				key_entryLabel = "Custom Field",
-				locator1 = "ObjectPortlet#VIEW_ENTRY_DETAILS_LABEL");
-		}
-
-		WaitForSPARefresh();
-
-		if (IsElementPresent(key_closedOrOpen = "closed", locator1 = "CreateObject#VIEW_COLLAPSE_ICON")) {
-			Click(locator1 = "CreateObject#COLLAPSE_EXPAND_OBJECT_PORTLET_ENTRY_FIELD");
-
-			WaitForSPARefresh();
-
-			AssertVisible(
-				key_entryLabel = "Custom Field",
-				locator1 = "ObjectPortlet#VIEW_ENTRY_DETAILS_LABEL");
-		}
-	}
-
 	macro assertCannotAddRelationshipTabFirst {
 		LexiconEntry.gotoAddNoSelectFrame();
 
@@ -233,8 +207,6 @@ definition {
 
 	macro assertRelationshipNotPresent {
 		LexiconEntry.gotoAdd();
-
-		MenuItem.clickNoError(menuItem = "Select Existing One");
 
 		SelectFrame(locator1 = "IFrame#MODAL_BODY");
 

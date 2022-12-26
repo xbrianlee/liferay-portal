@@ -123,6 +123,8 @@ definition {
 	@description = "LPS-143064 - Verify that, when using objects as storage type, the user must be able to map to this field type to Rich Text Field and view its entries"
 	@priority = "4"
 	test CanMapAndViewEntriesForRichTextField {
+		property test.name.skip.portal.instance = "ObjectForms#CanMapAndViewEntriesForRichTextField";
+
 		ObjectAdmin.addObjectViaAPI(
 			labelName = "Custom Object 151597",
 			objectName = "CustomObject151597",
@@ -393,7 +395,7 @@ definition {
 			url = "http://localhost:8080/o/c/customobject213s",
 			username = "test@liferay.com");
 
-		Button.clickSave();
+		PortletEntry.save();
 
 		WaitForSPARefresh();
 
@@ -469,9 +471,7 @@ definition {
 			url = "http://localhost:8080/o/c/customobject214s",
 			username = "test@liferay.com");
 
-		Button.clickSave();
-
-		WaitForSPARefresh();
+		PortletEntry.save();
 
 		Navigator.openURL();
 

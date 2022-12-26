@@ -76,7 +76,7 @@ definition {
 
 			ObjectPortlet.chooseEntryOnRelationshipField(entryOption = "userfn");
 
-			Button.clickSave();
+			PortletEntry.save();
 
 			CreateObject.assertEntrySelectedOnRelationshipField(entry = "userfn");
 		}
@@ -131,7 +131,7 @@ definition {
 
 		ObjectPortlet.searchEntryRelationshipField(entryValue = "userfn");
 
-		Button.clickSave();
+		PortletEntry.save();
 
 		CreateObject.assertEntrySelectedOnRelationshipField(entry = "userfn");
 	}
@@ -192,7 +192,7 @@ definition {
 					relationshipsLabelName = "Relationship",
 					tabName = "Relationship Tab ${fieldEntry}");
 
-				Button.clickSave();
+				PortletEntry.save();
 			}
 		}
 
@@ -268,7 +268,7 @@ definition {
 			relationshipsLabelName = "Relationship",
 			tabName = "Relationship Tab");
 
-		Button.clickSave();
+		PortletEntry.save();
 
 		ObjectAdmin.publishObjectViaAPI(objectName = "CustomObject290");
 
@@ -445,7 +445,7 @@ definition {
 				relationshipsLabelName = "Relationship",
 				tabName = "Relationship Tab");
 
-			Button.clickSave();
+			PortletEntry.save();
 		}
 
 		task ("Define First Name as a title field on the native object") {
@@ -613,6 +613,7 @@ definition {
 	}
 
 	@description = "LPS-151676 - Verify that it's possible to delete a relationship between a Custom Object entry and Native Object entry (One-to-Many)"
+	@ignore = "true"
 	@priority = "4"
 	test CanDeleteOneToManyRelationshipBetweenCustomObjectEntryAndNativeObjectEntry {
 		task ("Add 2 users entries to relate to custom object entries") {
@@ -682,7 +683,7 @@ definition {
 				relationshipsLabelName = "Relationship",
 				tabName = "Relationship Tab");
 
-			Button.clickSave();
+			PortletEntry.save();
 		}
 
 		task ("Define First Name as a title field on the native object") {
@@ -788,7 +789,7 @@ definition {
 			relationshipsLabelName = "Relationship",
 			tabName = "Relationship Tab");
 
-		Button.clickSave();
+		PortletEntry.save();
 
 		ObjectAdmin.publishObjectViaAPI(objectName = "CustomObject149249");
 
@@ -868,7 +869,7 @@ definition {
 
 			ObjectRelationships.editRelationshipsParameter(parameter = "Relationship with Custom Object");
 
-			Button.clickSave();
+			PortletEntry.save();
 		}
 	}
 
@@ -927,6 +928,8 @@ definition {
 	@description = "LPS-146754 - Verify that it's not possible for a Custom Object to create a Many-to-Many relationship with itself"
 	@priority = "4"
 	test CannotCreateManytoManyRelationshipWithItself {
+		property test.name.skip.portal.instance = "ObjectRelationships#CannotCreateManytoManyRelationshipWithItself";
+
 		task ("Create Custom Object") {
 			ObjectAdmin.addObjectViaAPI(
 				labelName = "Custom Object 290",
@@ -1194,7 +1197,7 @@ definition {
 				relationshipsLabelName = "Relationship",
 				tabName = "Relationship Tab");
 
-			Button.clickSave();
+			PortletEntry.save();
 
 			ObjectAdmin.publishObjectViaAPI(objectName = "CustomObjectLPS163658");
 		}
@@ -1490,6 +1493,7 @@ definition {
 	}
 
 	@description = "LPS-151676 - Verify that it's possible to relate a Custom Object entry with many Native Object entries (One-to-Many)"
+	@ignore = "true"
 	@priority = "5"
 	test CanRelateOneToManyCustomObjectEntryWithNativeObjectEntries {
 		property portal.acceptance = "true";
@@ -1572,7 +1576,7 @@ definition {
 				relationshipsLabelName = "Relationship",
 				tabName = "Relationship Tab");
 
-			Button.clickSave();
+			PortletEntry.save();
 		}
 
 		task ("Add a custom object entry per UI and relate the entries to the native object") {
@@ -1597,6 +1601,8 @@ definition {
 	@description = "LPS-145393 - Verify it is possible to add a One-to-Many relation from a Custom Object scoped by Site entry with a Native Object entry"
 	@priority = "4"
 	test CanRelateOneToManyNativeObjectWithCustomSiteScoped {
+		property test.name.skip.portal.instance = "ObjectRelationships#CanRelateOneToManyNativeObjectWithCustomSiteScoped";
+
 		ObjectAdmin.addObjectViaAPI(
 			labelName = "Custom Object 291",
 			objectName = "CustomObject291",
@@ -1635,7 +1641,7 @@ definition {
 
 		ObjectPortlet.searchEntryRelationshipField(entryValue = "userfn");
 
-		Button.clickSave();
+		PortletEntry.save();
 
 		CreateObject.assertEntrySelectedOnRelationshipField(entry = "userfn");
 	}
@@ -1721,6 +1727,7 @@ definition {
 	}
 
 	@description = "LPS-158478 - Verify that it's possible to see all related entries to the entry on the relationship tab"
+	@ignore = "true"
 	@priority = "5"
 	test CanSeeRelatedEntriesOnTab {
 		property portal.acceptance = "true";
@@ -1776,7 +1783,7 @@ definition {
 				relationshipsLabelName = "Relationship",
 				tabName = "Relationship Tab");
 
-			Button.clickSave();
+			PortletEntry.save();
 
 			ObjectAdmin.publishObjectViaAPI(objectName = "CustomObject163657");
 		}
@@ -1806,6 +1813,8 @@ definition {
 	@description = "LPS-145393 - Verify it is possible to set a Title Field for a Native Object"
 	@priority = "4"
 	test CanSetTitleFieldForNativeObject {
+		property test.name.skip.portal.instance = "ObjectRelationships#CanSetTitleFieldForNativeObject";
+
 		ObjectAdmin.openObjectAdmin();
 
 		ObjectPortlet.selectCustomObject(label = "User");
