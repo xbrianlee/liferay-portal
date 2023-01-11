@@ -343,6 +343,8 @@ definition {
 			scope = "${scope}",
 			userEmailAddress = "${userEmailAddress}",
 			userPassword = "${userPassword}");
+
+		Pause(locator1 = "30000");
 	}
 
 	macro addTabFieldsOnLayout {
