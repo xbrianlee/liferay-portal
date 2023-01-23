@@ -34,11 +34,27 @@ RUN python -c "from txtai.api import API; API('config.yml', False)"</echo>
 		</sequential>
 	</macrodef>
 
+	<macrodef name="check-docker-container">
+		<sequential>
+			<get-docker-image-id property.name="image.id" />
+
+			<if>
+				<equals arg1="${image.id}" arg2="" />
+				<then>
+					<echo>No txtai container running</echo>
+				</then>
+				<else>
+					<stop-docker-container name="${container.prefix}_txtai_${image.id}" />
+				</else>
+			</if>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="configure-portal-txtai-osgi-properties">
 		<sequential>
 			<exec executable="/bin/bash" outputproperty="txtai.container.ip">
 				<arg value="-c" />
-				<arg value="docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${container.prefix}_txtai" />
+				<arg value="docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${container.prefix}_txtai_${image.id}" />
 			</exec>
 
 			<echo file="${liferay.home}/osgi/configs/com.liferay.search.experiences.configuration.SemanticSearchConfiguration.config">textEmbeddingProvider="txtai"
@@ -47,10 +63,25 @@ txtaiHostAddress="http://${txtai.container.ip}:8000"</echo>
 		</sequential>
 	</macrodef>
 
+	<macrodef name="get-docker-image-id">
+		<attribute name="property.name" />
+
+		<sequential>
+			<exec executable="/bin/bash" outputproperty="@{property.name}">
+				<arg value="-c" />
+				<arg value="docker images -q txtai-api" />
+			</exec>
+		</sequential>
+	</macrodef>
+
 	<target name="set-up-txtai">
+		<check-docker-container />
+
 		<build-txtai-docker-image />
 
-		<start-docker-container image="txtai-api" name="${container.prefix}_txtai">\
+		<get-docker-image-id property.name="image.id" />
+
+		<start-docker-container image="txtai-api" name="${container.prefix}_txtai_${image.id}">\
 			-p 8000:8000 \
 		</start-docker-container>
 
@@ -58,6 +89,8 @@ txtaiHostAddress="http://${txtai.container.ip}:8000"</echo>
 	</target>
 
 	<target name="stop-txtai">
-		<stop-docker-container name="${container.prefix}_txtai" />
+		<check-docker-container />
+
+		<stop-docker-container name="${container.prefix}_txtai_" />
 	</target>
 </project>
