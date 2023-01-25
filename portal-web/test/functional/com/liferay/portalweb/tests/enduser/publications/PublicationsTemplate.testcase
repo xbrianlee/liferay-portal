@@ -72,6 +72,8 @@ definition {
 
 		PublicationsTemplate.viewPublicationTemplate(templateName = "Template Name");
 
+		PublicationsNavigator.openPublicationsAdmin();
+
 		Publications.createNewPublicationWithTemplate(
 			publicationDescription = "Publications Description test",
 			publicationName = "Publication Name test",
