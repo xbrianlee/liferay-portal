@@ -35,7 +35,6 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.PortalCache;
-import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
 import com.liferay.portal.kernel.comment.CommentManager;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -1008,25 +1007,16 @@ public class WikiPageLocalServiceImpl extends WikiPageLocalServiceBaseImpl {
 
 		stopWatch.start();
 
-		WikiPageDisplay pageDisplay = null;
+		String key = _encodeKey(nodeId, title, viewPageURL.toString());
 
-		if (CTCollectionThreadLocal.isProductionMode()) {
-			String key = _encodeKey(nodeId, title, viewPageURL.toString());
+		WikiPageDisplay pageDisplay = (WikiPageDisplay)_portalCache.get(key);
 
-			pageDisplay = (WikiPageDisplay)_portalCache.get(key);
-
-			if (pageDisplay == null) {
-				pageDisplay = getPageDisplay(
-					nodeId, title, viewPageURL, editPageURLSupplier.get(),
-					attachmentURLPrefix);
-
-				_portalCache.put(key, pageDisplay);
-			}
-		}
-		else {
+		if (pageDisplay == null) {
 			pageDisplay = getPageDisplay(
 				nodeId, title, viewPageURL, editPageURLSupplier.get(),
 				attachmentURLPrefix);
+
+			_portalCache.put(key, pageDisplay);
 		}
 
 		if (_log.isDebugEnabled()) {
