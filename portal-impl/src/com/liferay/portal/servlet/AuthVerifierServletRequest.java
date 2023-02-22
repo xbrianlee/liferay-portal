@@ -29,6 +29,8 @@ import javax.servlet.http.HttpSession;
  */
 public class AuthVerifierServletRequest extends ProtectedServletRequest {
 
+	public static final String FORM_AUTH = HttpServletRequest.FORM_AUTH;
+
 	public AuthVerifierServletRequest(
 		HttpServletRequest httpServletRequest, long userId, String authType) {
 
@@ -50,7 +52,7 @@ public class AuthVerifierServletRequest extends ProtectedServletRequest {
 		HttpServletRequest httpServletRequest =
 			(HttpServletRequest)getRequest();
 
-		if (HttpServletRequest.FORM_AUTH.equals(getAuthType())) {
+		if (FORM_AUTH.equals(getAuthType())) {
 			return httpServletRequest.getSession(create);
 		}
 
