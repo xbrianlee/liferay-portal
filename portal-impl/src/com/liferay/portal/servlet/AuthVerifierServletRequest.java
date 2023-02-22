@@ -18,9 +18,6 @@ import com.liferay.portal.kernel.servlet.HttpSessionWrapper;
 import com.liferay.portal.kernel.servlet.ProtectedServletRequest;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -93,15 +90,9 @@ public class AuthVerifierServletRequest extends ProtectedServletRequest {
 				return _userId;
 			}
 
-			return _attributes.get(name);
+			return super.getAttribute(name);
 		}
 
-		@Override
-		public void setAttribute(String name, Object value) {
-			_attributes.put(name, value);
-		}
-
-		private final Map<String, Object> _attributes = new HashMap<>();
 		private final HttpSession _httpSession;
 
 	}
