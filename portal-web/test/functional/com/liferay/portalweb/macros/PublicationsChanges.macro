@@ -147,6 +147,31 @@ definition {
 		MenuItem.click(menuItem = "Edit in ${editInLocation}");
 	}
 
+	macro moveChangesToAnotherPublication {
+		Click.clickAtNotVisible(
+			changeOrder = ${changeOrder},
+			key_changeCategory = ${changeCategory},
+			key_changeTitle = ${changeTitle},
+			locator1 = "PublicationsChanges#CHANGES_CHECK_BOX");
+
+		Click(
+			ariaLabel = "Show Move Changes Modal",
+			locator1 = "Button#ANY_WITH_ARIA_LABEL");
+
+		Select(
+			ariaLabel = "Select the publication you would like to move your changes to.",
+			locator1 = "Select#ANY_ARIA_LABEL",
+			value1 = ${publicationName});
+
+		Click(
+			key_text = "Move",
+			locator1 = "Button#ANY");
+
+		Click(
+			key_text = "Close",
+			locator1 = "Button#ANY");
+	}
+
 	macro openCommentsSidebar {
 		Click.javaScriptClick(locator1 = "PublicationsChanges#COMMENT_BUTTON");
 	}
