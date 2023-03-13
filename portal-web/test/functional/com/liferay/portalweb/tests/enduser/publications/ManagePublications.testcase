@@ -35,18 +35,56 @@ definition {
 	}
 
 	@priority = 3
-	test CreateNewPublicationWithLongName {
+	test CanMoveChangesBetweenPublications {
+		property custom.properties = "feature.flag.LPS-171364=true";
+
+		JSONWebcontent.addWebContent(
+			content = "",
+			groupName = "Guest",
+			title = "Test Web Content");
+
+		Publications.createNewPublication(publicationName = "Publication 1 Name");
+
+		Publications.createNewPublication(publicationName = "Publication 2 Name");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "guest");
+
+		WebContentNavigator.gotoEditCP(webContentTitle = "Test Web Content");
+
+		WebContent.editWebContentContent(
+			webContentContentEdit = "Edited in Publication 2 Name",
+			webContentTitle = "Test Web Content",
+			webContentTitleEdit = "Edited in Publication 2 Name");
+
+		PublicationsNavigator.gotoReviewChanges(publicationName = "Publication 2 Name");
+
+		PublicationsChanges.moveChangesToAnotherPublication(
+			changeCategory = "Web Content Article",
+			changeOrder = 1,
+			changeTitle = "Edited in Publication 2 Name",
+			publicationName = "Publication 1 Name");
+
+		AssertElementPresent(locator1 = "PublicationsChanges#MESSAGE_NO_CHANGES");
+
+		JSONPublications.selectPublication(publicationName = "Publication 1 Name");
+
 		PublicationsNavigator.openPublicationsAdmin();
 
-		Click(locator1 = "Button#PLUS");
+		PublicationsNavigator.gotoReviewChanges(publicationName = "Publication 1 Name");
 
-		Type(
-			locator1 = "Publications#PUBLICATION_NAME",
-			value1 = "Lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon");
+		PublicationsChanges.viewChanges(
+			changeCategory = "Web Content Article",
+			changeSite = "Guest",
+			changeTitle = "Edited in Publication 2 Name",
+			changeType = "Added",
+			changeUser = "Test Test");
 
-		AssertElementPresent(
-			key_text = "Create",
-			locator1 = "Button#ANY_DISABLED");
+		PublicationsChanges.viewChanges(
+			changeCategory = "Web Content Translation",
+			changeSite = "Guest",
+			changeTitle = "Edited in Publication 2 Name",
+			changeType = "Added",
+			changeUser = "Test Test");
 	}
 
 	@priority = 3
