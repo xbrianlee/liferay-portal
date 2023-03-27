@@ -168,4 +168,26 @@ definition {
 			locator1 = "PublicationsTemplate#TEMPLATE_NAME_IN_PUBLICATION_TEMPLATE");
 	}
 
+	macro viewTemplateInvidedUser {
+		Click(
+			key_templateName = ${templateName},
+			locator1 = "PublicationsTemplate#TEMPLATE_DROPDOWN_MENU");
+
+		MenuItem.click(menuItem = "Edit");
+
+		PublicationsTemplate.expandPublicationCollaborators();
+
+		Click(locator1 = "PublicationsTemplate#INVITE_USERS_BUTTON");
+
+		for (var userRole : list ${usersAndRoles}) {
+			var userInvite = StringUtil.extractFirst(${userRole}, "/");
+			var templateRole = StringUtil.extractLast(${userRole}, "/");
+
+			AssertElementPresent(
+				key_publicationRole = ${templateRole},
+				key_userInvite = ${userInvite},
+				locator1 = "Publications#INVITED_USER");
+		}
+	}
+
 }
