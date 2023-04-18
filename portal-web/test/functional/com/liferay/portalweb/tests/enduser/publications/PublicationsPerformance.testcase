@@ -1,0 +1,93 @@
+@component-name = "portal-publications"
+definition {
+
+	property portal.release = "false";
+	property portal.upstream = "false";
+	property testray.main.component.name = "Publications";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if (${testPortalInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Publications.disablePublications();
+		}
+	}
+
+	@description = "Pre-populate database for performance smoke test"
+	test PopulateSmoke {
+		task ("Enable Token Based SSO for JMeter test") {
+			SystemSettings.openSystemSettingsAdmin();
+
+			SystemSettings.gotoConfiguration(
+				configurationCategory = "SSO",
+				configurationName = "Token Based SSO",
+				configurationScope = "System Scope");
+
+			FormFields.enableCheckbox(fieldName = "Enabled");
+
+			SystemSettings.saveConfiguration();
+		}
+
+		task ("Enable Publications and add Publication") {
+			Publications.enablePublications();
+
+			JSONPublications.addPublication(publicationName = "Publication Name");
+
+			JSONPublications.selectPublication(publicationName = "Publication Name");
+		}
+
+		task ("Add data") {
+			var iterator = 0;
+
+			while ((${iterator} != 100) && (maxIterations = "100")) {
+				var iterator = ${iterator} + 1;
+
+				JSONWebcontent.addWebContent(
+					content = "WC WebContent Content ${iterator}",
+					groupName = "Guest",
+					title = "WC WebContent Title ${iterator}");
+			}
+
+			var iterator = 0;
+
+			while ((${iterator} != 100) && (maxIterations = "100")) {
+				var iterator = ${iterator} + 1;
+
+				JSONLayout.addPublicLayout(
+					groupName = "Guest",
+					layoutName = "Test Page Name ${iterator}",
+					type = "content");
+
+				JSONLayout.publishLayout(
+					groupName = "Guest",
+					layoutName = "Test Page Name ${iterator}");
+			}
+
+			var iterator = 0;
+
+			while ((${iterator} != 100) && (maxIterations = "100")) {
+				var iterator = ${iterator} + 1;
+
+				// Create these Documents locally first
+
+				JSONDocument.addFileWithUploadedFile(
+					dmDocumentDescription = "DM Document Description ${iterator}",
+					dmDocumentTitle = "DM Document Title ${iterator}",
+					groupName = "Guest",
+					guestPermissions = "false",
+					mimeType = "image/jpeg",
+					sourceFileName = "Document_${iterator}.jpg");
+			}
+		}
+	}
+
+}
