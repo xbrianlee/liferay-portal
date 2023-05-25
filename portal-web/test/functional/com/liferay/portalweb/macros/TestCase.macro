@@ -227,6 +227,8 @@ definition {
 				SignIn.signInPortalInstanceSetUp();
 			}
 		}
+
+		SearchAdministration.waitForReindexFinished();
 	}
 
 	macro setUpPortalInstanceNoSelenium {
@@ -243,6 +245,8 @@ definition {
 		if (${testLiferayVirtualInstance} == "true") {
 			SignIn.signInPortalInstanceSetUp();
 		}
+
+		SearchAdministration.waitForReindexFinished();
 	}
 
 }
