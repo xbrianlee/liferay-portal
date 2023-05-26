@@ -302,7 +302,8 @@ elasticsearch.username: "kibana_system"</echo>
 	<macrodef name="configure-portal-remote-elasticsearch-osgi-properties">
 		<sequential>
 			<echo append="true" file="${liferay.home}/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config">${line.separator}minimumRequiredNodeVersion="${elasticsearch.version}"
-productionModeEnabled="true"</echo>
+productionModeEnabled="true"
+restClientLoggerLevel="INFO"</echo>
 		</sequential>
 	</macrodef>
 
