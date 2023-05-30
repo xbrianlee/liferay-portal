@@ -11115,6 +11115,15 @@ ${update.properties}</echo>
 	</Loggers>
 </Configuration>]]></echo>
 
+		<echo file="${liferay.home}/osgi/log4j/com.liferay.portal.search-log4j-ext.xml"><![CDATA[<?xml version="1.0"?>
+<Configuration strict="true">
+	<Loggers>
+		<Logger level="DEBUG" name="com.liferay.portal.search.elasticsearch7" />
+
+		<Logger level="DEBUG" name="com.liferay.portal.search.internal" />
+	</Loggers>
+</Configuration>]]></echo>
+
 		<echo file="${liferay.home}/osgi/log4j/com.liferay.portal.search.elasticsearch7.impl-log4j-ext.xml"><![CDATA[<?xml version="1.0"?>
 <Configuration strict="true">
 	<Loggers>
