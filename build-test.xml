@@ -8214,6 +8214,10 @@ war.path=${app.server.portal.dir}/</echo>
 						<param name="process.name" value="Bootstrap" />
 					</antcall>
 
+					<echo>===== Pausing for 2 hours =====</echo>
+
+					<sleep hours="2" />
+
 					<stop-app-server app.server.bundle.index="@{app.server.bundle.index}" />
 
 					<fail if="app.server.waiting.timeout" message="No server is available at ${app.server.waiting.url}" />
