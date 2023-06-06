@@ -520,6 +520,123 @@ definition {
 		}
 	}
 
+	@description = "This is a use case for LPS-185939 - Federated search requests should inherit parent request's search context properties."
+	@priority = 3
+	test FederatedSearchRequestsInheritParentRequestsSearchContextProperties {
+		task ("Add a user") {
+			JSONUser.addUser(
+				userEmailAddress = "userea@liferay.com",
+				userFirstName = "userfn",
+				userLastName = "userln",
+				userScreenName = "usersn");
+
+			JSONUser.setFirstPassword(
+				agreeToTermsAndAnswerReminderQuery = "true",
+				requireReset = "false",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Assign Administrator role to user") {
+			JSONRole.assignRoleToUser(
+				roleTitle = "Administrator",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Sign in as the Administrator") {
+			User.logoutAndLoginPG(
+				userLoginEmailAddress = "userea@liferay.com",
+				userLoginFullName = "userfn userln");
+		}
+
+		task ("Create 3 Web Contents Articles as the new user") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "guest");
+
+			for (var count : list "1,2,3") {
+				WebContentNavigator.gotoAddCP();
+
+				WebContent.addCP(
+					webContentContent = "WC Content ${count}",
+					webContentTitle = "WC${count}");
+
+				PortletEntry.publish();
+			}
+
+			for (var count : list "1,2,3") {
+				AssertElementPresent(
+					key_webContentTitle = "WC${count}",
+					locator1 = "WC#ENTRY_LIST_TITLE");
+			}
+		}
+
+		task ("Create Blueprint and add element Limit Search to My Contents") {
+			Blueprints.openBlueprintsAdmin();
+
+			Blueprints.createBlueprint(title = "Test Blueprint");
+
+			Blueprints.addElement(element = "Limit Search to My Contents");
+
+			PortletEntry.save();
+		}
+
+		task ("Create a blank test page") {
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "Test Page",
+				type = "content");
+
+			JSONLayout.publishLayout(
+				groupName = "Guest",
+				layoutName = "Test Page");
+		}
+
+		task ("Add Search Widgets and configure them") {
+			ContentPagesNavigator.openEditContentPage(
+				pageName = "Test Page",
+				siteName = "Guest");
+
+			PageEditor.addWidget(portletName = "Search Bar");
+
+			SearchPortlets.configureSearchBarWidget(
+				federatedSearchKey = "test",
+				searchScope = "Everything");
+
+			PageEditor.addWidget(
+				collectionName = "Search",
+				portletName = "Search Results",
+				targetFragmentName = "Search Bar");
+
+			SearchResultPortlet.configureSearchResults(federatedSearchKey = "test");
+
+			PageEditor.addWidget(
+				portletName = "Search Options",
+				targetFragmentName = "Search Results");
+
+			SearchPortlets.configureSearchOptions(
+				allowEmptySearches = "true",
+				federatedSearchKey = "test");
+
+			PageEditor.addWidget(
+				portletName = "Blueprints Options",
+				targetFragmentName = "Search Options");
+
+			Blueprints.applyBlueprintViaOptionsWidget(blueprintTitle = "Test Blueprint");
+
+			Blueprints.configureFederatedSearchKeyForOptionsWidget(federatedSearchKey = "test");
+
+			PageEditor.publish();
+		}
+
+		SearchAdministration.executeReindex();
+
+		task ("Go to Test Page and assert the Web Contents created by the new user") {
+			Navigator.gotoPage(pageName = "Test Page");
+
+			SearchResultPortlet.viewMultipleSearchResults(
+				resultsList = "WC1/Web Content Article,WC2/Web Content Article,WC3/Web Content Article",
+				searchTerm = "");
+		}
+	}
+
 	@description = "LPS-172376 - The Custom Filter widget supports filtering by custom Object fields."
 	@priority = 3
 	test FilterByCustomObjectFields {
