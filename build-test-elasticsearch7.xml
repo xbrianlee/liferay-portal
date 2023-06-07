@@ -119,6 +119,13 @@
 		</sequential>
 	</macrodef>
 
+	<macrodef name="configure-elasticsearch-jvm-options">
+		<sequential>
+			<echo file="${elasticsearch.dir}/config/jvm.options.d/jvm.options">${line.separator}-Xms1g
+-Xmx1g</echo>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="configure-elasticsearch-ltr-properties">
 		<sequential>
 			<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">${line.separator}xpack.ml.enabled: false
@@ -704,6 +711,8 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 			<unzip-elasticsearch />
 
 			<prepare-elasticsearch-analyzers />
+
+			<configure-elasticsearch-jvm-options />
 
 			<configure-elasticsearch-properties />
 
