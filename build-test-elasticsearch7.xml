@@ -846,7 +846,15 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 
 			<generate-x-pack-security-truststores />
 
-			<configure-portal-x-pack-security-truststore />
+			<if>
+				<or>
+					<contains string="${elasticsearch.version}" substring="7.16" />
+					<contains string="${elasticsearch.version}" substring="7.17" />
+				</or>
+				<then>
+					<configure-portal-x-pack-security-truststore />
+				</then>
+			</if>
 
 			<if>
 				<equals arg1="${elastic.xpack.configure.tls.cipher.suites}" arg2="true" />
