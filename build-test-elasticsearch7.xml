@@ -881,9 +881,7 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 				</else>
 			</if>
 
-			<get-testcase-property if:set="env.JENKINS_HOME" property.name="elasticsearch.jdk11.enabled" />
-
-			<configure-elasticsearch-jdk elasticsearch.java.home="/opt/java/jdk11" if:true="${elasticsearch.jdk11.enabled}" />
+			<configure-elasticsearch-jdk elasticsearch.java.home="/opt/java/openjdk17" />
 
 			<antcall target="start-elasticsearch-node" />
 
