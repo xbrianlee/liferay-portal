@@ -683,6 +683,148 @@ definition {
 		}
 	}
 
+	@description = "This is a use case for LPS-187833 - As a Publications user, I should be able to repeat CRUD actions in same Publication."
+	@priority = 3
+	test CanRepeatActionsInSamePublication {
+		task ("Create Publication Name 1 and add 2 Web Content Articles") {
+			JSONPublications.addPublication(publicationName = "Publication Name 1");
+
+			JSONPublications.selectPublication(publicationName = "Publication Name 1");
+
+			for (var count : list "1,2") {
+				JSONWebcontent.addWebContent(
+					content = "WC WebContent Content ${count}",
+					groupName = "Guest",
+					title = "WC WebContent Title ${count}");
+			}
+		}
+
+		task ("Assert expected changes in the Publications Review page") {
+			PublicationsNavigator.gotoReviewChanges(
+				gotoPublicationsAdmin = "true",
+				publicationName = "Publication Name 1");
+
+			PublicationsChanges.viewChanges(
+				changeCategory = "Web Content Article",
+				changeSite = "Guest",
+				changeStatus = "Approved",
+				changeTitle = "WC WebContent Title 1",
+				changeType = "Added",
+				changeUser = "Test Test");
+
+			PublicationsChanges.viewChanges(
+				changeCategory = "Web Content Article",
+				changeOrder = 2,
+				changeSite = "Guest",
+				changeStatus = "Approved",
+				changeTitle = "WC WebContent Title 2",
+				changeType = "Added",
+				changeUser = "Test Test");
+		}
+
+		task ("Publish Publication Name 1") {
+			PublicationsNavigator.gotoPublish(
+				gotoPublicationsAdmin = "true",
+				publicationName = "Publication Name 1");
+
+			Publications.publishPublication(publicationName = "Publication Name 1");
+		}
+
+		task ("Create Publication Name 2 and edit Web Contents") {
+			JSONPublications.addPublication(publicationName = "Publication Name 2");
+
+			JSONPublications.selectPublication(publicationName = "Publication Name 2");
+
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "guest");
+
+			for (var count : list "1,2") {
+				WebContentNavigator.gotoEditCP(webContentTitle = "WC WebContent Title ${count}");
+
+				WebContent.editCP(
+					webContentContentEdit = "WC WebContent Content ${count} edit",
+					webContentTitle = "WC WebContent Title ${count}",
+					webContentTitleEdit = "WC WebContent Title ${count} edit");
+			}
+		}
+
+		task ("Assert expected changes in the Publications Review page") {
+			PublicationsNavigator.gotoReviewChanges(
+				gotoPublicationsAdmin = "true",
+				publicationName = "Publication Name 2");
+
+			PublicationsChanges.viewChanges(
+				changeCategory = "Web Content Article",
+				changeSite = "Guest",
+				changeStatus = "Approved",
+				changeTitle = "WC WebContent Title 1 edit",
+				changeType = "Added",
+				changeUser = "Test Test");
+
+			PublicationsChanges.viewChanges(
+				changeCategory = "Web Content Article",
+				changeOrder = 2,
+				changeSite = "Guest",
+				changeStatus = "Approved",
+				changeTitle = "WC WebContent Title 2 edit",
+				changeType = "Added",
+				changeUser = "Test Test");
+		}
+
+		task ("Publish Publication Name 2") {
+			PublicationsNavigator.gotoPublish(
+				gotoPublicationsAdmin = "true",
+				publicationName = "Publication Name 2");
+
+			Publications.publishPublication(publicationName = "Publication Name 2");
+		}
+
+		task ("Create Publication Name 3 and delete Web Contents and assert expected changes in the Publications Review page") {
+			JSONPublications.addPublication(publicationName = "Publication Name 3");
+
+			JSONPublications.selectPublication(publicationName = "Publication Name 3");
+
+			for (var count : list "1,2") {
+				WebContentNavigator.openWebContentAdmin(siteURLKey = "guest");
+
+				WebContent.deleteCP(
+					siteURLKey = "guest",
+					webContentTitle = "WC WebContent Title ${count} edit");
+			}
+		}
+
+		task ("Assert expected changes in the Publications Review page") {
+			PublicationsNavigator.gotoReviewChanges(
+				gotoPublicationsAdmin = "true",
+				publicationName = "Publication Name 3");
+
+			PublicationsChanges.viewChanges(
+				changeCategory = "Web Content Article",
+				changeOrder = 2,
+				changeSite = "Guest",
+				changeStatus = "Approved",
+				changeTitle = "WC WebContent Title 1 edit",
+				changeType = "Deleted",
+				changeUser = "Test Test");
+
+			PublicationsChanges.viewChanges(
+				changeCategory = "Web Content Article",
+				changeOrder = 4,
+				changeSite = "Guest",
+				changeStatus = "Approved",
+				changeTitle = "WC WebContent Title 2 edit",
+				changeType = "Deleted",
+				changeUser = "Test Test");
+		}
+
+		task ("Publish Publication Name 3") {
+			PublicationsNavigator.gotoPublish(
+				gotoPublicationsAdmin = "true",
+				publicationName = "Publication Name 3");
+
+			Publications.publishPublication(publicationName = "Publication Name 3");
+		}
+	}
+
 	@description = "Login after resetting password when last in Publication."
 	@priority = 4
 	test CanResetPasswordWhenLastInPublication {
