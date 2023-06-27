@@ -507,7 +507,7 @@ definition {
 				key_executionScope = "liferay.com",
 				locator1 = "SearchAdmin#SELECTED_INSTANCE_INDEX_CHECKBOX");
 
-			Click(
+			Click.clickNoSPARefresh(
 				key_action = "Reindex search indexes.",
 				locator1 = "SearchAdmin#EXECUTE_REINDEX_BUTTON");
 		}
@@ -521,21 +521,23 @@ definition {
 		}
 
 		task ("Assert that search results are still returned during a reindex") {
-			Search.openSearchPage(searchTerm = "test");
+			AssertElementPresent.assertElementPresentNoWaitForSPAReFresh(locator1 = "Search#REINDEX_IN_PROGRESS_INDICATOR");
 
-			AssertElementPresent(locator1 = "Search#REINDEX_IN_PROGRESS_INDICATOR");
+			var portalHostname = PropsUtil.get("portal.hostname");
 
-			SearchResultPortlet.viewSearchResults(
-				searchAssetTitle = "Test Test",
-				searchAssetType = "User");
+			var searchResults = JSONCurlUtil.get("http://${portalHostname}:8080/web/guest/search?q=test");
+
+			if (!(contains(${searchResults}, "astronaut.png"))) {
+				fail("Search results are missing during concurrent reindex.");
+			}
 		}
 
 		task ("Assert that there are 2 Portal instance indices while a concurrent reindex is running") {
 			SearchAdministration.openFieldMappings();
 
-			VerifyElementPresent(locator1 = "//a[text()='liferay-${companyId}']");
+			AssertElementPresent.assertElementPresentNoWaitForSPAReFresh(locator1 = "//a[text()='liferay-${companyId}']");
 
-			AssertElementPresent(locator1 = "//a[contains(text(),'liferay-${companyId}-2')]");
+			AssertElementPresent.assertElementPresentNoWaitForSPAReFresh(locator1 = "//a[contains(text(),'liferay-${companyId}-2')]");
 		}
 
 		task ("Assert that there is only 1 Portal instance index after a concurrent reindex completes") {
@@ -543,9 +545,9 @@ definition {
 
 			Refresh();
 
-			AssertElementNotPresent(locator1 = "//a[text()='liferay-${companyId}']");
+			AssertElementNotPresent.assertElementNotPresentNoWaitForSPAReFresh(locator1 = "//a[text()='liferay-${companyId}']");
 
-			AssertElementPresent(locator1 = "//a[contains(text(),'liferay-${companyId}-2')]");
+			AssertElementPresent.assertElementPresentNoWaitForSPAReFresh(locator1 = "//a[contains(text(),'liferay-${companyId}-2')]");
 		}
 	}
 
