@@ -806,7 +806,11 @@ definition {
 
 		DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Blogs Display Page");
 
+		takeScreenshot();
+
 		Button.clickPublish();
+
+		takeScreenshot();
 
 		JSONBlog.addEntry(
 			entryContent = "Blogs Entry Content",
@@ -824,7 +828,11 @@ definition {
 
 		WebContent.editDisplayPage(pageName = "Blogs Display Page");
 
+		takeScreenshot();
+
 		PortletEntry.publish();
+
+		takeScreenshot();
 
 		JSONLayout.addPublicLayout(
 			groupName = "Guest",
@@ -841,15 +849,23 @@ definition {
 			portletName = "Similar Results",
 			targetFragmentName = "Blogs");
 
+		takeScreenshot();
+
 		SearchPortlets.configureSimilarResults(linkBehavior = "View in Context");
+
+		takeScreenshot();
 
 		PageEditor.publish();
 
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/similar-results-page");
 
+		takeScreenshot();
+
 		Click(
 			key_entryTitle = "Similar Results Blog 1",
 			locator1 = "BlogsEntry#TITLE_LINK");
+
+		takeScreenshot();
 
 		Click(
 			key_linkResultTitle = "Similar Results Blog 2",
