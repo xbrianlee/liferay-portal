@@ -797,6 +797,8 @@ definition {
 	}
 
 	test ConfigureViewInContextLinkBehavior {
+		property ci.retries.disabled = "true";
+
 		JSONLayoutpagetemplate.addDisplayPageTemplateEntry(
 			contentType = "Blogs Entry",
 			displayPageTemplateEntryName = "Blogs Display Page",
