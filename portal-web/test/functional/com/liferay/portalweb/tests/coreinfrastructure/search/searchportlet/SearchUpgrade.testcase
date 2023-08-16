@@ -512,6 +512,12 @@ definition {
 		property test.run.environment = "EE";
 		property testray.main.component.name = "Search Experiences";
 
+		Blueprints.openBlueprintsAdmin();
+
+		AssertElementPresent(
+			key_entryTitle = "Empty Blueprint",
+			locator1 = "Blueprints#BLUEPRINTS_ADMIN_ENTRY_TITLE");
+
 		ValidateSearchExperiencesUpgrade.viewSXPBlueprintAndElements();
 	}
 
