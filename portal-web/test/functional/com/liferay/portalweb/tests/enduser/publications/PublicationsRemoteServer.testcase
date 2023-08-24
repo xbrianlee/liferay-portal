@@ -53,4 +53,10 @@ definition {
 			value1 = "no results were found");
 	}
 
+	@description = "This is use case for LPS-193854. Assert we can enable and disable Manage Remotely with the related assets being created or deleted accordingly."
+	@priority = 5
+	test EnableAndDisableManageRemotely {
+		Publications.enableManageRemotely();
+	}
+
 }

@@ -41,6 +41,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>ENABLE_MANAGE_REMOTELY</td>
+	<td>//input[contains(@id,'enableManageRemotely')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>ENABLE_PUBLICATIONS_TOGGLE_SWITCH</td>
 	<td>//input[contains(@id,'enablePublications')]</td>
 	<td></td>
