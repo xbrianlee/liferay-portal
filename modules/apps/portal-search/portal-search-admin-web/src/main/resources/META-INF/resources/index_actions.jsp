@@ -49,14 +49,18 @@ if (!reindexPortalBackgroundTasks.isEmpty()) {
 	classNameToBackgroundTaskJSONObject.put("portal", backgroundTaskDisplay.getPercentage());
 }
 
-for (BackgroundTask backgroundTask : ListUtil.concat(reindexSingleBackgroundTasks, indexReindexerBackgroundTasks)) {
-	Map<String, Serializable> taskContextMap = backgroundTask.getTaskContextMap();
+List<BackgroundTask> backgroundTasksList = ListUtil.concat(reindexSingleBackgroundTasks, indexReindexerBackgroundTasks);
 
-	String className = (String)taskContextMap.get("className");
+if (!backgroundTasksList.isEmpty()) {
+	for (BackgroundTask backgroundTask : backgroundTasksList) {
+		Map<String, Serializable> taskContextMap = backgroundTask.getTaskContextMap();
 
-	BackgroundTaskDisplay backgroundTaskDisplay = BackgroundTaskDisplayFactoryUtil.getBackgroundTaskDisplay(backgroundTask);
+		String className = (String)taskContextMap.get("className");
 
-	classNameToBackgroundTaskJSONObject.put(className, backgroundTaskDisplay.getPercentage());
+		BackgroundTaskDisplay backgroundTaskDisplay = BackgroundTaskDisplayFactoryUtil.getBackgroundTaskDisplay(backgroundTask);
+
+		classNameToBackgroundTaskJSONObject.put(className, backgroundTaskDisplay.getPercentage());
+	}
 }
 %>
 
