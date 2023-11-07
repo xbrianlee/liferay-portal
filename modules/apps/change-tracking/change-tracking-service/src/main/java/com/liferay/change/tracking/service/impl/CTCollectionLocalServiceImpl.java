@@ -1219,51 +1219,19 @@ public class CTCollectionLocalServiceImpl
 
 				String primaryKeyName = iterator.next();
 
-				StringBundler sb = new StringBundler(
-					(2 * ctEntries.size()) + 7);
+				int processedItems = 0;
 
-				sb.append("update ");
-				sb.append(ctPersistence.getTableName());
-				sb.append(" set ctCollectionId = ");
-				sb.append(toCTCollectionId);
-				sb.append(" where ctCollectionId = ");
-				sb.append(fromCTCollectionId);
-				sb.append(" and ");
-				sb.append(primaryKeyName);
-				sb.append(" in (");
+				while (processedItems < ctEntries.size()) {
+					int batchSize = Math.min(
+						ctEntries.size() - processedItems, _BATCH_SIZE);
 
-				for (CTEntry ctEntry : ctEntries) {
-					sb.append(ctEntry.getModelClassPK());
-					sb.append(", ");
-				}
+					_processMoveEntriesQuery(
+						fromCTCollectionId, toCTCollectionId,
+						ctEntries.subList(
+							processedItems, processedItems + batchSize),
+						ctPersistence, primaryKeyName);
 
-				sb.setStringAt(")", sb.index() - 1);
-
-				Connection connection = _currentConnection.getConnection(
-					ctPersistence.getDataSource());
-
-				try (PreparedStatement preparedStatement =
-						connection.prepareStatement(sb.toString())) {
-
-					preparedStatement.executeUpdate();
-				}
-				catch (Exception exception) {
-					throw new SystemException(exception);
-				}
-
-				for (String mappingTableName :
-						ctPersistence.getMappingTableNames()) {
-
-					sb.setStringAt(mappingTableName, 1);
-
-					try (PreparedStatement preparedStatement =
-							connection.prepareStatement(sb.toString())) {
-
-						preparedStatement.executeUpdate();
-					}
-					catch (Exception exception) {
-						throw new SystemException(exception);
-					}
+					processedItems += batchSize;
 				}
 
 				return null;
@@ -1337,6 +1305,55 @@ public class CTCollectionLocalServiceImpl
 		sb.append(ctPersistence.getTableName());
 		sb.append(" where ctCollectionId = ");
 		sb.append(ctCollectionId);
+		sb.append(" and ");
+		sb.append(primaryKeyName);
+		sb.append(" in (");
+
+		for (CTEntry ctEntry : ctEntries) {
+			sb.append(ctEntry.getModelClassPK());
+			sb.append(", ");
+		}
+
+		sb.setStringAt(")", sb.index() - 1);
+
+		Connection connection = _currentConnection.getConnection(
+			ctPersistence.getDataSource());
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(
+				sb.toString())) {
+
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception exception) {
+			throw new SystemException(exception);
+		}
+
+		for (String mappingTableName : ctPersistence.getMappingTableNames()) {
+			sb.setStringAt(mappingTableName, 1);
+
+			try (PreparedStatement preparedStatement =
+					connection.prepareStatement(sb.toString())) {
+
+				preparedStatement.executeUpdate();
+			}
+			catch (Exception exception) {
+				throw new SystemException(exception);
+			}
+		}
+	}
+
+	private void _processMoveEntriesQuery(
+		long fromCTCollectionId, long toCTCollectionId, List<CTEntry> ctEntries,
+		CTPersistence<?> ctPersistence, String primaryKeyName) {
+
+		StringBundler sb = new StringBundler((2 * ctEntries.size()) + 7);
+
+		sb.append("update ");
+		sb.append(ctPersistence.getTableName());
+		sb.append(" set ctCollectionId = ");
+		sb.append(toCTCollectionId);
+		sb.append(" where ctCollectionId = ");
+		sb.append(fromCTCollectionId);
 		sb.append(" and ");
 		sb.append(primaryKeyName);
 		sb.append(" in (");
