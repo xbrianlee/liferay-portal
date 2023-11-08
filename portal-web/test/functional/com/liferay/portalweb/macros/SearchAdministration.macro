@@ -19,6 +19,14 @@ definition {
 
 	@summary = "Default summary"
 	macro executeReindex(executionScope = null, waitForReindexFinished = null, reindexMode = null) {
+		SearchAdministration.openSearchAdmin();
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Search");
+
+		takeScreenshot();
+		
 		SearchAdministration.openIndexActions();
 
 		AssertTextEquals(
