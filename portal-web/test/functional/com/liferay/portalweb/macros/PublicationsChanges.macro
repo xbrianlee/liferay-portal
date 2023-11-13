@@ -136,7 +136,6 @@ definition {
 
 	@summary = "Default summary"
 	macro gotoEditChanges(changeCategory = null, changeTitle = null, editInLocation = null) {
-
 		Click(
 			key_changeCategory = ${changeCategory},
 			key_changeTitle = ${changeTitle},
