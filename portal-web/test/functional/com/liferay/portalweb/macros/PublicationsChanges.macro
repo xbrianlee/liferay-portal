@@ -146,7 +146,7 @@ definition {
 	}
 
 	@summary = "Default summary"
-	macro gotoMoveChangeToAnotherPublication(changeCategory = null, targetPublicationName = null, changeTitle = null, changeOrder = null) {
+	macro gotoMoveChangeToAnotherPublication(changeCategory = null, targetPublicationName = null, changeTitle = null) {
 		Search.searchCP(searchTerm = ${changeTitle});
 
 		Click(
