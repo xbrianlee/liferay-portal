@@ -631,6 +631,8 @@ definition {
 			key_connectionId = "__REMOTE__",
 			locator1 = "SearchAdmin#CLUSTER_NAME");
 
+		SearchAdministration.executeReindex();
+
 		Navigator.openURL();
 
 		SearchPage.searchEmbedded(searchTerm = "DM");
