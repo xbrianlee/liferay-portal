@@ -11,6 +11,7 @@ import BaseEditor from './BaseEditor';
 const ClassicEditor = forwardRef(
 	(
 		{
+			ariaRequired,
 			className,
 			contents,
 			editorConfig,
@@ -22,7 +23,13 @@ const ClassicEditor = forwardRef(
 		ref
 	) => {
 		return (
-			<div className={className} id={`${name}Container`}>
+			<div
+				aria-required={ariaRequired}
+				className={className}
+				contentEditable
+				id={`${name}Container`}
+				role="textbox"
+			>
 				{title && (
 					<label className="control-label" htmlFor={name}>
 						{title}
