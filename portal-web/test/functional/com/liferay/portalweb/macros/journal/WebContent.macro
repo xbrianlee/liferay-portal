@@ -1071,7 +1071,7 @@ definition {
 		if (isSet(webContentContentEdit)) {
 			SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME_2");
 
-			Type(
+			Type.sendKeys(
 				key_fieldLabel = "Content",
 				locator1 = "CKEditor#BODY",
 				value1 = ${webContentContentEdit});
