@@ -1356,7 +1356,7 @@ definition {
 			gotoPublicationsAdmin = "true",
 			publicationName = "Publication Name");
 
-		Masterclass.goBackUsingBrowserHistory();
+		GoBack();
 
 		AssertTextPresent(
 			key_publicationName = "Production",
@@ -1367,7 +1367,7 @@ definition {
 			key_changeTitle = "Conflicting Changes",
 			locator1 = "PublicationsChanges#CHANGE_TITLE");
 
-		Masterclass.goBackUsingBrowserHistory();
+		GoBack();
 
 		AssertElementPresent(
 			key_tab = "Ongoing",
