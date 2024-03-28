@@ -37,4 +37,5 @@ public interface DeepPaginationConfiguration {
 	)
 	public int pointInTimeKeepAliveSeconds();
 
+
 }
